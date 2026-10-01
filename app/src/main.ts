@@ -233,6 +233,10 @@ const centerTitle = document.createElement('div');
 centerTitle.id = 'center-title';
 document.querySelector('#app')!.appendChild(centerTitle);
 
+const kineticLayer = document.createElement('div');
+kineticLayer.id = 'kinetic-lyrics';
+document.querySelector('#app')!.appendChild(kineticLayer);
+
 const audio = new Audio('/Kindness Is Not Magic 1.mp3');
 audio.preload = 'auto';
 
@@ -280,6 +284,120 @@ function lineHTML(line: LineTiming, t: number): string {
     .join(' ');
 }
 
+
+type KineticMode = 'help' | 'share' | 'comfort' | 'truth';
+
+function kineticWordStyle(
+  line: LineTiming,
+  word: WordTiming,
+  index: number,
+  t: number,
+  mode: KineticMode
+): string {
+  const p = wordProgress(word, t);
+  const before = t < word.start;
+  const active = p > 0 && p < 1;
+  const after = t >= word.end;
+
+  let x = 0;
+  let y = 0;
+  let rot = 0;
+  let scale = 1;
+  let opacity = before ? 0.34 : 1;
+  let letter = 0;
+  let z = 0;
+
+  if (mode === 'help') {
+    const helpsIndex = line.words.findIndex((w) => w.w.toLowerCase() === 'helps');
+    const anchor = index - helpsIndex;
+    x = anchor * 150;
+    y = Math.abs(anchor) * 28;
+    if (index === helpsIndex) {
+      scale = 1.15 + 0.9 * p;
+      y = -18 * p;
+      letter = 0.02 * p;
+    } else {
+      const approach = smoothstep(word.start - 0.35, word.end, t);
+      x *= 1 - 0.24 * approach;
+    }
+  }
+
+  if (mode === 'share') {
+    const center = (line.words.length - 1) / 2;
+    const dir = index < center ? -1 : index > center ? 1 : 0;
+    const spread = active || after ? 1 : 0;
+    x = dir * 210 * spread;
+    y = dir === 0 ? -20 * p : 30 * Math.sin((index + 1) * 1.7);
+    scale = index === 0 ? 1.15 + 0.35 * p : 1 + 0.16 * p;
+    letter = 0.045 * p;
+  }
+
+  if (mode === 'comfort') {
+    const settle = smoothstep(line.start, line.end, t);
+    const jitter = (1 - settle) * 16;
+    x = Math.sin(t * 18 + index * 2.3) * jitter;
+    y = Math.cos(t * 15 + index * 1.9) * jitter * 0.65;
+    rot = Math.sin(t * 13 + index) * 5 * (1 - settle);
+    scale = 1 + (index === 0 ? 0.18 : 0.08) * p;
+    letter = 0.03 * settle;
+  }
+
+  if (mode === 'truth') {
+    const key = word.w.toLowerCase();
+    const local = smoothstep(line.start, line.end, t);
+    x = (index - (line.words.length - 1) / 2) * 92;
+    y = Math.sin(index * 0.9) * 30 * (1 - local);
+    rot = THREE.MathUtils.lerp(index % 2 ? -8 : 8, 0, local);
+    z = THREE.MathUtils.lerp(-160 + index * 35, 0, local);
+    if (key === 'truth') {
+      scale = 1.2 + 1.05 * p;
+      y -= 52 * p;
+    }
+    if (key === 'hard') {
+      scale = 1 + 0.42 * p;
+      rot = THREE.MathUtils.lerp(18, 0, p);
+    }
+  }
+
+  if (active) opacity = 1;
+  if (after) opacity = 0.96;
+
+  const color = active ? '#d7a84c' : after ? '#f1e7d2' : 'rgba(213,194,161,0.64)';
+  return [
+    `transform: translate3d(${x}px,${y}px,${z}px) rotate(${rot}deg) scale(${scale})`,
+    `opacity:${opacity}`,
+    `letter-spacing:${letter}em`,
+    `color:${color}`
+  ].join(';');
+}
+
+function renderKineticTypography(line: LineTiming, t: number, mode: KineticMode): void {
+  textLayer.innerHTML = '';
+  plateLabel.textContent = '';
+  annotation.textContent = '';
+  annotation.style.opacity = '0';
+
+  const progress = smoothstep(line.start - 0.2, line.end + 0.2, t);
+  kineticLayer.className = `kinetic mode-${mode}`;
+  kineticLayer.style.opacity = String(smoothstep(line.start - 0.18, line.start + 0.05, t) * (1 - smoothstep(line.end + 0.15, line.end + 0.45, t)));
+
+  kineticLayer.innerHTML = line.words.map((word, i) => {
+    const style = kineticWordStyle(line, word, i, t, mode);
+    return `<span class="kinetic-word" style="${style}">${word.w}</span>`;
+  }).join(' ');
+
+  // whole-line projection changes subtly through the phrase
+  const tilt =
+    mode === 'truth' ? THREE.MathUtils.lerp(-8, 0, progress) :
+    mode === 'comfort' ? Math.sin(t * 1.8) * 1.2 * (1 - progress) :
+    0;
+  const depth =
+    mode === 'help' ? THREE.MathUtils.lerp(0.94, 1.04, progress) :
+    mode === 'share' ? THREE.MathUtils.lerp(0.9, 1.06, progress) :
+    1;
+  kineticLayer.style.transform = `perspective(900px) rotateX(${tilt}deg) scale(${depth})`;
+}
+
 function activeLyric(t: number): LineTiming | null {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -291,6 +409,9 @@ function activeLyric(t: number): LineTiming | null {
 }
 
 function updateText(t: number): void {
+  kineticLayer.innerHTML = '';
+  kineticLayer.style.opacity = '0';
+  kineticLayer.className = '';
   const line = activeLyric(t);
   textLayer.innerHTML = line ? lineHTML(line, t) : '';
 
@@ -352,6 +473,9 @@ function resetPlateObjects(): void {
   centerTitle.style.opacity = '0';
   annotation.textContent = '';
   annotation.style.opacity = '0';
+  kineticLayer.innerHTML = '';
+  kineticLayer.style.opacity = '0';
+  kineticLayer.className = '';
   camera.updateProjectionMatrix();
 }
 
@@ -1061,13 +1185,15 @@ function renderBeautiful(t: number): void {
 
 function renderAt(t: number): void {
   resetPlateObjects();
-  updateText(t);
+
+  const inMechanisms = t >= helpLine.start && t < truthLine.end + 0.05;
+  if (!inMechanisms) updateText(t);
 
   if (t < helpLine.start) renderOpening(t);
-  else if (t < shareLine.start) renderHelp(t);
-  else if (t < comfortLine.start) renderShare(t);
-  else if (t < truthLine.start) renderComfort(t);
-  else if (t < truthLine.end + 0.05) renderTruth(t);
+  else if (t < shareLine.start) renderKineticTypography(helpLine, t, 'help');
+  else if (t < comfortLine.start) renderKineticTypography(shareLine, t, 'share');
+  else if (t < truthLine.start) renderKineticTypography(comfortLine, t, 'comfort');
+  else if (t < truthLine.end + 0.05) renderKineticTypography(truthLine, t, 'truth');
   else if (t < closerLine.start) renderEmergence(t);
   else if (t < trustLine.start) renderCloser(t);
   else if (t < strongerLine.start) renderTrust(t);
