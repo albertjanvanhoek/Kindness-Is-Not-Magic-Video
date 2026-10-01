@@ -434,6 +434,218 @@ function kineticWordStyle(
   const center = (line.words.length - 1) / 2;
   const rel = index - center;
 
+  if (mode === 'opening') {
+    const key = word.w.toLowerCase();
+    x = rel * 34;
+    y = Math.sin(index * 1.1) * 8;
+    if (key === 'kindness') {
+      scale = Math.min(layout.maxScale, 1.10 + 0.34 * p);
+      y -= 16 * p;
+    }
+  }
+
+  if (mode === 'name') {
+    const key = word.w.toLowerCase();
+    x = rel * 30;
+    if (key === 'name') {
+      scale = Math.min(layout.maxScale, 1.08 + 0.30 * p);
+      rot = THREE.MathUtils.lerp(-8, 0, p);
+      letter = 0.05 * p;
+    }
+  }
+
+  if (mode === 'reveal') {
+    const key = word.w.toLowerCase();
+    const local = smoothstep(line.start, line.end, t);
+    x = rel * 30;
+    z = THREE.MathUtils.lerp(-110 + index * 18, 0, local);
+    y = Math.sin(index) * 12 * (1 - local);
+    if (key === 'there') scale = Math.min(layout.maxScale, 1.05 + 0.28 * p);
+  }
+
+  if (mode === 'spark') {
+    const key = word.w.toLowerCase();
+    x = rel * 30;
+    y = -Math.abs(rel) * 8 * p;
+    if (key === 'special') scale = Math.min(layout.maxScale, 1.08 + 0.38 * p);
+    if (key === 'happens') rot = THREE.MathUtils.lerp(-7, 0, p);
+  }
+
+  if (mode === 'closer') {
+    const local = smoothstep(line.start, line.end, t);
+    x = rel * layout.maxSpread * (1 - 0.72 * local);
+    scale = 1 + 0.08 * p;
+  }
+
+  if (mode === 'grow') {
+    const key = word.w.toLowerCase();
+    x = rel * 32;
+    if (key === 'grows') {
+      scale = Math.min(layout.maxScale, 1.04 + 0.58 * p);
+      letter = 0.09 * p;
+    }
+  }
+
+  if (mode === 'stronger') {
+    const key = word.w.toLowerCase();
+    x = rel * 28;
+    scale = 1 + 0.04 * p;
+    if (key === 'stronger') scale = Math.min(layout.maxScale, 1.08 + 0.34 * p);
+  }
+
+  if (mode === 'label') {
+    const key = word.w.toLowerCase();
+    x = rel * 24;
+    if (key === 'kindness') scale = Math.min(layout.maxScale, 1.08 + 0.42 * p);
+  }
+
+  if (mode === 'notmagic') {
+    const key = word.w.toLowerCase();
+    x = rel * 24;
+    if (key === 'not') scale = Math.min(layout.maxScale, 1.04 + 0.28 * p);
+    if (key === 'magic') {
+      rot = THREE.MathUtils.lerp(8, 0, p);
+      opacity = before ? 0.28 : 0.92;
+    }
+  }
+
+  if (mode === 'easy') {
+    const key = word.w.toLowerCase();
+    const local = smoothstep(line.start, line.end, t);
+    x = rel * 22;
+    y = Math.sin(t * 4 + index * 0.8) * 12 * (1 - 0.55 * local);
+    rot = Math.sin(index * 1.4) * 3 * (1 - local);
+    if (key === 'easy') scale = Math.min(layout.maxScale, 1.05 + 0.20 * p);
+  }
+
+  if (mode === 'sharing') {
+    const centerDir = rel < 0 ? -1 : rel > 0 ? 1 : 0;
+    x = centerDir * layout.maxSpread * (active || after ? 1 : 0);
+    if (word.w.toLowerCase() === 'sharing') scale = Math.min(layout.maxScale, 1.06 + 0.24 * p);
+  }
+
+  if (mode === 'listening') {
+    const settle = smoothstep(line.start, line.end, t);
+    const jitter = (1 - settle) * layout.maxSpread;
+    x = Math.sin(t * 14 + index * 1.7) * jitter;
+    y = Math.cos(t * 12 + index) * jitter * 0.5;
+    if (word.w.toLowerCase() === 'listening') scale = Math.min(layout.maxScale, 1.04 + 0.20 * p);
+  }
+
+  if (mode === 'saying') {
+    const entry = smoothstep(word.start - 0.3, word.end, t);
+    x = rel * 24;
+    y = THREE.MathUtils.lerp(30, 0, entry);
+    opacity = Math.max(opacity, entry);
+    if (word.w.toLowerCase() === 'saying') scale = Math.min(layout.maxScale, 1.05 + 0.18 * p);
+  }
+
+  if (mode === 'wrong') {
+    const key = word.w.toLowerCase();
+    x = rel * 34;
+    rot = THREE.MathUtils.lerp(-10, 0, smoothstep(line.start, line.end, t));
+    if (key === 'wrong') {
+      scale = Math.min(layout.maxScale, 1.08 + 0.34 * p);
+      y -= 12 * p;
+    }
+  }
+
+  if (mode === 'or') {
+    x = 0;
+    scale = 0.88 + 0.16 * p;
+  }
+
+  if (mode === 'forgive') {
+    const local = smoothstep(line.start, line.end, t);
+    x = rel * layout.maxSpread * (1 - 0.72 * local);
+    if (word.w.toLowerCase() === 'forgive') scale = Math.min(layout.maxScale, 1.06 + 0.28 * p);
+  }
+
+  if (mode === 'failure') {
+    const key = word.w.toLowerCase();
+    x = rel * 20;
+    y = Math.sin(index * 1.2) * 8;
+    if (key === 'win') scale = Math.min(layout.maxScale, 1.04 + 0.18 * p);
+    if (key === 'away') x += 26 * p;
+  }
+
+  if (mode === 'without') {
+    const key = word.w.toLowerCase();
+    x = rel * 28;
+    if (key === 'kindness' && after) opacity = 0.44;
+  }
+
+  if (mode === 'drift') {
+    const local = smoothstep(line.start, line.end, t);
+    x = rel * layout.maxSpread * local;
+    y = rel * 5 * local;
+  }
+
+  if (mode === 'break') {
+    const local = smoothstep(line.start, line.end, t);
+    const dir = rel < 0 ? -1 : rel > 0 ? 1 : 0;
+    x = dir * layout.maxSpread * local;
+    rot = dir * 7 * local;
+    if (word.w.toLowerCase() === 'break') scale = Math.min(layout.maxScale, 1.05 + 0.28 * p);
+  }
+
+  if (mode === 'family') {
+    const local = smoothstep(line.start, line.end, t);
+    const dir = rel < 0 ? -1 : rel > 0 ? 1 : 0;
+    x = dir * layout.maxSpread * local;
+    y = Math.abs(rel) * 8 * local;
+    if (word.w.toLowerCase() === 'apart') scale = Math.min(layout.maxScale, 1.04 + 0.22 * p);
+  }
+
+  if (mode === 'lonely') {
+    const key = word.w.toLowerCase();
+    const local = smoothstep(line.start, line.end, t);
+    x = rel * layout.maxSpread * local;
+    if (key !== 'lonelier') opacity *= THREE.MathUtils.lerp(1, 0.58, local);
+    if (key === 'lonelier') scale = Math.min(layout.maxScale, 1.06 + 0.34 * p);
+  }
+
+  if (mode === 'rediscover') {
+    x = rel * 22;
+    y = Math.sin(t * 5.5 + index * 1.25) * 10;
+    if (word.w.toLowerCase() === 'kindness') scale = Math.min(layout.maxScale, 1.05 + 0.24 * p);
+  }
+
+  if (mode === 'again') {
+    const beat = nearestBeatPulse(t, 0.18);
+    x = rel * 26;
+    scale = Math.min(layout.maxScale, 1 + 0.18 * beat + 0.08 * p);
+    y = Math.sin(t * 6 + index) * 5;
+  }
+
+  if (mode === 'together') {
+    const local = smoothstep(line.start, line.end, t);
+    x = rel * layout.maxSpread * (1 - 0.76 * local);
+    if (word.w.toLowerCase() === 'together') scale = Math.min(layout.maxScale, 1.06 + 0.28 * p);
+  }
+
+  if (mode === 'return') {
+    const key = word.w.toLowerCase();
+    x = rel * 30;
+    if (key === 'kindness') scale = Math.min(layout.maxScale, 1.06 + 0.30 * p);
+  }
+
+  if (mode === 'beautiful') {
+    x = rel * 28;
+    if (word.w.toLowerCase() === 'beautiful') {
+      scale = Math.min(layout.maxScale, 1.06 + 0.38 * p);
+      letter = 0.035 * p;
+    }
+  }
+
+  if (mode === 'possible') {
+    const key = word.w.toLowerCase();
+    const local = smoothstep(line.start, line.end, t);
+    x = rel * 26;
+    z = THREE.MathUtils.lerp(-100 + index * 14, 0, local);
+    if (key === 'possible') scale = Math.min(layout.maxScale, 1.06 + 0.36 * p);
+  }
+
   if (mode === 'help') {
     const helpsIndex = line.words.findIndex((w) => w.w.toLowerCase() === 'helps');
     const anchor = index - helpsIndex;
@@ -1367,37 +1579,23 @@ function renderBeautiful(t: number): void {
 function renderAt(t: number): void {
   resetPlateObjects();
 
-  const inMechanisms = t >= helpLine.start && t < truthLine.end + 0.05;
-  if (!inMechanisms) updateText(t);
+  // Keep the hummed/instrumental opening atmospheric.
+  if (t < opening1.start) {
+    updateText(t);
+    renderOpening(t);
+    renderer.render(scene, camera);
+    return;
+  }
 
-  if (t < helpLine.start) renderOpening(t);
-  else if (t < shareLine.start) renderKineticTypography(helpLine, t, 'help');
-  else if (t < comfortLine.start) renderKineticTypography(shareLine, t, 'share');
-  else if (t < truthLine.start) renderKineticTypography(comfortLine, t, 'comfort');
-  else if (t < truthLine.end + 0.05) renderKineticTypography(truthLine, t, 'truth');
-  else if (t < closerLine.start) renderEmergence(t);
-  else if (t < trustLine.start) renderCloser(t);
-  else if (t < strongerLine.start) renderTrust(t);
-  else if (t < kindnessLine.start) renderStronger(t);
-  else if (t < notMagicLine.start) renderKindnessReveal(t);
-  else if (t < easyLine.start) renderNotMagic(t);
-  else if (t < easyLine.end + 0.05) renderNotEasy(t);
-  else if (t < listeningLine.start) renderMeansSharing(t);
-  else if (t < sayingLine.start) renderListening(t);
-  else if (t < wrongLine.start) renderSaying(t);
-  else if (t < orLine.start) renderWrong(t);
-  else if (t < forgiveLine.start) renderOr(t);
-  else if (t < forgiveLine.end + 0.05) renderForgive(t);
-  else if (t < withoutLine.start) renderFailure(t);
-  else if (t < driftLine.start) renderWithoutKindness(t);
-  else if (t < breakLine.start) renderDriftApart(t);
-  else if (t < familiesLine.start) renderBreak(t);
-  else if (t < lonelyLine.start) renderFamiliesFall(t);
-  else if (t < rediscoverLine.start) renderLonelier(t);
-  else if (t < stayLine.start) renderRediscovery(t);
-  else if (t < returnLine.start) renderStayTogether(t);
-  else if (t < beautifulLine.start) renderReturn(t);
-  else if (t < possibleLine.end + 0.1) renderBeautiful(t);
+  // From the first sung word onward, the lyrics themselves are the film.
+  const projection = projectionAt(t);
+  if (projection) {
+    renderKineticTypography(projection.line, t, projection.mode);
+  } else {
+    textLayer.innerHTML = '';
+    kineticLayer.innerHTML = '';
+    kineticLayer.style.opacity = '0';
+  }
 
   renderer.render(scene, camera);
 }
