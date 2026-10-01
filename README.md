@@ -25,7 +25,7 @@ By the end, the viewer should understand that line differently.
 ## Repository layout
 
 ```
-audio/              local source audio; not committed by default
+audio/              source audio
 lyrics/             source lyrics
 analysis/           audio and lyric analysis tools
 data/               generated timing data
@@ -38,30 +38,34 @@ app/                deterministic browser renderer
 
 ## Status
 
-Initial treatment and architecture are in place. Next milestones:
+The conceptual treatment, renderer scaffold, and first-pass beat grid are in place.
 
-1. align lyrics to the WAV at word level;
-2. detect beat/downbeat and audio-energy structure;
-3. generate `data/lyrics.json` and `data/audio.json`;
-4. implement the shared thread/network visual primitive;
-5. build the opening scene and browser preview;
+Next milestones:
+
+1. commit the source WAV as `audio/kindness-is-not-magic.wav`;
+2. align lyrics to the WAV at word level;
+3. refine musical downbeats/sections and audio-energy data;
+4. connect audio playback to the renderer clock;
+5. implement the opening plate in exact musical time;
 6. expand plate by plate;
 7. render the final 1080p/4K video.
 
 ## Audio
 
-The working song is `Kindness Is Not Magic (1).wav`.
-
-The source audio is intentionally not committed yet. Put it locally at:
+Canonical source path:
 
 ```
 audio/kindness-is-not-magic.wav
 ```
 
-Generated timing data can be committed separately.
+The working recording is 139.24 seconds, 48 kHz stereo. A first-pass beat grid is committed in `data/audio.json`.
 
-## License
+## Rights and licenses
 
-Code in this repository is released under the MIT License unless otherwise noted.
+- **Software/code:** MIT License — see `LICENSE`.
+- **Song recording:** CC BY 4.0.
+- **Lyrics:** CC BY 4.0.
 
-The song recording and lyrics are **not automatically covered by the MIT software license**. Their rights should be documented separately before public release.
+See `RIGHTS.md` for the media-rights statement.
+
+The software license and media licenses are deliberately separate.
