@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import lyricData from '../../data/lyrics.json';
+import audioData from '../../data/audio.json';
 
 const LOGICAL_W = 1920;
 const LOGICAL_H = 1080;
@@ -8,6 +9,7 @@ type WordTiming = { w: string; start: number; end: number };
 type LineTiming = { text: string; start: number; end: number; words: WordTiming[] };
 
 const lines = (lyricData as { lines: LineTiming[] }).lines;
+const beats = (audioData as { beats: number[] }).beats;
 
 function findLine(fragment: string): LineTiming {
   const line = lines.find((x) => x.text.toLowerCase().includes(fragment.toLowerCase()));
@@ -20,7 +22,7 @@ function clamp01(x: number): number {
 }
 
 function smoothstep(a: number, b: number, x: number): number {
-  const t = clamp01((x - a) / (b - a));
+  const t = clamp01((x - a) / Math.max(0.0001, b - a));
   return t * t * (3 - 2 * t);
 }
 
@@ -28,9 +30,22 @@ function wordProgress(word: WordTiming, t: number): number {
   return smoothstep(word.start, word.end, t);
 }
 
-const line1 = findLine('Nobody invented kindness');
-const line2 = findLine('People gave it a name');
-const line3 = findLine('kindness was already there');
+function nearestBeatPulse(t: number, width = 0.10): number {
+  let best = Infinity;
+  for (const beat of beats) {
+    if (beat > t + width) break;
+    best = Math.min(best, Math.abs(t - beat));
+  }
+  return clamp01(1 - best / width);
+}
+
+const opening1 = findLine('Nobody invented kindness');
+const opening2 = findLine('People gave it a name');
+const opening3 = findLine('kindness was already there');
+const helpLine = findLine('Whenever someone helps another person');
+const shareLine = findLine('shares their food');
+const comfortLine = findLine('comforts a friend');
+const truthLine = findLine('tells the truth');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -50,68 +65,108 @@ const camera = new THREE.OrthographicCamera(
 const BONE = 0xeee9df;
 const SIGNAL = 0xff7a3d;
 const GRAPHITE = 0x5e5b57;
+const ASH = 0x9c978f;
+const DARK = 0x151517;
 
-const nodeMaterial = new THREE.MeshBasicMaterial({ color: BONE, transparent: true });
-const faintNodeMaterial = new THREE.MeshBasicMaterial({ color: GRAPHITE, transparent: true });
-const threadMaterial = new THREE.LineBasicMaterial({ color: SIGNAL, transparent: true });
+function basicMaterial(color: number, opacity = 1): THREE.MeshBasicMaterial {
+  return new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
+}
 
-function makeNode(x: number, y: number, faint = false): THREE.Mesh {
-  const mesh = new THREE.Mesh(
-    new THREE.CircleGeometry(faint ? 8 : 13, 48),
-    faint ? faintNodeMaterial.clone() : nodeMaterial.clone()
-  );
+function makeNode(x: number, y: number, radius = 13, color = BONE): THREE.Mesh {
+  const mesh = new THREE.Mesh(new THREE.CircleGeometry(radius, 48), basicMaterial(color, 0));
   mesh.position.set(x, y, 0);
   scene.add(mesh);
   return mesh;
 }
 
-const a = makeNode(-260, 0);
-const b = makeNode(260, 0);
-
-const backgroundNodes = [
-  makeNode(-680, 260, true),
-  makeNode(-520, -300, true),
-  makeNode(-120, 330, true),
-  makeNode(180, -310, true),
-  makeNode(560, 270, true),
-  makeNode(720, -180, true)
-];
-
-const threadGeometry = new THREE.BufferGeometry();
-const threadPositions = new Float32Array(6);
-threadGeometry.setAttribute('position', new THREE.BufferAttribute(threadPositions, 3));
-const thread = new THREE.Line(threadGeometry, threadMaterial);
-scene.add(thread);
-
-type Link = {
-  line: THREE.Line;
-  positions: Float32Array;
-  from: THREE.Mesh;
-  to: THREE.Mesh;
-};
-
-function makeLink(from: THREE.Mesh, to: THREE.Mesh): Link {
-  const positions = new Float32Array(6);
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const material = new THREE.LineBasicMaterial({
-    color: GRAPHITE,
-    transparent: true,
-    opacity: 0
-  });
-  const line = new THREE.Line(geometry, material);
-  scene.add(line);
-  return { line, positions, from, to };
+function makeCircle(radius: number, color: number): THREE.Mesh {
+  const mesh = new THREE.Mesh(new THREE.CircleGeometry(radius, 64), basicMaterial(color, 0));
+  scene.add(mesh);
+  return mesh;
 }
 
-const backgroundLinks = [
-  makeLink(backgroundNodes[0], backgroundNodes[2]),
-  makeLink(backgroundNodes[1], backgroundNodes[2]),
-  makeLink(backgroundNodes[2], a),
-  makeLink(b, backgroundNodes[4]),
-  makeLink(backgroundNodes[3], b),
-  makeLink(backgroundNodes[4], backgroundNodes[5])
+function makeLine(color = GRAPHITE, maxPoints = 32): { line: THREE.Line; positions: Float32Array } {
+  const positions = new Float32Array(maxPoints * 3);
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geometry.setDrawRange(0, 2);
+  const material = new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0 });
+  const line = new THREE.Line(geometry, material);
+  scene.add(line);
+  return { line, positions };
+}
+
+function setLinePoints(
+  obj: { line: THREE.Line; positions: Float32Array },
+  pts: Array<[number, number]>,
+  opacity = 1
+): void {
+  const n = Math.min(pts.length, obj.positions.length / 3);
+  for (let i = 0; i < n; i++) {
+    obj.positions[i * 3] = pts[i][0];
+    obj.positions[i * 3 + 1] = pts[i][1];
+    obj.positions[i * 3 + 2] = 0;
+  }
+  obj.line.geometry.setDrawRange(0, n);
+  (obj.line.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
+  (obj.line.material as THREE.LineBasicMaterial).opacity = opacity;
+}
+
+function hideLine(obj: { line: THREE.Line }): void {
+  (obj.line.material as THREE.LineBasicMaterial).opacity = 0;
+}
+
+function setOpacity(obj: THREE.Object3D, opacity: number): void {
+  const material = (obj as THREE.Mesh).material as THREE.MeshBasicMaterial | undefined;
+  if (material) material.opacity = clamp01(opacity);
+}
+
+const a = makeNode(-280, 0);
+const b = makeNode(280, 0);
+
+const mainThread = makeLine(SIGNAL, 40);
+
+const backgroundNodes = [
+  makeNode(-680, 260, 8, GRAPHITE),
+  makeNode(-520, -300, 8, GRAPHITE),
+  makeNode(-120, 330, 8, GRAPHITE),
+  makeNode(180, -310, 8, GRAPHITE),
+  makeNode(560, 270, 8, GRAPHITE),
+  makeNode(720, -180, 8, GRAPHITE)
 ];
+const backgroundLinks = [
+  makeLine(GRAPHITE), makeLine(GRAPHITE), makeLine(GRAPHITE),
+  makeLine(GRAPHITE), makeLine(GRAPHITE), makeLine(GRAPHITE)
+];
+const backgroundPairs: Array<[THREE.Mesh, THREE.Mesh]> = [
+  [backgroundNodes[0], backgroundNodes[2]],
+  [backgroundNodes[1], backgroundNodes[2]],
+  [backgroundNodes[2], a],
+  [b, backgroundNodes[4]],
+  [backgroundNodes[3], b],
+  [backgroundNodes[4], backgroundNodes[5]]
+];
+
+// Help plate
+const obstacle = makeLine(ASH, 4);
+const route = makeLine(SIGNAL, 8);
+const helper = makeNode(-500, -180, 11, SIGNAL);
+
+// Share plate
+const resource = makeCircle(48, BONE);
+const shareLeft = makeCircle(26, SIGNAL);
+const shareRight = makeCircle(26, SIGNAL);
+const shareRelation = makeLine(SIGNAL, 4);
+
+// Comfort plate
+const comfortWave = makeLine(SIGNAL, 64);
+const regulationAxis = makeLine(GRAPHITE, 4);
+
+// Truth plate
+const truthPath = makeLine(ASH, 8);
+const truthCore = makeLine(SIGNAL, 8);
+const truthSignal = makeCircle(11, SIGNAL);
+const resistance = makeLine(GRAPHITE, 8);
 
 const textLayer = document.createElement('div');
 textLayer.id = 'lyrics';
@@ -120,6 +175,10 @@ document.querySelector('#app')!.appendChild(textLayer);
 const annotation = document.createElement('div');
 annotation.id = 'annotation';
 document.querySelector('#app')!.appendChild(annotation);
+
+const plateLabel = document.createElement('div');
+plateLabel.id = 'plate-label';
+document.querySelector('#app')!.appendChild(plateLabel);
 
 const audio = new Audio('/kindness-is-not-magic.wav');
 audio.preload = 'auto';
@@ -152,78 +211,238 @@ function lineHTML(line: LineTiming, t: number): string {
       const p = wordProgress(word, t);
       const active = p > 0 && p < 1;
       const done = p >= 1;
-      const cls = active ? 'word active' : done ? 'word done' : 'word';
-      return `<span class="${cls}">${word.w}</span>`;
+      return `<span class="${active ? 'word active' : done ? 'word done' : 'word'}">${word.w}</span>`;
     })
     .join(' ');
 }
 
-function updateText(t: number): void {
-  let line: LineTiming | null = null;
-  if (t >= line1.start - 0.2 && t < line2.start) line = line1;
-  else if (t >= line2.start && t < line3.start) line = line2;
-  else if (t >= line3.start && t < line3.end + 0.4) line = line3;
+function activeLyric(t: number): LineTiming | null {
+  return lines.find((line) => t >= line.start - 0.12 && t < line.end + 0.08) ?? null;
+}
 
+function updateText(t: number): void {
+  const line = activeLyric(t);
   textLayer.innerHTML = line ? lineHTML(line, t) : '';
 
-  const nameWord = line2.words.find((w) => w.w.toLowerCase() === 'name');
-  if (nameWord && t >= nameWord.start) {
+  const nameWord = opening2.words.find((w) => w.w.toLowerCase() === 'name');
+  if (nameWord && t >= nameWord.start && t < opening3.start) {
     annotation.textContent = 'name assigned later';
     annotation.style.opacity = String(smoothstep(nameWord.start, nameWord.start + 0.35, t));
   } else {
-    annotation.textContent = '';
     annotation.style.opacity = '0';
   }
+
+  if (t >= helpLine.start && t < shareLine.start) plateLabel.textContent = 'HELP · shared route';
+  else if (t >= shareLine.start && t < comfortLine.start) plateLabel.textContent = 'SHARE · redistribution → relation';
+  else if (t >= comfortLine.start && t < truthLine.start) plateLabel.textContent = 'COMFORT · co-regulation';
+  else if (t >= truthLine.start && t < truthLine.end) plateLabel.textContent = 'TRUTH · preserve the channel';
+  else plateLabel.textContent = '';
+
+  plateLabel.style.opacity = plateLabel.textContent ? '1' : '0';
 }
 
-function updateMainThread(t: number): void {
-  const appear = smoothstep(line1.start, line1.words[0].end, t);
-  const kindness = line1.words.find((w) => w.w.toLowerCase() === 'kindness')!;
-  const connect = smoothstep(line1.words[1].start, kindness.end, t);
-
-  for (const n of [a, b]) {
-    (n.material as THREE.MeshBasicMaterial).opacity = appear;
-  }
-
-  threadPositions[0] = a.position.x;
-  threadPositions[1] = a.position.y;
-  threadPositions[2] = 0;
-  threadPositions[3] = THREE.MathUtils.lerp(a.position.x, b.position.x, connect);
-  threadPositions[4] = b.position.y;
-  threadPositions[5] = 0;
-
-  (threadGeometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
-  threadMaterial.opacity = smoothstep(line1.words[1].start - 0.1, kindness.start, t);
+function resetPlateObjects(): void {
+  [a, b, helper, resource, shareLeft, shareRight, truthSignal].forEach((x) => setOpacity(x, 0));
+  backgroundNodes.forEach((x) => setOpacity(x, 0));
+  [mainThread, ...backgroundLinks, obstacle, route, shareRelation, comfortWave, regulationAxis, truthPath, truthCore, resistance]
+    .forEach(hideLine);
+  camera.zoom = 1;
+  camera.position.set(0, 0, 5);
+  camera.updateProjectionMatrix();
 }
 
-function updateBackground(t: number): void {
-  const reveal = smoothstep(line3.words[1].start, line3.end, t);
-  const cameraPull = smoothstep(line3.start, line3.end, t);
+function renderOpening(t: number): void {
+  const appear = smoothstep(opening1.start, opening1.words[0].end, t);
+  const kindness = opening1.words.find((w) => w.w.toLowerCase() === 'kindness')!;
+  const connect = smoothstep(opening1.words[1].start, kindness.end, t);
 
+  a.position.set(-260, 0, 0);
+  b.position.set(260, 0, 0);
+  setOpacity(a, appear);
+  setOpacity(b, appear);
+  setLinePoints(mainThread, [
+    [a.position.x, a.position.y],
+    [THREE.MathUtils.lerp(a.position.x, b.position.x, connect), b.position.y]
+  ], smoothstep(opening1.words[1].start - 0.1, kindness.start, t));
+
+  const reveal = smoothstep(opening3.words[1].start, opening3.end, t);
+  const cameraPull = smoothstep(opening3.start, opening3.end, t);
   camera.zoom = THREE.MathUtils.lerp(1.15, 0.82, cameraPull);
   camera.updateProjectionMatrix();
 
   backgroundNodes.forEach((node, i) => {
-    const phase = Math.max(0, reveal - i * 0.08);
-    (node.material as THREE.MeshBasicMaterial).opacity = clamp01(phase * 1.5);
+    setOpacity(node, Math.max(0, reveal - i * 0.08) * 1.5);
   });
 
-  backgroundLinks.forEach((link, i) => {
-    const p = clamp01((reveal - 0.18 - i * 0.07) * 2.0);
-    link.positions[0] = link.from.position.x;
-    link.positions[1] = link.from.position.y;
-    link.positions[2] = 0;
-    link.positions[3] = THREE.MathUtils.lerp(link.from.position.x, link.to.position.x, p);
-    link.positions[4] = THREE.MathUtils.lerp(link.from.position.y, link.to.position.y, p);
-    link.positions[5] = 0;
-    (link.line.geometry.attributes.position as THREE.BufferAttribute).needsUpdate = true;
-    (link.line.material as THREE.LineBasicMaterial).opacity = p * 0.65;
+  backgroundPairs.forEach(([from, to], i) => {
+    const p = clamp01((reveal - 0.18 - i * 0.07) * 2);
+    setLinePoints(backgroundLinks[i], [
+      [from.position.x, from.position.y],
+      [
+        THREE.MathUtils.lerp(from.position.x, to.position.x, p),
+        THREE.MathUtils.lerp(from.position.y, to.position.y, p)
+      ]
+    ], p * 0.65);
   });
 }
 
+function renderHelp(t: number): void {
+  const p = smoothstep(helpLine.start, helpLine.end, t);
+  const helps = helpLine.words.find((w) => w.w.toLowerCase() === 'helps')!;
+  const helpP = wordProgress(helps, t);
+  const beat = nearestBeatPulse(t);
+
+  a.position.set(-520, -110, 0);
+  b.position.set(520, 110, 0);
+  helper.position.set(
+    THREE.MathUtils.lerp(-700, -560, smoothstep(helpLine.start, helps.start, t)),
+    -250,
+    0
+  );
+
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+  setOpacity(helper, smoothstep(helpLine.start, helps.start, t));
+
+  a.scale.setScalar(1 + beat * 0.12);
+  b.scale.setScalar(1 + beat * 0.08);
+  helper.scale.setScalar(1 + beat * 0.16);
+
+  setLinePoints(obstacle, [[0, -330], [0, 180]], 0.65);
+
+  const routeP = smoothstep(helps.start, helpLine.end, t);
+  const peak = THREE.MathUtils.lerp(0, 300, helpP);
+  const pts: Array<[number, number]> = [
+    [-520, -110],
+    [-210, -110],
+    [-110, peak],
+    [110, peak],
+    [210, 110],
+    [520, 110]
+  ];
+  const visibleCount = Math.max(2, Math.min(pts.length, 2 + Math.floor(routeP * (pts.length - 1))));
+  setLinePoints(route, pts.slice(0, visibleCount), 0.95);
+
+  // The helper physically closes the final gap to the route on "helps".
+  if (helpP > 0) {
+    setLinePoints(mainThread, [
+      [helper.position.x, helper.position.y],
+      [-210, -110]
+    ], helpP);
+  }
+
+  // slight camera move gives the route room to become the image
+  camera.zoom = THREE.MathUtils.lerp(0.98, 0.9, p);
+  camera.updateProjectionMatrix();
+}
+
+function renderShare(t: number): void {
+  const p = smoothstep(shareLine.start, shareLine.end, t);
+  const shares = shareLine.words[0];
+  const split = wordProgress(shares, t);
+  const beat = nearestBeatPulse(t);
+
+  a.position.set(-430, 0, 0);
+  b.position.set(430, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  resource.position.set(0, 0, 0);
+  setOpacity(resource, 1 - split);
+
+  shareLeft.position.set(THREE.MathUtils.lerp(0, -250, split), 0, 0);
+  shareRight.position.set(THREE.MathUtils.lerp(0, 250, split), 0, 0);
+  setOpacity(shareLeft, split);
+  setOpacity(shareRight, split);
+
+  const s = 1 + beat * 0.18;
+  shareLeft.scale.setScalar(s);
+  shareRight.scale.setScalar(s);
+
+  setLinePoints(shareRelation, [[a.position.x, 0], [b.position.x, 0]], smoothstep(0.45, 1, p) * 0.85);
+}
+
+function renderComfort(t: number): void {
+  const local = smoothstep(comfortLine.start, comfortLine.end, t);
+  const comforts = comfortLine.words[0];
+  const connect = wordProgress(comforts, t);
+  const friend = comfortLine.words.find((w) => w.w.toLowerCase() === 'friend')!;
+  const settled = wordProgress(friend, t);
+
+  const amp = THREE.MathUtils.lerp(145, 18, smoothstep(0.15, 0.92, local));
+  const wobble = Math.sin(t * 13.5) * amp * (1 - settled * 0.65);
+
+  a.position.set(-420, wobble, 0);
+  b.position.set(420, Math.sin(t * 4.0) * 8 * connect, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  setLinePoints(regulationAxis, [[-650, 0], [650, 0]], 0.23);
+
+  const pts: Array<[number, number]> = [];
+  const n = 48;
+  for (let i = 0; i < n; i++) {
+    const q = i / (n - 1);
+    const x = THREE.MathUtils.lerp(a.position.x, b.position.x, q);
+    const envelope = Math.sin(Math.PI * q);
+    const phase = t * 8 - q * 10;
+    const waveAmp = THREE.MathUtils.lerp(85, 9, settled) * envelope;
+    const y = THREE.MathUtils.lerp(a.position.y, b.position.y, q) + Math.sin(phase) * waveAmp * connect;
+    pts.push([x, y]);
+  }
+  setLinePoints(comfortWave, pts, connect);
+
+  const beat = nearestBeatPulse(t);
+  a.scale.setScalar(1 + beat * 0.10);
+  b.scale.setScalar(1 + beat * 0.10);
+}
+
+function renderTruth(t: number): void {
+  const truthWord = truthLine.words.find((w) => w.w.toLowerCase() === 'truth')!;
+  const hardWord = truthLine.words.find((w) => w.w.toLowerCase() === 'hard')!;
+  const signalP = smoothstep(truthLine.words[1].start, truthWord.end, t);
+  const straighten = smoothstep(truthWord.end, hardWord.end, t);
+  const arrival = smoothstep(0.78, 1, signalP);
+
+  a.position.set(-520, 0, 0);
+  b.position.set(520 + Math.sin(t * 24) * 24 * arrival * (1 - straighten), 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  const bend = THREE.MathUtils.lerp(230, 25, straighten);
+  const pathPts: Array<[number, number]> = [
+    [-520, 0],
+    [-260, 0],
+    [-80, bend],
+    [80, -bend],
+    [260, 0],
+    [520, 0]
+  ];
+  setLinePoints(truthPath, pathPts, 0.42);
+
+  // resistance is visible as a narrow gate the signal has to pass
+  setLinePoints(resistance, [[-45, -240], [-45, 80], [45, -80], [45, 240]], 0.45 * (1 - straighten));
+
+  // signal follows the bent route approximately, then reaches the receiver
+  const x = THREE.MathUtils.lerp(-520, 520, signalP);
+  const q = signalP;
+  const y = Math.sin(q * Math.PI * 2) * bend * Math.sin(Math.PI * q);
+  truthSignal.position.set(x, y, 0);
+  setOpacity(truthSignal, smoothstep(0.02, 0.12, signalP) * (1 - smoothstep(0.98, 1, signalP)));
+
+  // stronger channel appears underneath after the difficult signal has landed
+  setLinePoints(truthCore, [[-520, 0], [520, 0]], straighten * 0.95);
+}
+
 function renderAt(t: number): void {
-  updateMainThread(t);
-  updateBackground(t);
+  resetPlateObjects();
+
+  if (t < helpLine.start) renderOpening(t);
+  else if (t < shareLine.start) renderHelp(t);
+  else if (t < comfortLine.start) renderShare(t);
+  else if (t < truthLine.start) renderComfort(t);
+  else if (t < truthLine.end + 0.05) renderTruth(t);
+
   updateText(t);
   renderer.render(scene, camera);
 }
