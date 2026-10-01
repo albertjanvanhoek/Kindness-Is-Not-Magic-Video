@@ -115,6 +115,54 @@
       content: "";
     }
 
+
+    #kinetic-lyrics {
+      position: absolute;
+      inset: 0;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.32em;
+      padding: 8vh 6vw;
+      box-sizing: border-box;
+      font-size: clamp(48px, 7.2vw, 132px);
+      font-weight: 780;
+      letter-spacing: -0.035em;
+      line-height: 0.92;
+      text-align: center;
+      transform-style: preserve-3d;
+      perspective: 900px;
+      pointer-events: none;
+      text-shadow: 0 3px 0 rgba(63,77,58,0.22), 0 10px 30px rgba(63,77,58,0.14);
+      transition: opacity 80ms linear;
+      white-space: nowrap;
+    }
+
+    .kinetic-word {
+      display: inline-block;
+      transform-origin: 50% 55%;
+      will-change: transform, opacity, color, letter-spacing;
+    }
+
+    #kinetic-lyrics.mode-help {
+      justify-content: center;
+      align-items: center;
+    }
+
+    #kinetic-lyrics.mode-share {
+      font-size: clamp(58px, 8vw, 148px);
+    }
+
+    #kinetic-lyrics.mode-comfort {
+      font-size: clamp(56px, 7.5vw, 140px);
+    }
+
+    #kinetic-lyrics.mode-truth {
+      font-size: clamp(42px, 5.9vw, 112px);
+      gap: 0.22em;
+    }
+
     #center-title {
       position: absolute;
       inset: 0;
