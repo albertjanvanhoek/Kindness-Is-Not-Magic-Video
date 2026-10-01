@@ -242,8 +242,14 @@ function updateText(t: number): void {
 }
 
 function resetPlateObjects(): void {
-  [a, b, helper, resource, shareLeft, shareRight, truthSignal].forEach((x) => setOpacity(x, 0));
-  backgroundNodes.forEach((x) => setOpacity(x, 0));
+  [a, b, helper, resource, shareLeft, shareRight, truthSignal].forEach((x) => {
+    setOpacity(x, 0);
+    x.scale.setScalar(1);
+  });
+  backgroundNodes.forEach((x) => {
+    setOpacity(x, 0);
+    x.scale.setScalar(1);
+  });
   [mainThread, ...backgroundLinks, obstacle, route, shareRelation, comfortWave, regulationAxis, truthPath, truthCore, resistance]
     .forEach(hideLine);
   camera.zoom = 1;
