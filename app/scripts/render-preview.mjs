@@ -21,9 +21,15 @@ const captureDir = path.join(outDir, 'capture');
 await fs.rm(outDir, { recursive: true, force: true });
 await fs.mkdir(captureDir, { recursive: true });
 
+const chromePath = process.env.CHROME_PATH || undefined;
 const browser = await chromium.launch({
   headless: true,
-  args: ['--autoplay-policy=no-user-gesture-required']
+  executablePath: chromePath,
+  args: [
+    '--autoplay-policy=no-user-gesture-required',
+    '--no-sandbox',
+    '--disable-dev-shm-usage'
+  ]
 });
 
 const context = await browser.newContext({
