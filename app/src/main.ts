@@ -265,6 +265,8 @@ function lineHTML(line: LineTiming, t: number): string {
     line === opening1 ? 2 :
     line === opening2 ? 3 :
     line === opening3 ? 3 :
+    line === helpLine ? 3 :
+    line === truthLine ? 4 :
     -1;
 
   return line.words
@@ -300,10 +302,10 @@ function updateText(t: number): void {
     annotation.style.opacity = '0';
   }
 
-  if (t >= helpLine.start && t < shareLine.start) plateLabel.textContent = 'HELP · shared route';
-  else if (t >= shareLine.start && t < comfortLine.start) plateLabel.textContent = 'SHARE · redistribution → relation';
-  else if (t >= comfortLine.start && t < truthLine.start) plateLabel.textContent = 'COMFORT · co-regulation';
-  else if (t >= truthLine.start && t < truthLine.end) plateLabel.textContent = 'TRUTH · preserve the channel';
+  if (t >= helpLine.start && t < shareLine.start) plateLabel.textContent = 'help';
+  else if (t >= shareLine.start && t < comfortLine.start) plateLabel.textContent = 'share';
+  else if (t >= comfortLine.start && t < truthLine.start) plateLabel.textContent = 'comfort';
+  else if (t >= truthLine.start && t < truthLine.end) plateLabel.textContent = 'truth';
   else if (t >= specialLine.start && t < closerLine.start) plateLabel.textContent = 'PATTERN · different acts, same structure';
   else if (t >= closerLine.start && t < trustLine.start) plateLabel.textContent = 'CLOSER · distance decreases';
   else if (t >= trustLine.start && t < strongerLine.start) plateLabel.textContent = 'TRUST · edge capacity grows';
@@ -450,7 +452,7 @@ function renderHelp(t: number): void {
   b.scale.setScalar(1 + beat * 0.08);
   helper.scale.setScalar(1 + beat * 0.16);
 
-  setLinePoints(obstacle, [[0, -330], [0, 180]], 0.65);
+  setLinePoints(obstacle, [[0, -300], [0, 170]], 0.34);
 
   const routeP = smoothstep(helps.start, helpLine.end, t);
   const peak = THREE.MathUtils.lerp(0, 300, helpP);
@@ -463,7 +465,7 @@ function renderHelp(t: number): void {
     [520, 110]
   ];
   const visibleCount = Math.max(2, Math.min(pts.length, 2 + Math.floor(routeP * (pts.length - 1))));
-  setLinePoints(route, pts.slice(0, visibleCount), 0.95);
+  setLinePoints(route, pts.slice(0, visibleCount), 0.82);
 
   // The helper physically closes the final gap to the route on "helps".
   if (helpP > 0) {
@@ -501,7 +503,7 @@ function renderShare(t: number): void {
   shareLeft.scale.setScalar(s);
   shareRight.scale.setScalar(s);
 
-  setLinePoints(shareRelation, [[a.position.x, 0], [b.position.x, 0]], smoothstep(0.45, 1, p) * 0.85);
+  setLinePoints(shareRelation, [[a.position.x, 0], [b.position.x, 0]], smoothstep(0.45, 1, p) * 0.72);
 }
 
 function renderComfort(t: number): void {
@@ -519,7 +521,7 @@ function renderComfort(t: number): void {
   setOpacity(a, 1);
   setOpacity(b, 1);
 
-  setLinePoints(regulationAxis, [[-650, 0], [650, 0]], 0.23);
+  setLinePoints(regulationAxis, [[-650, 0], [650, 0]], 0.14);
 
   const pts: Array<[number, number]> = [];
   const n = 48;
@@ -532,7 +534,7 @@ function renderComfort(t: number): void {
     const y = THREE.MathUtils.lerp(a.position.y, b.position.y, q) + Math.sin(phase) * waveAmp * connect;
     pts.push([x, y]);
   }
-  setLinePoints(comfortWave, pts, connect);
+  setLinePoints(comfortWave, pts, connect * 0.82);
 
   const beat = nearestBeatPulse(t);
   a.scale.setScalar(1 + beat * 0.10);
@@ -560,10 +562,10 @@ function renderTruth(t: number): void {
     [260, 0],
     [520, 0]
   ];
-  setLinePoints(truthPath, pathPts, 0.42);
+  setLinePoints(truthPath, pathPts, 0.28);
 
   // resistance is visible as a narrow gate the signal has to pass
-  setLinePoints(resistance, [[-45, -240], [-45, 80], [45, -80], [45, 240]], 0.45 * (1 - straighten));
+  setLinePoints(resistance, [[-45, -220], [-45, 70], [45, -70], [45, 220]], 0.26 * (1 - straighten));
 
   // signal follows the bent route approximately, then reaches the receiver
   const x = THREE.MathUtils.lerp(-520, 520, signalP);
@@ -573,7 +575,7 @@ function renderTruth(t: number): void {
   setOpacity(truthSignal, smoothstep(0.02, 0.12, signalP) * (1 - smoothstep(0.98, 1, signalP)));
 
   // stronger channel appears underneath after the difficult signal has landed
-  setLinePoints(truthCore, [[-520, 0], [520, 0]], straighten * 0.95);
+  setLinePoints(truthCore, [[-520, 0], [520, 0]], straighten * 0.82);
 }
 function networkLayout(scale = 1): Array<THREE.Mesh> {
   const nodes = [a, b, ...backgroundNodes];
@@ -1105,10 +1107,17 @@ declare global {
   interface Window {
     __renderAt?: (t: number) => void;
     __videoReady?: boolean;
+    __startPreview?: (t: number) => Promise<void>;
+    __pausePreview?: () => void;
   }
 }
 
 window.__renderAt = renderAt;
+window.__startPreview = async (t: number) => {
+  audio.currentTime = Math.max(0, Math.min(t, audio.duration || t));
+  await audio.play();
+};
+window.__pausePreview = () => audio.pause();
 window.__videoReady = true;
 
 function frame(): void {
