@@ -40,8 +40,8 @@ const context = await browser.newContext({
   }
 });
 
-const recordEpoch = Date.now();
 const page = await context.newPage();
+const recordEpoch = Date.now();
 await page.goto(`${baseUrl}/?t=${start}`, { waitUntil: 'networkidle' });
 await page.waitForFunction(() => window.__videoReady === true);
 
