@@ -285,7 +285,17 @@ function lineHTML(line: LineTiming, t: number): string {
 }
 
 
-type KineticMode = 'help' | 'share' | 'comfort' | 'truth';
+type KineticMode =
+  | 'opening' | 'name' | 'reveal'
+  | 'help' | 'share' | 'comfort' | 'truth'
+  | 'spark' | 'closer' | 'grow' | 'stronger'
+  | 'label' | 'notmagic' | 'easy'
+  | 'sharing' | 'listening' | 'saying'
+  | 'wrong' | 'or' | 'forgive'
+  | 'failure' | 'without' | 'drift'
+  | 'break' | 'family' | 'lonely'
+  | 'rediscover' | 'again' | 'together'
+  | 'return' | 'beautiful' | 'possible';
 
 type KineticLayout = {
   rows: number[] | null;
@@ -296,35 +306,84 @@ type KineticLayout = {
 };
 
 const kineticLayouts: Record<KineticMode, KineticLayout> = {
-  help: {
-    rows: [3],
-    maxSpread: 58,
-    maxScale: 1.32,
-    fontVW: 6.8,
-    gapEm: 0.22,
-  },
-  share: {
-    rows: null,
-    maxSpread: 62,
-    maxScale: 1.18,
-    fontVW: 7.2,
-    gapEm: 0.24,
-  },
-  comfort: {
-    rows: null,
-    maxSpread: 20,
-    maxScale: 1.14,
-    fontVW: 7.0,
-    gapEm: 0.22,
-  },
-  truth: {
-    rows: [4],
-    maxSpread: 42,
-    maxScale: 1.28,
-    fontVW: 5.5,
-    gapEm: 0.16,
-  },
+  opening:    { rows: [2], maxSpread: 42, maxScale: 1.48, fontVW: 7.2, gapEm: 0.20 },
+  name:       { rows: [3], maxSpread: 40, maxScale: 1.42, fontVW: 6.8, gapEm: 0.20 },
+  reveal:     { rows: [3], maxSpread: 42, maxScale: 1.38, fontVW: 6.6, gapEm: 0.19 },
+  help:       { rows: [3], maxSpread: 58, maxScale: 1.32, fontVW: 6.8, gapEm: 0.22 },
+  share:      { rows: null, maxSpread: 62, maxScale: 1.18, fontVW: 7.2, gapEm: 0.24 },
+  comfort:    { rows: null, maxSpread: 20, maxScale: 1.14, fontVW: 7.0, gapEm: 0.22 },
+  truth:      { rows: [4], maxSpread: 42, maxScale: 1.28, fontVW: 5.5, gapEm: 0.16 },
+  spark:      { rows: null, maxSpread: 38, maxScale: 1.55, fontVW: 6.8, gapEm: 0.20 },
+  closer:     { rows: null, maxSpread: 70, maxScale: 1.30, fontVW: 7.1, gapEm: 0.20 },
+  grow:       { rows: null, maxSpread: 36, maxScale: 1.72, fontVW: 8.2, gapEm: 0.26 },
+  stronger:   { rows: [3], maxSpread: 44, maxScale: 1.52, fontVW: 6.3, gapEm: 0.18 },
+  label:      { rows: null, maxSpread: 32, maxScale: 1.62, fontVW: 8.0, gapEm: 0.22 },
+  notmagic:   { rows: null, maxSpread: 34, maxScale: 1.42, fontVW: 7.8, gapEm: 0.22 },
+  easy:       { rows: [4], maxSpread: 26, maxScale: 1.28, fontVW: 5.9, gapEm: 0.16 },
+  sharing:    { rows: [3], maxSpread: 64, maxScale: 1.34, fontVW: 6.4, gapEm: 0.18 },
+  listening:  { rows: [3], maxSpread: 20, maxScale: 1.30, fontVW: 6.4, gapEm: 0.18 },
+  saying:     { rows: [3], maxSpread: 30, maxScale: 1.34, fontVW: 6.2, gapEm: 0.18 },
+  wrong:      { rows: null, maxSpread: 36, maxScale: 1.58, fontVW: 8.0, gapEm: 0.22 },
+  or:         { rows: null, maxSpread: 20, maxScale: 1.18, fontVW: 6.0, gapEm: 0.20 },
+  forgive:    { rows: null, maxSpread: 68, maxScale: 1.48, fontVW: 7.4, gapEm: 0.22 },
+  failure:    { rows: [4], maxSpread: 28, maxScale: 1.30, fontVW: 5.7, gapEm: 0.16 },
+  without:    { rows: null, maxSpread: 34, maxScale: 1.32, fontVW: 6.9, gapEm: 0.20 },
+  drift:      { rows: null, maxSpread: 86, maxScale: 1.30, fontVW: 7.0, gapEm: 0.22 },
+  break:      { rows: null, maxSpread: 84, maxScale: 1.42, fontVW: 8.2, gapEm: 0.24 },
+  family:     { rows: null, maxSpread: 88, maxScale: 1.36, fontVW: 7.2, gapEm: 0.22 },
+  lonely:     { rows: [3], maxSpread: 72, maxScale: 1.48, fontVW: 6.2, gapEm: 0.18 },
+  rediscover: { rows: [4], maxSpread: 28, maxScale: 1.34, fontVW: 5.9, gapEm: 0.16 },
+  again:      { rows: null, maxSpread: 28, maxScale: 1.45, fontVW: 7.5, gapEm: 0.24 },
+  together:   { rows: [4], maxSpread: 72, maxScale: 1.38, fontVW: 5.9, gapEm: 0.16 },
+  return:     { rows: [3], maxSpread: 40, maxScale: 1.42, fontVW: 6.5, gapEm: 0.19 },
+  beautiful:  { rows: null, maxSpread: 34, maxScale: 1.62, fontVW: 7.2, gapEm: 0.20 },
+  possible:   { rows: [3], maxSpread: 36, maxScale: 1.58, fontVW: 6.6, gapEm: 0.19 },
 };
+
+const lyricProjectionPlan: Array<{ line: LineTiming; mode: KineticMode }> = [
+  { line: opening1, mode: 'opening' },
+  { line: opening2, mode: 'name' },
+  { line: opening3, mode: 'reveal' },
+  { line: helpLine, mode: 'help' },
+  { line: shareLine, mode: 'share' },
+  { line: comfortLine, mode: 'comfort' },
+  { line: truthLine, mode: 'truth' },
+  { line: specialLine, mode: 'spark' },
+  { line: closerLine, mode: 'closer' },
+  { line: trustLine, mode: 'grow' },
+  { line: strongerLine, mode: 'stronger' },
+  { line: kindnessLine, mode: 'label' },
+  { line: notMagicLine, mode: 'notmagic' },
+  { line: easyLine, mode: 'easy' },
+  { line: meansShareLine, mode: 'sharing' },
+  { line: listeningLine, mode: 'listening' },
+  { line: sayingLine, mode: 'saying' },
+  { line: wrongLine, mode: 'wrong' },
+  { line: orLine, mode: 'or' },
+  { line: forgiveLine, mode: 'forgive' },
+  { line: failureLine, mode: 'failure' },
+  { line: withoutLine, mode: 'without' },
+  { line: driftLine, mode: 'drift' },
+  { line: breakLine, mode: 'break' },
+  { line: familiesLine, mode: 'family' },
+  { line: lonelyLine, mode: 'lonely' },
+  { line: rediscoverLine, mode: 'rediscover' },
+  { line: againLine, mode: 'again' },
+  { line: stayLine, mode: 'together' },
+  { line: returnLine, mode: 'return' },
+  { line: gaveNameLine, mode: 'name' },
+  { line: beautifulLine, mode: 'beautiful' },
+  { line: possibleLine, mode: 'possible' },
+];
+
+function projectionAt(t: number): { line: LineTiming; mode: KineticMode } | null {
+  for (let i = 0; i < lyricProjectionPlan.length; i++) {
+    const item = lyricProjectionPlan[i];
+    const next = lyricProjectionPlan[i + 1]?.line.start ?? item.line.end + 0.8;
+    if (t >= item.line.start - 0.12 && t < Math.min(next - 0.08, item.line.end + 0.6)) return item;
+  }
+  return null;
+}
 
 function splitWordsIntoRows(words: WordTiming[], breaks: number[] | null): WordTiming[][] {
   if (!breaks || breaks.length === 0) return [words];
