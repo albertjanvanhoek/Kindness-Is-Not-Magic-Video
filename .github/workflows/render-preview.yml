@@ -17,6 +17,14 @@ on:
           - first-half
           - second-half
           - full
+      resolution:
+        description: Output resolution
+        required: true
+        default: 1080p
+        type: choice
+        options:
+          - 720p
+          - 1080p
 
 jobs:
   render:
@@ -78,6 +86,15 @@ jobs:
             full)        echo "start=0" >> "$GITHUB_OUTPUT"; echo "end=139.24" >> "$GITHUB_OUTPUT" ;;
           esac
 
+      - name: Resolve resolution
+        id: resolution
+        shell: bash
+        run: |
+          case "${{ inputs.resolution }}" in
+            720p)  echo "width=1280" >> "$GITHUB_OUTPUT"; echo "height=720" >> "$GITHUB_OUTPUT" ;;
+            1080p) echo "width=1920" >> "$GITHUB_OUTPUT"; echo "height=1080" >> "$GITHUB_OUTPUT" ;;
+          esac
+
       - name: Render MP4
         working-directory: app
         run: |
@@ -85,8 +102,8 @@ jobs:
             --start "${{ steps.segment.outputs.start }}" \
             --end "${{ steps.segment.outputs.end }}" \
             --name "${{ inputs.segment }}" \
-            --width 1280 \
-            --height 720
+            --width "${{ steps.resolution.outputs.width }}" \
+            --height "${{ steps.resolution.outputs.height }}"
 
       - name: Upload preview
         uses: actions/upload-artifact@v4
