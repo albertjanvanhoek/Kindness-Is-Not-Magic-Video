@@ -34,6 +34,7 @@ const context = await browser.newContext({
   }
 });
 
+const recordEpoch = Date.now();
 const page = await context.newPage();
 await page.goto(`${baseUrl}/?t=${start}`, { waitUntil: 'networkidle' });
 await page.waitForFunction(() => window.__videoReady === true);
@@ -42,6 +43,7 @@ await page.waitForFunction(() => window.__videoReady === true);
 await page.evaluate(async (time) => {
   await window.__startPreview?.(time);
 }, start);
+const leadInSeconds = Math.max(0, (Date.now() - recordEpoch) / 1000);
 
 // A tiny lead-in gives the recorder time to settle before the requested span.
 await page.waitForTimeout(Math.ceil(duration * 1000) + 250);
@@ -58,6 +60,7 @@ const webmPath = await video.path();
 const trimmed = path.join(outDir, `${name}-silent.mp4`);
 let res = spawnSync('ffmpeg', [
   '-y',
+  '-ss', String(leadInSeconds),
   '-i', webmPath,
   '-t', String(duration),
   '-c:v', 'libx264',
