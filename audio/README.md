@@ -1,9 +1,19 @@
 # Audio
 
-Place the working source file here locally as:
+Canonical source file:
 
 `audio/kindness-is-not-magic.wav`
 
-The audio file is intentionally not committed yet.
+Source recording properties:
 
-Before public release, document the recording and lyric rights independently from the software license.
+- duration: 139.24 s
+- sample rate: 48 kHz
+- channels: stereo
+
+## License
+
+The song recording is released under **Creative Commons Attribution 4.0 International (CC BY 4.0)**.
+
+See `../RIGHTS.md`.
+
+The audio is not covered by the repository's MIT software license.
