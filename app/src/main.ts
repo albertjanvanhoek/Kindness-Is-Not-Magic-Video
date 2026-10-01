@@ -872,6 +872,33 @@ function resetPlateObjects(): void {
   camera.updateProjectionMatrix();
 }
 
+function renderPreludeTypography(t: number): void {
+  textLayer.innerHTML = '';
+  plateLabel.textContent = '';
+  annotation.textContent = '';
+  annotation.style.opacity = '0';
+
+  const titleIn = smoothstep(0.8, 2.4, t);
+  const titleOut = smoothstep(8.6, 10.8, t);
+  const breathe = 1 + Math.sin(t * 1.35) * 0.018 + nearestBeatPulse(t, 0.18) * 0.035;
+
+  centerTitle.innerHTML = 'KINDNESS<br><span style="font-size:0.52em; letter-spacing:-0.02em;">IS NOT MAGIC</span>';
+  centerTitle.style.opacity = String(titleIn * (1 - titleOut) * 0.96);
+  centerTitle.style.transform = `scale(${breathe}) translateY(${Math.sin(t * 0.55) * 4}px)`;
+
+  if (t > 3.0 && t < 9.4) {
+    annotation.textContent = 'produced by emergence';
+    annotation.style.opacity = String(
+      smoothstep(3.0, 4.0, t) * (1 - smoothstep(8.4, 9.4, t)) * 0.72
+    );
+  }
+
+  // A final quiet beat of space before the first sung word.
+  if (t > 10.6) {
+    centerTitle.style.opacity = String(1 - smoothstep(10.6, opening1.start - 0.12, t));
+  }
+}
+
 function renderOpening(t: number): void {
   // Pre-lyric musical intro: establish the visual world before the first word.
   const introFade = smoothstep(0.4, 2.8, t);
@@ -1581,8 +1608,7 @@ function renderAt(t: number): void {
 
   // Keep the hummed/instrumental opening atmospheric.
   if (t < opening1.start) {
-    updateText(t);
-    renderOpening(t);
+    renderPreludeTypography(t);
     renderer.render(scene, camera);
     return;
   }
