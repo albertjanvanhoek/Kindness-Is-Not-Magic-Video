@@ -42,7 +42,7 @@ The conceptual treatment, renderer scaffold, and first-pass beat grid are in pla
 
 Next milestones:
 
-1. add the distributable soundtrack as `audio/kindness-is-not-magic.mp3`;
+1. add the distributable soundtrack as `audio/Kindness Is Not Magic 1.mp3`;
 2. refine the provisional word alignment with forced alignment/QA;
 3. refine musical downbeats/sections and audio-energy data;
 4. continue expanding the visual plates;
@@ -53,7 +53,7 @@ Next milestones:
 Canonical soundtrack path:
 
 ```
-audio/kindness-is-not-magic.mp3
+audio/Kindness Is Not Magic 1.mp3
 ```
 
 A lossless WAV can still be kept for analysis if desired. The MP3 and WAV versions were compared after decoding: both are 139.24 seconds, 48 kHz stereo, with zero detected timing offset and near-identical waveform timing, so the MP3 can replace the WAV for preview/final muxing without changing scene timings.
