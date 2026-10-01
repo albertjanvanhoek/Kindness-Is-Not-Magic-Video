@@ -1351,6 +1351,10 @@ function resize(): void {
 window.addEventListener('resize', resize);
 resize();
 
+let previewClockRunning = false;
+let previewClockBase = 0;
+let previewClockEpoch = 0;
+
 declare global {
   interface Window {
     __renderAt?: (t: number) => void;
@@ -1362,14 +1366,23 @@ declare global {
 
 window.__renderAt = renderAt;
 window.__startPreview = async (t: number) => {
-  audio.currentTime = Math.max(0, Math.min(t, audio.duration || t));
-  await audio.play();
+  audio.pause();
+  previewClockBase = t;
+  previewClockEpoch = performance.now();
+  previewClockRunning = true;
+  renderAt(t);
 };
-window.__pausePreview = () => audio.pause();
+window.__pausePreview = () => {
+  previewClockRunning = false;
+  audio.pause();
+};
 window.__videoReady = true;
 
 function frame(): void {
-  renderAt(audio.currentTime || requestedTime || 0);
+  const t = previewClockRunning
+    ? previewClockBase + (performance.now() - previewClockEpoch) / 1000
+    : (audio.currentTime || requestedTime || 0);
+  renderAt(t);
   requestAnimationFrame(frame);
 }
 
