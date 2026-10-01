@@ -1,0 +1,85 @@
+name: render preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      segment:
+        description: Preview section
+        required: true
+        default: opening
+        type: choice
+        options:
+          - opening
+          - mechanisms
+          - payoff
+          - repair
+          - final-third
+          - full
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install app
+        working-directory: app
+        run: npm install
+
+      - name: Install Chromium
+        working-directory: app
+        run: npx playwright install --with-deps chromium
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Build renderer
+        working-directory: app
+        run: npm run build
+
+      - name: Start preview server
+        working-directory: app
+        run: |
+          npm run preview > /tmp/kindness-vite.log 2>&1 &
+          for i in {1..30}; do
+            curl -fsS http://127.0.0.1:4173 >/dev/null && exit 0
+            sleep 1
+          done
+          cat /tmp/kindness-vite.log
+          exit 1
+
+      - name: Resolve segment
+        id: segment
+        shell: bash
+        run: |
+          case "${{ inputs.segment }}" in
+            opening)     echo "start=0" >> "$GITHUB_OUTPUT"; echo "end=15" >> "$GITHUB_OUTPUT" ;;
+            mechanisms)  echo "start=13" >> "$GITHUB_OUTPUT"; echo "end=34.2" >> "$GITHUB_OUTPUT" ;;
+            payoff)      echo "start=34" >> "$GITHUB_OUTPUT"; echo "end=61.95" >> "$GITHUB_OUTPUT" ;;
+            repair)      echo "start=61.9" >> "$GITHUB_OUTPUT"; echo "end=82.25" >> "$GITHUB_OUTPUT" ;;
+            final-third) echo "start=82.15" >> "$GITHUB_OUTPUT"; echo "end=137.3" >> "$GITHUB_OUTPUT" ;;
+            full)        echo "start=0" >> "$GITHUB_OUTPUT"; echo "end=139.24" >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Render MP4
+        working-directory: app
+        run: |
+          npm run render:preview -- \
+            --start "${{ steps.segment.outputs.start }}" \
+            --end "${{ steps.segment.outputs.end }}" \
+            --name "${{ inputs.segment }}" \
+            --fps 30 \
+            --width 1280 \
+            --height 720
+
+      - name: Upload preview
+        uses: actions/upload-artifact@v4
+        with:
+          name: kindness-${{ inputs.segment }}
+          path: |
+            app/rendered/${{ inputs.segment }}/*.mp4
+          retention-days: 14
