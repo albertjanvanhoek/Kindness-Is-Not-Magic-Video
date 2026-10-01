@@ -236,7 +236,9 @@ document.querySelector('#app')!.appendChild(centerTitle);
 const audio = new Audio('/kindness-is-not-magic.mp3');
 audio.preload = 'auto';
 
-const requestedTime = Number(new URLSearchParams(location.search).get('t') ?? '0');
+const query = new URLSearchParams(location.search);
+const requestedTime = Number(query.get('t') ?? '0');
+const renderMode = query.get('render') === '1';
 
 audio.addEventListener('loadedmetadata', () => {
   if (Number.isFinite(requestedTime) && requestedTime > 0) {
@@ -1046,9 +1048,23 @@ function resize(): void {
 window.addEventListener('resize', resize);
 resize();
 
+declare global {
+  interface Window {
+    __renderAt?: (t: number) => void;
+    __videoReady?: boolean;
+  }
+}
+
+window.__renderAt = renderAt;
+window.__videoReady = true;
+
 function frame(): void {
   renderAt(audio.currentTime || requestedTime || 0);
   requestAnimationFrame(frame);
 }
 
-frame();
+if (renderMode) {
+  renderAt(requestedTime || 0);
+} else {
+  frame();
+}
