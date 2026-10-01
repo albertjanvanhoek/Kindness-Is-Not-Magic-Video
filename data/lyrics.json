@@ -97,13 +97,13 @@
         {
           "w": "kindness",
           "start": 21.7,
-          "end": 22.42,
+          "end": 22.44,
           "matched": true,
           "heard": "kindness"
         },
         {
           "w": "was",
-          "start": 22.42,
+          "start": 22.44,
           "end": 23.44,
           "matched": true,
           "heard": "was"
@@ -111,13 +111,13 @@
         {
           "w": "already",
           "start": 23.44,
-          "end": 24.36,
+          "end": 24.38,
           "matched": true,
           "heard": "already"
         },
         {
           "w": "there",
-          "start": 24.36,
+          "start": 24.38,
           "end": 25.9,
           "matched": true,
           "heard": "there"
@@ -139,13 +139,13 @@
         {
           "w": "someone",
           "start": 27.84,
-          "end": 28.58,
+          "end": 28.56,
           "matched": true,
           "heard": "someone"
         },
         {
           "w": "helps",
-          "start": 28.58,
+          "start": 28.56,
           "end": 29.1,
           "matched": true,
           "heard": "helps"
@@ -174,13 +174,13 @@
         {
           "w": "shares",
           "start": 30.58,
-          "end": 30.84,
+          "end": 30.86,
           "matched": true,
           "heard": "shares"
         },
         {
           "w": "their",
-          "start": 30.84,
+          "start": 30.86,
           "end": 31.22,
           "matched": true,
           "heard": "their"
@@ -225,7 +225,7 @@
     {
       "text": "or tells the truth even when it is hard,",
       "start": 33.36,
-      "end": 38.46,
+      "end": 38.44,
       "words": [
         {
           "w": "or",
@@ -251,20 +251,20 @@
         {
           "w": "truth",
           "start": 34.56,
-          "end": 35.04,
+          "end": 35.02,
           "matched": true,
           "heard": "truth"
         },
         {
           "w": "even",
-          "start": 35.04,
-          "end": 35.74,
+          "start": 35.02,
+          "end": 35.76,
           "matched": true,
           "heard": "Even"
         },
         {
           "w": "when",
-          "start": 35.74,
+          "start": 35.76,
           "end": 36.5,
           "matched": true,
           "heard": "when"
@@ -286,7 +286,7 @@
         {
           "w": "hard",
           "start": 37.18,
-          "end": 38.46,
+          "end": 38.44,
           "matched": true,
           "heard": "hard"
         }
@@ -294,12 +294,12 @@
     },
     {
       "text": "something special happens.",
-      "start": 38.46,
+      "start": 38.44,
       "end": 41.66,
       "words": [
         {
           "w": "something",
-          "start": 38.46,
+          "start": 38.44,
           "end": 39.96,
           "matched": true,
           "heard": "Something"
@@ -307,34 +307,34 @@
         {
           "w": "special",
           "start": 39.96,
-          "end": 40.46,
+          "end": 40.54,
           "matched": true,
           "heard": "special"
         },
         {
           "w": "happens",
-          "start": 40.46,
+          "start": 40.54,
           "end": 41.66,
           "matched": true,
-          "heard": "happens,"
+          "heard": "happens"
         }
       ]
     },
     {
       "text": "People come closer.",
-      "start": 42.82,
-      "end": 44.62,
+      "start": 41.66,
+      "end": 44.6,
       "words": [
         {
           "w": "People",
-          "start": 42.82,
-          "end": 43.16,
+          "start": 41.66,
+          "end": 43.28,
           "matched": true,
-          "heard": "people"
+          "heard": "People"
         },
         {
           "w": "come",
-          "start": 43.16,
+          "start": 43.28,
           "end": 43.8,
           "matched": true,
           "heard": "come"
@@ -342,7 +342,7 @@
         {
           "w": "closer",
           "start": 43.8,
-          "end": 44.62,
+          "end": 44.6,
           "matched": true,
           "heard": "closer"
         }
@@ -350,12 +350,12 @@
     },
     {
       "text": "Trust grows.",
-      "start": 44.62,
-      "end": 45.94,
+      "start": 44.6,
+      "end": 46.08,
       "words": [
         {
           "w": "Trust",
-          "start": 44.62,
+          "start": 44.6,
           "end": 45.3,
           "matched": true,
           "heard": "Trust"
@@ -363,41 +363,41 @@
         {
           "w": "grows",
           "start": 45.3,
-          "end": 45.94,
+          "end": 46.08,
           "matched": true,
-          "heard": "grows,"
+          "heard": "grows"
         }
       ]
     },
     {
       "text": "And together they become stronger.",
-      "start": 46.72,
-      "end": 50.82,
+      "start": 46.08,
+      "end": 50.84,
       "words": [
         {
           "w": "And",
-          "start": 46.72,
+          "start": 46.08,
           "end": 46.92,
           "matched": true,
-          "heard": "and"
+          "heard": "And"
         },
         {
           "w": "together",
           "start": 46.92,
-          "end": 47.52,
+          "end": 47.56,
           "matched": true,
-          "heard": "together"
+          "heard": "together,"
         },
         {
           "w": "they",
-          "start": 47.52,
-          "end": 49.08,
+          "start": 47.9,
+          "end": 49.1,
           "matched": true,
           "heard": "they"
         },
         {
           "w": "become",
-          "start": 49.08,
+          "start": 49.1,
           "end": 49.72,
           "matched": true,
           "heard": "become"
@@ -405,7 +405,7 @@
         {
           "w": "stronger",
           "start": 49.72,
-          "end": 50.82,
+          "end": 50.84,
           "matched": true,
           "heard": "stronger"
         }
@@ -413,27 +413,27 @@
     },
     {
       "text": "That is kindness.",
-      "start": 51.9,
-      "end": 53.94,
+      "start": 53.94,
+      "end": 55.33,
       "words": [
         {
           "w": "That",
-          "start": 51.9,
-          "end": 52.84,
+          "start": 53.94,
+          "end": 54.46,
           "matched": true,
           "heard": "That"
         },
         {
           "w": "is",
-          "start": 52.84,
-          "end": 53.14,
+          "start": 54.46,
+          "end": 54.7,
           "matched": true,
           "heard": "is"
         },
         {
           "w": "kindness",
-          "start": 53.14,
-          "end": 53.94,
+          "start": 54.7,
+          "end": 55.33,
           "matched": true,
           "heard": "kindness"
         }
@@ -441,34 +441,34 @@
     },
     {
       "text": "It is not magic.",
-      "start": 53.94,
-      "end": 57.16,
+      "start": 57.15,
+      "end": 58.73,
       "words": [
         {
           "w": "It",
-          "start": 53.94,
-          "end": 55.74,
+          "start": 57.15,
+          "end": 57.55,
           "matched": true,
           "heard": "It"
         },
         {
           "w": "is",
-          "start": 55.74,
-          "end": 55.94,
+          "start": 57.55,
+          "end": 57.75,
           "matched": true,
           "heard": "is"
         },
         {
           "w": "not",
-          "start": 55.94,
-          "end": 56.32,
+          "start": 57.75,
+          "end": 58.05,
           "matched": true,
           "heard": "not"
         },
         {
           "w": "magic",
-          "start": 56.32,
-          "end": 57.16,
+          "start": 58.05,
+          "end": 58.73,
           "matched": true,
           "heard": "magic"
         }
@@ -476,55 +476,55 @@
     },
     {
       "text": "And it does not always feel easy.",
-      "start": 57.94,
-      "end": 64.32,
+      "start": 58.73,
+      "end": 64.03,
       "words": [
         {
           "w": "And",
-          "start": 57.94,
-          "end": 59.12,
+          "start": 58.73,
+          "end": 59.13,
           "matched": true,
           "heard": "And"
         },
         {
           "w": "it",
-          "start": 59.12,
-          "end": 59.4,
+          "start": 59.13,
+          "end": 59.41,
           "matched": true,
           "heard": "it"
         },
         {
           "w": "does",
-          "start": 59.4,
-          "end": 59.86,
+          "start": 59.41,
+          "end": 59.87,
           "matched": true,
           "heard": "does"
         },
         {
           "w": "not",
-          "start": 59.86,
-          "end": 60.42,
+          "start": 59.87,
+          "end": 60.45,
           "matched": true,
           "heard": "not"
         },
         {
           "w": "always",
-          "start": 60.42,
-          "end": 61.34,
+          "start": 60.45,
+          "end": 61.45,
           "matched": true,
           "heard": "always"
         },
         {
           "w": "feel",
-          "start": 61.34,
-          "end": 62.42,
+          "start": 61.45,
+          "end": 62.41,
           "matched": true,
           "heard": "feel"
         },
         {
           "w": "easy",
-          "start": 62.42,
-          "end": 64.32,
+          "start": 62.41,
+          "end": 64.03,
           "matched": true,
           "heard": "easy"
         }
@@ -532,34 +532,34 @@
     },
     {
       "text": "Sometimes kindness means sharing.",
-      "start": 64.32,
-      "end": 68.04,
+      "start": 64.03,
+      "end": 68.05,
       "words": [
         {
           "w": "Sometimes",
-          "start": 64.32,
-          "end": 65.72,
+          "start": 64.03,
+          "end": 65.71,
           "matched": true,
           "heard": "Sometimes"
         },
         {
           "w": "kindness",
-          "start": 65.72,
-          "end": 66.22,
+          "start": 65.71,
+          "end": 66.25,
           "matched": true,
           "heard": "kindness"
         },
         {
           "w": "means",
-          "start": 66.22,
-          "end": 67.06,
+          "start": 66.25,
+          "end": 67.05,
           "matched": true,
           "heard": "means"
         },
         {
           "w": "sharing",
-          "start": 67.06,
-          "end": 68.04,
+          "start": 67.05,
+          "end": 68.05,
           "matched": true,
           "heard": "sharing"
         }
@@ -567,34 +567,34 @@
     },
     {
       "text": "Sometimes it means listening.",
-      "start": 68.04,
-      "end": 71.2,
+      "start": 68.05,
+      "end": 71.13,
       "words": [
         {
           "w": "Sometimes",
-          "start": 68.04,
-          "end": 69.32,
+          "start": 68.05,
+          "end": 69.31,
           "matched": true,
           "heard": "Sometimes"
         },
         {
           "w": "it",
-          "start": 69.32,
-          "end": 69.7,
+          "start": 69.31,
+          "end": 69.71,
           "matched": true,
           "heard": "it"
         },
         {
           "w": "means",
-          "start": 69.7,
-          "end": 70.32,
+          "start": 69.71,
+          "end": 70.29,
           "matched": true,
           "heard": "means"
         },
         {
           "w": "listening",
-          "start": 70.32,
-          "end": 71.2,
+          "start": 70.29,
+          "end": 71.13,
           "matched": true,
           "heard": "listening"
         }
@@ -602,34 +602,34 @@
     },
     {
       "text": "Sometimes it means saying:",
-      "start": 71.2,
-      "end": 75.74,
+      "start": 71.13,
+      "end": 75.81,
       "words": [
         {
           "w": "Sometimes",
-          "start": 71.2,
-          "end": 72.88,
+          "start": 71.13,
+          "end": 72.77,
           "matched": true,
           "heard": "Sometimes"
         },
         {
           "w": "it",
-          "start": 72.88,
-          "end": 73.94,
+          "start": 73.25,
+          "end": 73.95,
           "matched": true,
-          "heard": "it"
+          "heard": "It"
         },
         {
           "w": "means",
-          "start": 73.94,
-          "end": 74.94,
+          "start": 73.95,
+          "end": 74.87,
           "matched": true,
           "heard": "means"
         },
         {
           "w": "saying",
-          "start": 74.94,
-          "end": 75.74,
+          "start": 74.87,
+          "end": 75.81,
           "matched": true,
           "heard": "saying"
         }
@@ -637,69 +637,69 @@
     },
     {
       "text": "\"I was wrong.\"",
-      "start": 76.94,
-      "end": 79.04,
+      "start": 77.33,
+      "end": 79.03,
       "words": [
         {
           "w": "I",
-          "start": 76.94,
-          "end": 78.36,
+          "start": 77.33,
+          "end": 78.37,
           "matched": true,
           "heard": "I"
         },
         {
           "w": "was",
-          "start": 78.36,
-          "end": 78.54,
+          "start": 78.37,
+          "end": 78.55,
           "matched": true,
           "heard": "was"
         },
         {
           "w": "wrong",
-          "start": 78.54,
-          "end": 79.04,
+          "start": 78.55,
+          "end": 79.03,
           "matched": true,
-          "heard": "wrong,"
+          "heard": "wrong"
         }
       ]
     },
     {
       "text": "Or:",
-      "start": 79.26,
-      "end": 79.88,
+      "start": 79.03,
+      "end": 79.85,
       "words": [
         {
           "w": "Or",
-          "start": 79.26,
-          "end": 79.88,
+          "start": 79.03,
+          "end": 79.85,
           "matched": true,
-          "heard": "or"
+          "heard": "Or"
         }
       ]
     },
     {
       "text": "\"I forgive you.\"",
-      "start": 79.88,
-      "end": 82.08,
+      "start": 79.85,
+      "end": 82.23,
       "words": [
         {
           "w": "I",
-          "start": 79.88,
-          "end": 80.88,
+          "start": 79.85,
+          "end": 80.87,
           "matched": true,
           "heard": "I"
         },
         {
           "w": "forgive",
-          "start": 80.88,
-          "end": 81.3,
+          "start": 80.87,
+          "end": 81.33,
           "matched": true,
           "heard": "forgive"
         },
         {
           "w": "you",
-          "start": 81.3,
-          "end": 82.08,
+          "start": 81.33,
+          "end": 82.23,
           "matched": true,
           "heard": "you"
         }
@@ -707,55 +707,55 @@
     },
     {
       "text": "Kindness does not always win right away.",
-      "start": 82.08,
-      "end": 87.42,
+      "start": 82.23,
+      "end": 87.41,
       "words": [
         {
           "w": "Kindness",
-          "start": 82.08,
-          "end": 83.18,
+          "start": 82.23,
+          "end": 83.17,
           "matched": true,
           "heard": "Kindness"
         },
         {
           "w": "does",
-          "start": 83.18,
-          "end": 83.4,
+          "start": 83.17,
+          "end": 83.39,
           "matched": true,
           "heard": "does"
         },
         {
           "w": "not",
-          "start": 83.4,
-          "end": 83.82,
+          "start": 83.39,
+          "end": 83.83,
           "matched": true,
           "heard": "not"
         },
         {
           "w": "always",
-          "start": 83.82,
-          "end": 84.64,
+          "start": 83.83,
+          "end": 84.65,
           "matched": true,
           "heard": "always"
         },
         {
           "w": "win",
-          "start": 84.64,
-          "end": 85.24,
+          "start": 84.65,
+          "end": 85.23,
           "matched": true,
           "heard": "win"
         },
         {
           "w": "right",
-          "start": 85.24,
-          "end": 86.06,
+          "start": 85.23,
+          "end": 86.03,
           "matched": true,
           "heard": "right"
         },
         {
           "w": "away",
-          "start": 86.06,
-          "end": 87.42,
+          "start": 86.03,
+          "end": 87.41,
           "matched": true,
           "heard": "away"
         }
@@ -763,27 +763,27 @@
     },
     {
       "text": "But without kindness,",
-      "start": 87.94,
-      "end": 89.92,
+      "start": 87.93,
+      "end": 89.89,
       "words": [
         {
           "w": "But",
-          "start": 87.94,
-          "end": 88.64,
+          "start": 87.93,
+          "end": 88.63,
           "matched": true,
           "heard": "But"
         },
         {
           "w": "without",
-          "start": 88.64,
-          "end": 89.12,
+          "start": 88.63,
+          "end": 89.11,
           "matched": true,
           "heard": "without"
         },
         {
           "w": "kindness",
-          "start": 89.12,
-          "end": 89.92,
+          "start": 89.11,
+          "end": 89.89,
           "matched": true,
           "heard": "kindness,"
         }
@@ -791,27 +791,27 @@
     },
     {
       "text": "people drift apart.",
-      "start": 90.26,
-      "end": 92.2,
+      "start": 90.15,
+      "end": 92.19,
       "words": [
         {
           "w": "people",
-          "start": 90.26,
-          "end": 90.62,
+          "start": 90.15,
+          "end": 90.63,
           "matched": true,
           "heard": "people"
         },
         {
           "w": "drift",
-          "start": 90.62,
-          "end": 91.22,
+          "start": 90.63,
+          "end": 91.21,
           "matched": true,
           "heard": "drift"
         },
         {
           "w": "apart",
-          "start": 91.22,
-          "end": 92.2,
+          "start": 91.21,
+          "end": 92.19,
           "matched": true,
           "heard": "apart"
         }
@@ -819,48 +819,48 @@
     },
     {
       "text": "Friendships break.",
-      "start": 93.08,
-      "end": 95.32,
+      "start": 94.03,
+      "end": 95.31,
       "words": [
         {
           "w": "Friendships",
-          "start": 93.08,
-          "end": 94.72,
+          "start": 94.03,
+          "end": 94.73,
           "matched": true,
           "heard": "Friendships"
         },
         {
           "w": "break",
-          "start": 94.72,
-          "end": 95.32,
+          "start": 94.73,
+          "end": 95.31,
           "matched": true,
-          "heard": "break,"
+          "heard": "break"
         }
       ]
     },
     {
       "text": "Families fall apart.",
-      "start": 96.52,
-      "end": 98.9,
+      "start": 96.23,
+      "end": 99.19,
       "words": [
         {
           "w": "Families",
-          "start": 96.52,
-          "end": 97.08,
+          "start": 96.23,
+          "end": 97.07,
           "matched": true,
-          "heard": "families"
+          "heard": "Families"
         },
         {
           "w": "fall",
-          "start": 97.08,
-          "end": 97.66,
+          "start": 97.07,
+          "end": 97.65,
           "matched": true,
           "heard": "fall"
         },
         {
           "w": "apart",
-          "start": 97.66,
-          "end": 98.9,
+          "start": 97.65,
+          "end": 99.19,
           "matched": true,
           "heard": "apart"
         }
@@ -868,41 +868,41 @@
     },
     {
       "text": "And the world becomes lonelier.",
-      "start": 99.54,
-      "end": 104.8,
+      "start": 99.55,
+      "end": 104.81,
       "words": [
         {
           "w": "And",
-          "start": 99.54,
-          "end": 100.24,
+          "start": 99.55,
+          "end": 100.25,
           "matched": true,
           "heard": "And"
         },
         {
           "w": "the",
-          "start": 100.24,
-          "end": 100.4,
+          "start": 100.25,
+          "end": 100.39,
           "matched": true,
           "heard": "the"
         },
         {
           "w": "world",
-          "start": 100.4,
-          "end": 100.74,
+          "start": 100.39,
+          "end": 100.77,
           "matched": true,
           "heard": "world"
         },
         {
           "w": "becomes",
-          "start": 100.74,
-          "end": 102.04,
+          "start": 100.77,
+          "end": 102.23,
           "matched": true,
           "heard": "becomes"
         },
         {
           "w": "lonelier",
-          "start": 102.04,
-          "end": 104.8,
+          "start": 102.23,
+          "end": 104.81,
           "matched": true,
           "heard": "lonelier"
         }
@@ -910,41 +910,41 @@
     },
     {
       "text": "So people keep discovering kindness,",
-      "start": 106.02,
-      "end": 109.7,
+      "start": 106.01,
+      "end": 109.73,
       "words": [
         {
           "w": "So",
-          "start": 106.02,
-          "end": 106.72,
+          "start": 106.01,
+          "end": 106.71,
           "matched": true,
           "heard": "So"
         },
         {
           "w": "people",
-          "start": 106.72,
-          "end": 107.2,
+          "start": 106.71,
+          "end": 107.19,
           "matched": true,
           "heard": "people"
         },
         {
           "w": "keep",
-          "start": 107.2,
-          "end": 107.82,
+          "start": 107.19,
+          "end": 107.81,
           "matched": true,
           "heard": "keep"
         },
         {
           "w": "discovering",
-          "start": 107.82,
-          "end": 108.86,
+          "start": 107.81,
+          "end": 108.87,
           "matched": true,
           "heard": "discovering"
         },
         {
           "w": "kindness",
-          "start": 108.86,
-          "end": 109.7,
+          "start": 108.87,
+          "end": 109.73,
           "matched": true,
           "heard": "kindness"
         }
@@ -952,27 +952,27 @@
     },
     {
       "text": "again and again,",
-      "start": 109.7,
-      "end": 112.42,
+      "start": 109.73,
+      "end": 112.43,
       "words": [
         {
           "w": "again",
-          "start": 109.7,
-          "end": 110.92,
+          "start": 109.73,
+          "end": 110.93,
           "matched": true,
           "heard": "Again"
         },
         {
           "w": "and",
-          "start": 110.92,
-          "end": 111.84,
+          "start": 110.93,
+          "end": 111.85,
           "matched": true,
           "heard": "and"
         },
         {
           "w": "again",
-          "start": 111.84,
-          "end": 112.42,
+          "start": 111.85,
+          "end": 112.43,
           "matched": true,
           "heard": "again"
         }
@@ -980,48 +980,48 @@
     },
     {
       "text": "because it helps us stay together.",
-      "start": 112.42,
-      "end": 117.42,
+      "start": 112.43,
+      "end": 117.41,
       "words": [
         {
           "w": "because",
-          "start": 112.42,
-          "end": 113.6,
+          "start": 112.43,
+          "end": 113.61,
           "matched": true,
           "heard": "Because"
         },
         {
           "w": "it",
-          "start": 113.6,
-          "end": 113.82,
+          "start": 113.61,
+          "end": 113.81,
           "matched": true,
           "heard": "it"
         },
         {
           "w": "helps",
-          "start": 113.82,
-          "end": 114.18,
+          "start": 113.81,
+          "end": 114.15,
           "matched": true,
           "heard": "helps"
         },
         {
           "w": "us",
-          "start": 114.18,
-          "end": 115.14,
+          "start": 114.15,
+          "end": 115.15,
           "matched": true,
           "heard": "us"
         },
         {
           "w": "stay",
-          "start": 115.14,
-          "end": 115.9,
+          "start": 115.15,
+          "end": 115.85,
           "matched": true,
           "heard": "stay"
         },
         {
           "w": "together",
-          "start": 115.9,
-          "end": 117.42,
+          "start": 115.85,
+          "end": 117.41,
           "matched": true,
           "heard": "together"
         }
@@ -1029,41 +1029,41 @@
     },
     {
       "text": "We did not invent kindness.",
-      "start": 117.42,
-      "end": 120.74,
+      "start": 117.41,
+      "end": 120.71,
       "words": [
         {
           "w": "We",
-          "start": 117.42,
-          "end": 118.94,
+          "start": 117.41,
+          "end": 118.95,
           "matched": true,
           "heard": "We"
         },
         {
           "w": "did",
-          "start": 118.94,
-          "end": 119.16,
+          "start": 118.95,
+          "end": 119.15,
           "matched": true,
           "heard": "did"
         },
         {
           "w": "not",
-          "start": 119.16,
-          "end": 119.54,
+          "start": 119.15,
+          "end": 119.53,
           "matched": true,
           "heard": "not"
         },
         {
           "w": "invent",
-          "start": 119.54,
-          "end": 120.04,
+          "start": 119.53,
+          "end": 120.01,
           "matched": true,
           "heard": "invent"
         },
         {
           "w": "kindness",
-          "start": 120.04,
-          "end": 120.74,
+          "start": 120.01,
+          "end": 120.71,
           "matched": true,
           "heard": "kindness"
         }
@@ -1071,41 +1071,41 @@
     },
     {
       "text": "We only gave a name",
-      "start": 120.74,
-      "end": 124.3,
+      "start": 120.71,
+      "end": 124.25,
       "words": [
         {
           "w": "We",
-          "start": 120.74,
-          "end": 122.1,
+          "start": 120.71,
+          "end": 122.11,
           "matched": true,
           "heard": "We"
         },
         {
           "w": "only",
-          "start": 122.1,
-          "end": 122.42,
+          "start": 122.11,
+          "end": 122.43,
           "matched": true,
           "heard": "only"
         },
         {
           "w": "gave",
-          "start": 122.42,
-          "end": 122.78,
+          "start": 122.43,
+          "end": 122.79,
           "matched": true,
           "heard": "gave"
         },
         {
           "w": "a",
-          "start": 122.78,
-          "end": 123.12,
+          "start": 122.79,
+          "end": 123.11,
           "matched": true,
           "heard": "a"
         },
         {
           "w": "name",
-          "start": 123.12,
-          "end": 124.3,
+          "start": 123.11,
+          "end": 124.25,
           "matched": true,
           "heard": "name"
         }
@@ -1113,27 +1113,27 @@
     },
     {
       "text": "to something beautiful",
-      "start": 124.3,
-      "end": 128.46,
+      "start": 124.25,
+      "end": 128.45,
       "words": [
         {
           "w": "to",
-          "start": 124.3,
-          "end": 126.38,
+          "start": 124.25,
+          "end": 126.39,
           "matched": true,
           "heard": "To"
         },
         {
           "w": "something",
-          "start": 126.38,
-          "end": 127.14,
+          "start": 126.39,
+          "end": 127.17,
           "matched": true,
           "heard": "something"
         },
         {
           "w": "beautiful",
-          "start": 127.14,
-          "end": 128.46,
+          "start": 127.17,
+          "end": 128.45,
           "matched": true,
           "heard": "beautiful"
         }
@@ -1141,34 +1141,34 @@
     },
     {
       "text": "that was always possible.",
-      "start": 128.46,
-      "end": 133.04,
+      "start": 128.45,
+      "end": 133.03,
       "words": [
         {
           "w": "that",
-          "start": 128.46,
-          "end": 130.0,
+          "start": 128.45,
+          "end": 129.99,
           "matched": true,
           "heard": "That"
         },
         {
           "w": "was",
-          "start": 130.0,
-          "end": 130.5,
+          "start": 129.99,
+          "end": 130.51,
           "matched": true,
           "heard": "was"
         },
         {
           "w": "always",
-          "start": 130.5,
-          "end": 131.84,
+          "start": 130.51,
+          "end": 131.85,
           "matched": true,
           "heard": "always"
         },
         {
           "w": "possible",
-          "start": 131.84,
-          "end": 133.04,
+          "start": 131.85,
+          "end": 133.03,
           "matched": true,
           "heard": "possible"
         }
@@ -1236,21 +1236,21 @@
         {
           "w": "kindness",
           "start": 21.7,
-          "end": 22.42
+          "end": 22.44
         },
         {
           "w": "was",
-          "start": 22.42,
+          "start": 22.44,
           "end": 23.44
         },
         {
           "w": "already",
           "start": 23.44,
-          "end": 24.36
+          "end": 24.38
         },
         {
           "w": "there",
-          "start": 24.36,
+          "start": 24.38,
           "end": 25.9
         }
       ]
@@ -1268,11 +1268,11 @@
         {
           "w": "someone",
           "start": 27.84,
-          "end": 28.58
+          "end": 28.56
         },
         {
           "w": "helps",
-          "start": 28.58,
+          "start": 28.56,
           "end": 29.1
         },
         {
@@ -1288,11 +1288,11 @@
         {
           "w": "shares",
           "start": 30.58,
-          "end": 30.84
+          "end": 30.86
         },
         {
           "w": "their",
-          "start": 30.84,
+          "start": 30.86,
           "end": 31.22
         },
         {
@@ -1304,7 +1304,7 @@
     },
     {
       "start": 31.82,
-      "end": 35.04,
+      "end": 35.02,
       "text": "Comforts a friend, or tells the truth",
       "words": [
         {
@@ -1340,23 +1340,23 @@
         {
           "w": "truth",
           "start": 34.56,
-          "end": 35.04
+          "end": 35.02
         }
       ]
     },
     {
-      "start": 35.04,
-      "end": 38.46,
+      "start": 35.02,
+      "end": 38.44,
       "text": "Even when it is hard",
       "words": [
         {
           "w": "Even",
-          "start": 35.04,
-          "end": 35.74
+          "start": 35.02,
+          "end": 35.76
         },
         {
           "w": "when",
-          "start": 35.74,
+          "start": 35.76,
           "end": 36.5
         },
         {
@@ -1372,86 +1372,100 @@
         {
           "w": "hard",
           "start": 37.18,
-          "end": 38.46
+          "end": 38.44
         }
       ]
     },
     {
-      "start": 38.46,
-      "end": 44.62,
-      "text": "Something special happens, people come closer",
+      "start": 38.44,
+      "end": 41.66,
+      "text": "Something special happens",
       "words": [
         {
           "w": "Something",
-          "start": 38.46,
+          "start": 38.44,
           "end": 39.96
         },
         {
           "w": "special",
           "start": 39.96,
-          "end": 40.46
+          "end": 40.54
         },
         {
-          "w": "happens,",
-          "start": 40.46,
+          "w": "happens",
+          "start": 40.54,
           "end": 41.66
-        },
+        }
+      ]
+    },
+    {
+      "start": 41.66,
+      "end": 44.6,
+      "text": "People come closer",
+      "words": [
         {
-          "w": "people",
-          "start": 42.82,
-          "end": 43.16
+          "w": "People",
+          "start": 41.66,
+          "end": 43.28
         },
         {
           "w": "come",
-          "start": 43.16,
+          "start": 43.28,
           "end": 43.8
         },
         {
           "w": "closer",
           "start": 43.8,
-          "end": 44.62
+          "end": 44.6
         }
       ]
     },
     {
-      "start": 44.62,
-      "end": 50.82,
-      "text": "Trust grows, and together they become stronger",
+      "start": 44.6,
+      "end": 46.08,
+      "text": "Trust grows",
       "words": [
         {
           "w": "Trust",
-          "start": 44.62,
+          "start": 44.6,
           "end": 45.3
         },
         {
-          "w": "grows,",
+          "w": "grows",
           "start": 45.3,
-          "end": 45.94
-        },
+          "end": 46.08
+        }
+      ]
+    },
+    {
+      "start": 46.08,
+      "end": 50.84,
+      "text": "And together, they become stronger",
+      "words": [
         {
-          "w": "and",
-          "start": 46.72,
+          "w": "And",
+          "start": 46.08,
           "end": 46.92
         },
         {
-          "w": "together",
+          "w": "together,",
           "start": 46.92,
-          "end": 47.52
+          "end": 47.56
         },
         {
           "w": "they",
-          "start": 47.52,
-          "end": 49.08
+          "start": 47.9,
+          "end": 49.1
         },
         {
           "w": "become",
-          "start": 49.08,
+          "start": 49.1,
           "end": 49.72
         },
         {
           "w": "stronger",
           "start": 49.72,
-          "end": 50.82
+          "end": 50.84
         }
       ]
     },
@@ -1479,540 +1493,610 @@
     },
     {
       "start": 53.94,
-      "end": 57.16,
+      "end": 54.9,
+      "text": "That is kindness",
+      "words": [
+        {
+          "w": "That",
+          "start": 53.94,
+          "end": 54.46
+        },
+        {
+          "w": "is",
+          "start": 54.46,
+          "end": 54.7
+        },
+        {
+          "w": "kindness",
+          "start": 54.7,
+          "end": 55.33
+        }
+      ]
+    },
+    {
+      "start": 55.33,
+      "end": 57.15,
       "text": "It is not magic",
       "words": [
         {
           "w": "It",
-          "start": 53.94,
-          "end": 55.74
+          "start": 55.33,
+          "end": 55.77
         },
         {
           "w": "is",
-          "start": 55.74,
-          "end": 55.94
+          "start": 55.77,
+          "end": 55.97
         },
         {
           "w": "not",
-          "start": 55.94,
-          "end": 56.32
+          "start": 55.97,
+          "end": 56.35
         },
         {
           "w": "magic",
-          "start": 56.32,
-          "end": 57.16
+          "start": 56.35,
+          "end": 57.15
         }
       ]
     },
     {
-      "start": 57.94,
-      "end": 64.32,
+      "start": 57.15,
+      "end": 58.73,
+      "text": "It is not magic",
+      "words": [
+        {
+          "w": "It",
+          "start": 57.15,
+          "end": 57.55
+        },
+        {
+          "w": "is",
+          "start": 57.55,
+          "end": 57.75
+        },
+        {
+          "w": "not",
+          "start": 57.75,
+          "end": 58.05
+        },
+        {
+          "w": "magic",
+          "start": 58.05,
+          "end": 58.73
+        }
+      ]
+    },
+    {
+      "start": 58.73,
+      "end": 64.03,
       "text": "And it does not always feel easy",
       "words": [
         {
           "w": "And",
-          "start": 57.94,
-          "end": 59.12
+          "start": 58.73,
+          "end": 59.13
         },
         {
           "w": "it",
-          "start": 59.12,
-          "end": 59.4
+          "start": 59.13,
+          "end": 59.41
         },
         {
           "w": "does",
-          "start": 59.4,
-          "end": 59.86
+          "start": 59.41,
+          "end": 59.87
         },
         {
           "w": "not",
-          "start": 59.86,
-          "end": 60.42
+          "start": 59.87,
+          "end": 60.45
         },
         {
           "w": "always",
-          "start": 60.42,
-          "end": 61.34
+          "start": 60.45,
+          "end": 61.45
         },
         {
           "w": "feel",
-          "start": 61.34,
-          "end": 62.42
+          "start": 61.45,
+          "end": 62.41
         },
         {
           "w": "easy",
-          "start": 62.42,
-          "end": 64.32
+          "start": 62.41,
+          "end": 64.03
         }
       ]
     },
     {
-      "start": 64.32,
-      "end": 68.04,
+      "start": 64.03,
+      "end": 68.05,
       "text": "Sometimes kindness means sharing",
       "words": [
         {
           "w": "Sometimes",
-          "start": 64.32,
-          "end": 65.72
+          "start": 64.03,
+          "end": 65.71
         },
         {
           "w": "kindness",
-          "start": 65.72,
-          "end": 66.22
+          "start": 65.71,
+          "end": 66.25
         },
         {
           "w": "means",
-          "start": 66.22,
-          "end": 67.06
+          "start": 66.25,
+          "end": 67.05
         },
         {
           "w": "sharing",
-          "start": 67.06,
-          "end": 68.04
+          "start": 67.05,
+          "end": 68.05
         }
       ]
     },
     {
-      "start": 68.04,
-      "end": 71.2,
+      "start": 68.05,
+      "end": 71.13,
       "text": "Sometimes it means listening",
       "words": [
         {
           "w": "Sometimes",
-          "start": 68.04,
-          "end": 69.32
+          "start": 68.05,
+          "end": 69.31
         },
         {
           "w": "it",
-          "start": 69.32,
-          "end": 69.7
+          "start": 69.31,
+          "end": 69.71
         },
         {
           "w": "means",
-          "start": 69.7,
-          "end": 70.32
+          "start": 69.71,
+          "end": 70.29
         },
         {
           "w": "listening",
-          "start": 70.32,
-          "end": 71.2
+          "start": 70.29,
+          "end": 71.13
         }
       ]
     },
     {
-      "start": 71.2,
-      "end": 75.74,
-      "text": "Sometimes it means saying",
+      "start": 71.13,
+      "end": 72.77,
+      "text": "Sometimes",
       "words": [
         {
           "w": "Sometimes",
-          "start": 71.2,
-          "end": 72.88
-        },
+          "start": 71.13,
+          "end": 72.77
+        }
+      ]
+    },
+    {
+      "start": 73.33,
+      "end": 75.81,
+      "text": "It means saying",
+      "words": [
         {
-          "w": "it",
-          "start": 72.88,
-          "end": 73.94
+          "w": "It",
+          "start": 73.25,
+          "end": 73.95
         },
         {
           "w": "means",
-          "start": 73.94,
-          "end": 74.94
+          "start": 73.95,
+          "end": 74.87
         },
         {
           "w": "saying",
-          "start": 74.94,
-          "end": 75.74
+          "start": 74.87,
+          "end": 75.81
         }
       ]
     },
     {
-      "start": 76.94,
-      "end": 82.08,
-      "text": "I was wrong, or I forgive you",
+      "start": 77.33,
+      "end": 79.03,
+      "text": "I was wrong",
       "words": [
         {
           "w": "I",
-          "start": 76.94,
-          "end": 78.36
+          "start": 77.33,
+          "end": 78.37
         },
         {
           "w": "was",
-          "start": 78.36,
-          "end": 78.54
+          "start": 78.37,
+          "end": 78.55
         },
         {
-          "w": "wrong,",
-          "start": 78.54,
-          "end": 79.04
-        },
-        {
-          "w": "or",
-          "start": 79.26,
-          "end": 79.88
-        },
-        {
-          "w": "I",
-          "start": 79.88,
-          "end": 80.88
-        },
-        {
-          "w": "forgive",
-          "start": 80.88,
-          "end": 81.3
-        },
-        {
-          "w": "you",
-          "start": 81.3,
-          "end": 82.08
+          "w": "wrong",
+          "start": 78.55,
+          "end": 79.03
         }
       ]
     },
     {
-      "start": 82.08,
-      "end": 87.42,
+      "start": 79.03,
+      "end": 82.23,
+      "text": "Or I forgive you",
+      "words": [
+        {
+          "w": "Or",
+          "start": 79.03,
+          "end": 79.85
+        },
+        {
+          "w": "I",
+          "start": 79.85,
+          "end": 80.87
+        },
+        {
+          "w": "forgive",
+          "start": 80.87,
+          "end": 81.33
+        },
+        {
+          "w": "you",
+          "start": 81.33,
+          "end": 82.23
+        }
+      ]
+    },
+    {
+      "start": 82.23,
+      "end": 87.41,
       "text": "Kindness does not always win right away",
       "words": [
         {
           "w": "Kindness",
-          "start": 82.08,
-          "end": 83.18
+          "start": 82.23,
+          "end": 83.17
         },
         {
           "w": "does",
-          "start": 83.18,
-          "end": 83.4
+          "start": 83.17,
+          "end": 83.39
         },
         {
           "w": "not",
-          "start": 83.4,
-          "end": 83.82
+          "start": 83.39,
+          "end": 83.83
         },
         {
           "w": "always",
-          "start": 83.82,
-          "end": 84.64
+          "start": 83.83,
+          "end": 84.65
         },
         {
           "w": "win",
-          "start": 84.64,
-          "end": 85.24
+          "start": 84.65,
+          "end": 85.23
         },
         {
           "w": "right",
-          "start": 85.24,
-          "end": 86.06
+          "start": 85.23,
+          "end": 86.03
         },
         {
           "w": "away",
-          "start": 86.06,
-          "end": 87.42
+          "start": 86.03,
+          "end": 87.41
         }
       ]
     },
     {
-      "start": 88.08,
-      "end": 92.2,
+      "start": 88.23,
+      "end": 92.19,
       "text": "But without kindness, people drift apart",
       "words": [
         {
           "w": "But",
-          "start": 87.94,
-          "end": 88.64
+          "start": 87.93,
+          "end": 88.63
         },
         {
           "w": "without",
-          "start": 88.64,
-          "end": 89.12
+          "start": 88.63,
+          "end": 89.11
         },
         {
           "w": "kindness,",
-          "start": 89.12,
-          "end": 89.92
+          "start": 89.11,
+          "end": 89.89
         },
         {
           "w": "people",
-          "start": 90.26,
-          "end": 90.62
+          "start": 90.15,
+          "end": 90.63
         },
         {
           "w": "drift",
-          "start": 90.62,
-          "end": 91.22
+          "start": 90.63,
+          "end": 91.21
         },
         {
           "w": "apart",
-          "start": 91.22,
-          "end": 92.2
+          "start": 91.21,
+          "end": 92.19
         }
       ]
     },
     {
-      "start": 93.08,
-      "end": 98.9,
-      "text": "Friendships break, families fall apart",
+      "start": 94.23,
+      "end": 95.31,
+      "text": "Friendships break",
       "words": [
         {
           "w": "Friendships",
-          "start": 93.08,
-          "end": 94.72
+          "start": 94.03,
+          "end": 94.73
         },
         {
-          "w": "break,",
-          "start": 94.72,
-          "end": 95.32
-        },
-        {
-          "w": "families",
-          "start": 96.52,
-          "end": 97.08
-        },
-        {
-          "w": "fall",
-          "start": 97.08,
-          "end": 97.66
-        },
-        {
-          "w": "apart",
-          "start": 97.66,
-          "end": 98.9
+          "w": "break",
+          "start": 94.73,
+          "end": 95.31
         }
       ]
     },
     {
-      "start": 100.08,
-      "end": 104.8,
+      "start": 96.23,
+      "end": 99.19,
+      "text": "Families fall apart",
+      "words": [
+        {
+          "w": "Families",
+          "start": 96.23,
+          "end": 97.07
+        },
+        {
+          "w": "fall",
+          "start": 97.07,
+          "end": 97.65
+        },
+        {
+          "w": "apart",
+          "start": 97.65,
+          "end": 99.19
+        }
+      ]
+    },
+    {
+      "start": 100.23,
+      "end": 104.81,
       "text": "And the world becomes lonelier",
       "words": [
         {
           "w": "And",
-          "start": 99.54,
-          "end": 100.24
+          "start": 99.55,
+          "end": 100.25
         },
         {
           "w": "the",
-          "start": 100.24,
-          "end": 100.4
+          "start": 100.25,
+          "end": 100.39
         },
         {
           "w": "world",
-          "start": 100.4,
-          "end": 100.74
+          "start": 100.39,
+          "end": 100.77
         },
         {
           "w": "becomes",
-          "start": 100.74,
-          "end": 102.04
+          "start": 100.77,
+          "end": 102.23
         },
         {
           "w": "lonelier",
-          "start": 102.04,
-          "end": 104.8
+          "start": 102.23,
+          "end": 104.81
         }
       ]
     },
     {
-      "start": 106.08,
-      "end": 109.7,
+      "start": 106.23,
+      "end": 109.73,
       "text": "So people keep discovering kindness",
       "words": [
         {
           "w": "So",
-          "start": 106.02,
-          "end": 106.72
+          "start": 106.01,
+          "end": 106.71
         },
         {
           "w": "people",
-          "start": 106.72,
-          "end": 107.2
+          "start": 106.71,
+          "end": 107.19
         },
         {
           "w": "keep",
-          "start": 107.2,
-          "end": 107.82
+          "start": 107.19,
+          "end": 107.81
         },
         {
           "w": "discovering",
-          "start": 107.82,
-          "end": 108.86
+          "start": 107.81,
+          "end": 108.87
         },
         {
           "w": "kindness",
-          "start": 108.86,
-          "end": 109.7
+          "start": 108.87,
+          "end": 109.73
         }
       ]
     },
     {
-      "start": 109.7,
-      "end": 112.42,
+      "start": 109.73,
+      "end": 112.43,
       "text": "Again and again",
       "words": [
         {
           "w": "Again",
-          "start": 109.7,
-          "end": 110.92
+          "start": 109.73,
+          "end": 110.93
         },
         {
           "w": "and",
-          "start": 110.92,
-          "end": 111.84
+          "start": 110.93,
+          "end": 111.85
         },
         {
           "w": "again",
-          "start": 111.84,
-          "end": 112.42
+          "start": 111.85,
+          "end": 112.43
         }
       ]
     },
     {
-      "start": 112.42,
-      "end": 117.42,
+      "start": 112.43,
+      "end": 117.41,
       "text": "Because it helps us stay together",
       "words": [
         {
           "w": "Because",
-          "start": 112.42,
-          "end": 113.6
+          "start": 112.43,
+          "end": 113.61
         },
         {
           "w": "it",
-          "start": 113.6,
-          "end": 113.82
+          "start": 113.61,
+          "end": 113.81
         },
         {
           "w": "helps",
-          "start": 113.82,
-          "end": 114.18
+          "start": 113.81,
+          "end": 114.15
         },
         {
           "w": "us",
-          "start": 114.18,
-          "end": 115.14
+          "start": 114.15,
+          "end": 115.15
         },
         {
           "w": "stay",
-          "start": 115.14,
-          "end": 115.9
+          "start": 115.15,
+          "end": 115.85
         },
         {
           "w": "together",
-          "start": 115.9,
-          "end": 117.42
+          "start": 115.85,
+          "end": 117.41
         }
       ]
     },
     {
-      "start": 117.42,
-      "end": 120.74,
+      "start": 117.41,
+      "end": 120.71,
       "text": "We did not invent kindness",
       "words": [
         {
           "w": "We",
-          "start": 117.42,
-          "end": 118.94
+          "start": 117.41,
+          "end": 118.95
         },
         {
           "w": "did",
-          "start": 118.94,
-          "end": 119.16
+          "start": 118.95,
+          "end": 119.15
         },
         {
           "w": "not",
-          "start": 119.16,
-          "end": 119.54
+          "start": 119.15,
+          "end": 119.53
         },
         {
           "w": "invent",
-          "start": 119.54,
-          "end": 120.04
+          "start": 119.53,
+          "end": 120.01
         },
         {
           "w": "kindness",
-          "start": 120.04,
-          "end": 120.74
+          "start": 120.01,
+          "end": 120.71
         }
       ]
     },
     {
-      "start": 120.74,
-      "end": 124.3,
+      "start": 120.71,
+      "end": 124.25,
       "text": "We only gave a name",
       "words": [
         {
           "w": "We",
-          "start": 120.74,
-          "end": 122.1
+          "start": 120.71,
+          "end": 122.11
         },
         {
           "w": "only",
-          "start": 122.1,
-          "end": 122.42
+          "start": 122.11,
+          "end": 122.43
         },
         {
           "w": "gave",
-          "start": 122.42,
-          "end": 122.78
+          "start": 122.43,
+          "end": 122.79
         },
         {
           "w": "a",
-          "start": 122.78,
-          "end": 123.12
+          "start": 122.79,
+          "end": 123.11
         },
         {
           "w": "name",
-          "start": 123.12,
-          "end": 124.3
+          "start": 123.11,
+          "end": 124.25
         }
       ]
     },
     {
-      "start": 124.3,
-      "end": 128.46,
+      "start": 124.25,
+      "end": 128.45,
       "text": "To something beautiful",
       "words": [
         {
           "w": "To",
-          "start": 124.3,
-          "end": 126.38
+          "start": 124.25,
+          "end": 126.39
         },
         {
           "w": "something",
-          "start": 126.38,
-          "end": 127.14
+          "start": 126.39,
+          "end": 127.17
         },
         {
           "w": "beautiful",
-          "start": 127.14,
-          "end": 128.46
+          "start": 127.17,
+          "end": 128.45
         }
       ]
     },
     {
-      "start": 128.46,
-      "end": 133.04,
+      "start": 128.45,
+      "end": 133.03,
       "text": "That was always possible",
       "words": [
         {
           "w": "That",
-          "start": 128.46,
-          "end": 130.0
+          "start": 128.45,
+          "end": 129.99
         },
         {
           "w": "was",
-          "start": 130.0,
-          "end": 130.5
+          "start": 129.99,
+          "end": 130.51
         },
         {
           "w": "always",
-          "start": 130.5,
-          "end": 131.84
+          "start": 130.51,
+          "end": 131.85
         },
         {
           "w": "possible",
-          "start": 131.84,
-          "end": 133.04
+          "start": 131.85,
+          "end": 133.03
         }
       ]
     }
