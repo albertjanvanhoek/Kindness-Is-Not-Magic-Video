@@ -180,7 +180,7 @@ const plateLabel = document.createElement('div');
 plateLabel.id = 'plate-label';
 document.querySelector('#app')!.appendChild(plateLabel);
 
-const audio = new Audio('/kindness-is-not-magic.wav');
+const audio = new Audio('/kindness-is-not-magic.mp3');
 audio.preload = 'auto';
 
 const requestedTime = Number(new URLSearchParams(location.search).get('t') ?? '0');
