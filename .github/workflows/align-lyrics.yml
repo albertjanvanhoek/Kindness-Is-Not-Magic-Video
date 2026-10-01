@@ -2,6 +2,10 @@ name: align lyrics
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/align-lyrics.yml'
+      - 'analysis/align_whisper.py'
 
 permissions:
   contents: write
