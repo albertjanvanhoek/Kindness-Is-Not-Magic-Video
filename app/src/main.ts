@@ -53,6 +53,12 @@ const strongerLine = findLine('together they become stronger');
 const kindnessLine = findLine('That is kindness');
 const notMagicLine = findLine('It is not magic');
 const easyLine = findLine('does not always feel easy');
+const meansShareLine = findLine('Sometimes kindness means sharing');
+const listeningLine = findLine('Sometimes it means listening');
+const sayingLine = findLine('Sometimes it means saying');
+const wrongLine = findLine('I was wrong');
+const orLine = findLine('Or:');
+const forgiveLine = findLine('I forgive you');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -184,6 +190,13 @@ const loadSignal = makeCircle(14, SIGNAL);
 const strainEdge = makeLine(SIGNAL, 32);
 const engineeringAxis = makeLine(GRAPHITE, 8);
 
+// Explicit maintenance verbs
+const listenWave1 = makeLine(SIGNAL, 48);
+const listenWave2 = makeLine(GRAPHITE, 48);
+const repairLeft = makeLine(SIGNAL, 8);
+const repairRight = makeLine(SIGNAL, 8);
+const repairScar = makeLine(ASH, 8);
+
 const textLayer = document.createElement('div');
 textLayer.id = 'lyrics';
 document.querySelector('#app')!.appendChild(textLayer);
@@ -261,6 +274,10 @@ function updateText(t: number): void {
   else if (t >= trustLine.start && t < strongerLine.start) plateLabel.textContent = 'TRUST · edge capacity grows';
   else if (t >= strongerLine.start && t < kindnessLine.start) plateLabel.textContent = 'STRONGER · redundant paths carry load';
   else if (t >= notMagicLine.start && t < easyLine.end) plateLabel.textContent = 'NOT MAGIC · maintenance under load';
+  else if (t >= meansShareLine.start && t < listeningLine.start) plateLabel.textContent = 'SHARING · distribute without severing relation';
+  else if (t >= listeningLine.start && t < sayingLine.start) plateLabel.textContent = 'LISTENING · keep the channel open';
+  else if (t >= sayingLine.start && t < forgiveLine.start) plateLabel.textContent = 'CORRECTION · update the model';
+  else if (t >= forgiveLine.start && t < forgiveLine.end) plateLabel.textContent = 'FORGIVENESS · repair without erasing damage';
   else plateLabel.textContent = '';
 
   plateLabel.style.opacity = plateLabel.textContent ? '1' : '0';
@@ -278,10 +295,11 @@ function resetPlateObjects(): void {
     setOpacity(x, 0);
     x.scale.setScalar(1);
   });
-  [mainThread, ...backgroundLinks, ...networkExtraLinks, obstacle, route, shareRelation, comfortWave, regulationAxis, truthPath, truthCore, resistance, strainEdge, engineeringAxis]
+  [mainThread, ...backgroundLinks, ...networkExtraLinks, obstacle, route, shareRelation, comfortWave, regulationAxis, truthPath, truthCore, resistance, strainEdge, engineeringAxis, listenWave1, listenWave2, repairLeft, repairRight, repairScar]
     .forEach(hideLine);
   camera.zoom = 1;
   camera.position.set(0, 0, 5);
+  camera.rotation.z = 0;
   camera.updateProjectionMatrix();
 }
 
@@ -626,6 +644,119 @@ function renderNotEasy(t: number): void {
   annotation.textContent = 'maintenance under tension';
   annotation.style.opacity = '0.85';
 }
+function renderMeansSharing(t: number): void {
+  const sharing = meansShareLine.words.find((w) => w.w.toLowerCase() === 'sharing')!;
+  const p = wordProgress(sharing, t);
+
+  a.position.set(-430, 0, 0);
+  b.position.set(430, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  resource.position.set(0, 0, 0);
+  setOpacity(resource, 1 - p);
+  shareLeft.position.set(THREE.MathUtils.lerp(0, -260, p), 0, 0);
+  shareRight.position.set(THREE.MathUtils.lerp(0, 260, p), 0, 0);
+  setOpacity(shareLeft, p);
+  setOpacity(shareRight, p);
+  setLinePoints(shareRelation, [[-430,0],[430,0]], smoothstep(0.3,1,p));
+}
+
+function renderListening(t: number): void {
+  const listening = listeningLine.words.find((w) => w.w.toLowerCase() === 'listening')!;
+  const p = smoothstep(listeningLine.start, listening.end, t);
+
+  a.position.set(-430, 0, 0);
+  b.position.set(430, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  const wave = (phaseOffset: number, amp: number): Array<[number,number]> => {
+    const pts: Array<[number,number]> = [];
+    for (let i=0;i<40;i++) {
+      const q=i/39;
+      const x=THREE.MathUtils.lerp(b.position.x,a.position.x,q);
+      const envelope=Math.sin(Math.PI*q);
+      const y=Math.sin(t*10 + q*18 + phaseOffset)*amp*envelope*(1-0.55*p);
+      pts.push([x,y]);
+    }
+    return pts;
+  };
+  setLinePoints(listenWave2,wave(Math.PI,42),0.28);
+  setLinePoints(listenWave1,wave(0,70),0.9);
+
+  // Receiver stays still; the signal is allowed to arrive.
+  a.scale.setScalar(1 + nearestBeatPulse(t)*0.08*p);
+}
+
+function renderSaying(t: number): void {
+  a.position.set(-360, 0, 0);
+  b.position.set(360, 0, 0);
+  setOpacity(a, 0.7);
+  setOpacity(b, 0.7);
+  setLinePoints(mainThread,[[-360,0],[360,0]],0.38);
+  const saying = sayingLine.words.find((w) => w.w.toLowerCase() === 'saying')!;
+  const p = wordProgress(saying,t);
+  centerTitle.textContent='SAYING';
+  centerTitle.style.opacity=String(p*0.7);
+}
+
+function renderWrong(t: number): void {
+  const wrong = wrongLine.words.find((w) => w.w.toLowerCase() === 'wrong')!;
+  const p = wordProgress(wrong,t);
+
+  a.position.set(-420,-120,0);
+  b.position.set(420,120,0);
+  setOpacity(a,1);
+  setOpacity(b,1);
+
+  setLinePoints(engineeringAxis,[[-620,0],[620,0]],0.26);
+  setLinePoints(mainThread,[
+    [-420,-120],
+    [THREE.MathUtils.lerp(0,0,p), THREE.MathUtils.lerp(150,0,p)],
+    [420,120]
+  ],0.95);
+
+  camera.rotation.z = THREE.MathUtils.lerp(0.16,0,p);
+  camera.updateProjectionMatrix();
+
+  centerTitle.textContent='I WAS WRONG';
+  centerTitle.style.opacity=String(smoothstep(wrong.start-0.45,wrong.start+0.15,t) * (1-smoothstep(wrong.end-0.2,wrong.end+0.3,t)));
+  annotation.textContent='model updated';
+  annotation.style.opacity=String(p*0.9);
+}
+
+function renderOr(t: number): void {
+  a.position.set(-360,0,0);
+  b.position.set(360,0,0);
+  setOpacity(a,1);
+  setOpacity(b,1);
+  setLinePoints(repairLeft,[[-360,0],[-55,0]],0.8);
+  setLinePoints(repairRight,[[55,0],[360,0]],0.8);
+  setLinePoints(repairScar,[[-55,-14],[-55,14],[55,-14],[55,14]],0.6);
+}
+
+function renderForgive(t: number): void {
+  const forgive = forgiveLine.words.find((w) => w.w.toLowerCase() === 'forgive')!;
+  const p = wordProgress(forgive,t);
+
+  a.position.set(-360,0,0);
+  b.position.set(360,0,0);
+  setOpacity(a,1);
+  setOpacity(b,1);
+
+  const gap=THREE.MathUtils.lerp(70,8,p);
+  setLinePoints(repairLeft,[[-360,0],[-gap,0]],0.95);
+  setLinePoints(repairRight,[[gap,0],[360,0]],0.95);
+
+  // Scar remains even after reconnection.
+  setLinePoints(repairScar,[[-10,-18],[0,18],[10,-18]],0.55 + 0.25*p);
+
+  centerTitle.textContent='I FORGIVE YOU';
+  centerTitle.style.opacity=String(smoothstep(forgive.start-0.3,forgive.start+0.2,t) * (1-smoothstep(forgiveLine.end-0.25,forgiveLine.end+0.25,t)));
+  annotation.textContent='repair ≠ erasure';
+  annotation.style.opacity=String(0.5 + 0.4*p);
+}
 
 function renderAt(t: number): void {
   resetPlateObjects();
@@ -643,6 +774,12 @@ function renderAt(t: number): void {
   else if (t < notMagicLine.start) renderKindnessReveal(t);
   else if (t < easyLine.start) renderNotMagic(t);
   else if (t < easyLine.end + 0.05) renderNotEasy(t);
+  else if (t < listeningLine.start) renderMeansSharing(t);
+  else if (t < sayingLine.start) renderListening(t);
+  else if (t < wrongLine.start) renderSaying(t);
+  else if (t < orLine.start) renderWrong(t);
+  else if (t < forgiveLine.start) renderOr(t);
+  else if (t < forgiveLine.end + 0.05) renderForgive(t);
 
   renderer.render(scene, camera);
 }
