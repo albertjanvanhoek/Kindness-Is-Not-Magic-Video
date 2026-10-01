@@ -42,23 +42,23 @@ The conceptual treatment, renderer scaffold, and first-pass beat grid are in pla
 
 Next milestones:
 
-1. commit the source WAV as `audio/kindness-is-not-magic.wav`;
-2. align lyrics to the WAV at word level;
+1. add the distributable soundtrack as `audio/kindness-is-not-magic.mp3`;
+2. refine the provisional word alignment with forced alignment/QA;
 3. refine musical downbeats/sections and audio-energy data;
-4. connect audio playback to the renderer clock;
-5. implement the opening plate in exact musical time;
-6. expand plate by plate;
-7. render the final 1080p/4K video.
+4. continue expanding the visual plates;
+5. render the final 1080p/4K video.
 
 ## Audio
 
-Canonical source path:
+Canonical soundtrack path:
 
 ```
-audio/kindness-is-not-magic.wav
+audio/kindness-is-not-magic.mp3
 ```
 
-The working recording is 139.24 seconds, 48 kHz stereo. A first-pass beat grid is committed in `data/audio.json`.
+A lossless WAV can still be kept for analysis if desired. The MP3 and WAV versions were compared after decoding: both are 139.24 seconds, 48 kHz stereo, with zero detected timing offset and near-identical waveform timing, so the MP3 can replace the WAV for preview/final muxing without changing scene timings.
+
+A first-pass beat grid is committed in `data/audio.json`.
 
 ## Rights and licenses
 
