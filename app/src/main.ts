@@ -46,6 +46,13 @@ const helpLine = findLine('Whenever someone helps another person');
 const shareLine = findLine('shares their food');
 const comfortLine = findLine('comforts a friend');
 const truthLine = findLine('tells the truth');
+const specialLine = findLine('something special happens');
+const closerLine = findLine('People come closer');
+const trustLine = findLine('Trust grows');
+const strongerLine = findLine('together they become stronger');
+const kindnessLine = findLine('That is kindness');
+const notMagicLine = findLine('It is not magic');
+const easyLine = findLine('does not always feel easy');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -168,6 +175,15 @@ const truthCore = makeLine(SIGNAL, 8);
 const truthSignal = makeCircle(11, SIGNAL);
 const resistance = makeLine(GRAPHITE, 8);
 
+// Emergence / trust / strength sequence
+const networkExtraLinks = [
+  makeLine(GRAPHITE), makeLine(GRAPHITE), makeLine(GRAPHITE),
+  makeLine(GRAPHITE), makeLine(GRAPHITE), makeLine(GRAPHITE)
+];
+const loadSignal = makeCircle(14, SIGNAL);
+const strainEdge = makeLine(SIGNAL, 32);
+const engineeringAxis = makeLine(GRAPHITE, 8);
+
 const textLayer = document.createElement('div');
 textLayer.id = 'lyrics';
 document.querySelector('#app')!.appendChild(textLayer);
@@ -179,6 +195,10 @@ document.querySelector('#app')!.appendChild(annotation);
 const plateLabel = document.createElement('div');
 plateLabel.id = 'plate-label';
 document.querySelector('#app')!.appendChild(plateLabel);
+
+const centerTitle = document.createElement('div');
+centerTitle.id = 'center-title';
+document.querySelector('#app')!.appendChild(centerTitle);
 
 const audio = new Audio('/kindness-is-not-magic.mp3');
 audio.preload = 'auto';
@@ -236,13 +256,21 @@ function updateText(t: number): void {
   else if (t >= shareLine.start && t < comfortLine.start) plateLabel.textContent = 'SHARE · redistribution → relation';
   else if (t >= comfortLine.start && t < truthLine.start) plateLabel.textContent = 'COMFORT · co-regulation';
   else if (t >= truthLine.start && t < truthLine.end) plateLabel.textContent = 'TRUTH · preserve the channel';
+  else if (t >= specialLine.start && t < closerLine.start) plateLabel.textContent = 'PATTERN · different acts, same structure';
+  else if (t >= closerLine.start && t < trustLine.start) plateLabel.textContent = 'CLOSER · distance decreases';
+  else if (t >= trustLine.start && t < strongerLine.start) plateLabel.textContent = 'TRUST · edge capacity grows';
+  else if (t >= strongerLine.start && t < kindnessLine.start) plateLabel.textContent = 'STRONGER · redundant paths carry load';
+  else if (t >= notMagicLine.start && t < easyLine.end) plateLabel.textContent = 'NOT MAGIC · maintenance under load';
   else plateLabel.textContent = '';
 
   plateLabel.style.opacity = plateLabel.textContent ? '1' : '0';
+
+  centerTitle.textContent = '';
+  centerTitle.style.opacity = '0';
 }
 
 function resetPlateObjects(): void {
-  [a, b, helper, resource, shareLeft, shareRight, truthSignal].forEach((x) => {
+  [a, b, helper, resource, shareLeft, shareRight, truthSignal, loadSignal].forEach((x) => {
     setOpacity(x, 0);
     x.scale.setScalar(1);
   });
@@ -250,7 +278,7 @@ function resetPlateObjects(): void {
     setOpacity(x, 0);
     x.scale.setScalar(1);
   });
-  [mainThread, ...backgroundLinks, obstacle, route, shareRelation, comfortWave, regulationAxis, truthPath, truthCore, resistance]
+  [mainThread, ...backgroundLinks, ...networkExtraLinks, obstacle, route, shareRelation, comfortWave, regulationAxis, truthPath, truthCore, resistance, strainEdge, engineeringAxis]
     .forEach(hideLine);
   camera.zoom = 1;
   camera.position.set(0, 0, 5);
@@ -439,6 +467,165 @@ function renderTruth(t: number): void {
   // stronger channel appears underneath after the difficult signal has landed
   setLinePoints(truthCore, [[-520, 0], [520, 0]], straighten * 0.95);
 }
+function networkLayout(scale = 1): Array<THREE.Mesh> {
+  const nodes = [a, b, ...backgroundNodes];
+  const targets: Array<[number, number]> = [
+    [-420, 0], [420, 0],
+    [-300, 250], [-300, -250], [-90, 145],
+    [90, -145], [300, 250], [300, -250]
+  ];
+  nodes.forEach((node, i) => {
+    node.position.set(targets[i][0] * scale, targets[i][1] * scale, 0);
+    setOpacity(node, 1);
+  });
+  return nodes;
+}
+
+function drawNetwork(nodes: Array<THREE.Mesh>, opacity: number, redundancy: number): void {
+  const pairs: Array<[number, number]> = [
+    [0,2],[0,3],[0,4],[4,2],[4,5],[5,1],
+    [1,6],[1,7],[5,6],[3,5],[2,6],[3,7]
+  ];
+  const all = [...backgroundLinks, ...networkExtraLinks];
+  all.forEach((link, i) => {
+    const [u, v] = pairs[i];
+    const extra = i >= 6;
+    const op = opacity * (extra ? redundancy : 1);
+    setLinePoints(link, [
+      [nodes[u].position.x, nodes[u].position.y],
+      [nodes[v].position.x, nodes[v].position.y]
+    ], op);
+  });
+}
+
+function renderEmergence(t: number): void {
+  const nodes = networkLayout(1.18);
+  const p = smoothstep(specialLine.start, specialLine.end, t);
+
+  // Four pairs appear in different places, then become visually identical.
+  const pairLinks = [backgroundLinks[0], backgroundLinks[1], backgroundLinks[2], backgroundLinks[3]];
+  const pairIndices: Array<[number, number]> = [[0,2],[3,4],[5,1],[6,7]];
+  pairLinks.forEach((link, i) => {
+    const [u,v] = pairIndices[i];
+    const reveal = clamp01(p * 1.6 - i * 0.18);
+    setLinePoints(link, [
+      [nodes[u].position.x, nodes[u].position.y],
+      [nodes[v].position.x, nodes[v].position.y]
+    ], reveal);
+  });
+
+  // As "special happens" completes, differences collapse into one grammar.
+  const pulse = nearestBeatPulse(t);
+  nodes.forEach((n, i) => n.scale.setScalar(1 + pulse * (i % 2 ? 0.07 : 0.11) * p));
+  camera.zoom = THREE.MathUtils.lerp(0.86, 0.78, p);
+  camera.updateProjectionMatrix();
+}
+
+function renderCloser(t: number): void {
+  const closer = closerLine.words.find((w) => w.w.toLowerCase() === 'closer')!;
+  const p = wordProgress(closer, t);
+  const scale = THREE.MathUtils.lerp(1.18, 0.82, p);
+  const nodes = networkLayout(scale);
+  drawNetwork(nodes, 0.72, 0.0);
+  camera.zoom = THREE.MathUtils.lerp(0.78, 0.9, p);
+  camera.updateProjectionMatrix();
+}
+
+function renderTrust(t: number): void {
+  const grows = trustLine.words.find((w) => w.w.toLowerCase() === 'grows')!;
+  const p = wordProgress(grows, t);
+  const nodes = networkLayout(0.82);
+  drawNetwork(nodes, THREE.MathUtils.lerp(0.34, 0.95, p), p * 0.35);
+
+  // Capacity is represented by parallel nearby traces rather than glow.
+  backgroundLinks.slice(0, 4).forEach((link, i) => {
+    const from = nodes[[0,3,5,1][i]];
+    const to = nodes[[2,4,1,6][i]];
+    const off = 8 + p * 10;
+    setLinePoints(networkExtraLinks[i], [
+      [from.position.x, from.position.y + off],
+      [to.position.x, to.position.y + off]
+    ], p * 0.55);
+  });
+}
+
+function renderStronger(t: number): void {
+  const stronger = strongerLine.words.find((w) => w.w.toLowerCase() === 'stronger')!;
+  const p = smoothstep(strongerLine.start, stronger.end, t);
+  const nodes = networkLayout(0.82);
+  drawNetwork(nodes, 0.9, smoothstep(0.05, 0.7, p));
+
+  // A load enters the network; redundant routes remain available around it.
+  const q = smoothstep(strongerLine.words[1].start, stronger.end, t);
+  const path: Array<[number, number]> = [
+    [nodes[0].position.x, nodes[0].position.y],
+    [nodes[4].position.x, nodes[4].position.y],
+    [nodes[5].position.x, nodes[5].position.y],
+    [nodes[1].position.x, nodes[1].position.y]
+  ];
+  const seg = Math.min(path.length - 2, Math.floor(q * (path.length - 1)));
+  const local = q * (path.length - 1) - seg;
+  loadSignal.position.set(
+    THREE.MathUtils.lerp(path[seg][0], path[seg + 1][0], local),
+    THREE.MathUtils.lerp(path[seg][1], path[seg + 1][1], local),
+    0
+  );
+  setOpacity(loadSignal, smoothstep(0.03, 0.12, q) * (1 - smoothstep(0.94, 1, q)));
+  const beat = nearestBeatPulse(t);
+  loadSignal.scale.setScalar(1 + beat * 0.3);
+}
+
+function renderKindnessReveal(t: number): void {
+  const nodes = networkLayout(0.82);
+  drawNetwork(nodes, 0.9, 0.85);
+  const kindness = kindnessLine.words.find((w) => w.w.toLowerCase() === 'kindness')!;
+  const inP = smoothstep(kindness.start - 0.45, kindness.start + 0.2, t);
+  const outP = smoothstep(kindness.end - 0.35, kindness.end + 0.25, t);
+  centerTitle.textContent = 'KINDNESS';
+  centerTitle.style.opacity = String(inP * (1 - outP));
+}
+
+function renderNotMagic(t: number): void {
+  a.position.set(-430, 0, 0);
+  b.position.set(430, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  const notWord = notMagicLine.words.find((w) => w.w.toLowerCase() === 'not')!;
+  const magicWord = notMagicLine.words.find((w) => w.w.toLowerCase() === 'magic')!;
+  const demystify = smoothstep(notWord.start, magicWord.end, t);
+
+  setLinePoints(engineeringAxis, [[-650,0],[650,0]], 0.22);
+  setLinePoints(mainThread, [[-430,0],[430,0]], 0.92);
+
+  centerTitle.textContent = 'NOT MAGIC';
+  centerTitle.style.opacity = String(demystify * (1 - smoothstep(magicWord.end - 0.2, magicWord.end + 0.4, t)));
+
+  annotation.textContent = 'load · signal · repair · response';
+  annotation.style.opacity = String(demystify * 0.8);
+}
+
+function renderNotEasy(t: number): void {
+  a.position.set(-500, 0, 0);
+  b.position.set(500, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  const easy = easyLine.words.find((w) => w.w.toLowerCase() === 'easy')!;
+  const local = smoothstep(easyLine.start, easy.end, t);
+  const stress = Math.sin(local * Math.PI) * 210;
+  const pts: Array<[number, number]> = [];
+  for (let i = 0; i < 24; i++) {
+    const q = i / 23;
+    const y = Math.sin(q * Math.PI) * stress * (0.75 + 0.25 * Math.sin(t * 7 + q * 5));
+    pts.push([THREE.MathUtils.lerp(-500,500,q), y]);
+  }
+  setLinePoints(strainEdge, pts, 0.95);
+  setLinePoints(engineeringAxis, [[-650,0],[650,0]], 0.18);
+
+  annotation.textContent = 'maintenance under tension';
+  annotation.style.opacity = '0.85';
+}
 
 function renderAt(t: number): void {
   resetPlateObjects();
@@ -448,6 +635,13 @@ function renderAt(t: number): void {
   else if (t < comfortLine.start) renderShare(t);
   else if (t < truthLine.start) renderComfort(t);
   else if (t < truthLine.end + 0.05) renderTruth(t);
+  else if (t < closerLine.start) renderEmergence(t);
+  else if (t < trustLine.start) renderCloser(t);
+  else if (t < strongerLine.start) renderTrust(t);
+  else if (t < kindnessLine.start) renderStronger(t);
+  else if (t < notMagicLine.start) renderKindnessReveal(t);
+  else if (t < easyLine.start) renderNotMagic(t);
+  else if (t < easyLine.end + 0.05) renderNotEasy(t);
 
   updateText(t);
   renderer.render(scene, camera);
