@@ -2,7 +2,7 @@
 
 Canonical soundtrack file:
 
-`audio/kindness-is-not-magic.mp3`
+`audio/Kindness Is Not Magic 1.mp3`
 
 Optional lossless analysis source:
 
