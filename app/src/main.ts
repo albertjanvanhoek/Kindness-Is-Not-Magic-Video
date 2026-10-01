@@ -233,7 +233,7 @@ const centerTitle = document.createElement('div');
 centerTitle.id = 'center-title';
 document.querySelector('#app')!.appendChild(centerTitle);
 
-const audio = new Audio('/kindness-is-not-magic.mp3');
+const audio = new Audio('/Kindness Is Not Magic 1.mp3');
 audio.preload = 'auto';
 
 const query = new URLSearchParams(location.search);
