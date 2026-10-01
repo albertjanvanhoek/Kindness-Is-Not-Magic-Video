@@ -48,7 +48,7 @@ let res = spawnSync('ffmpeg', [
 ], { stdio: 'inherit' });
 if (res.status !== 0) process.exit(res.status ?? 1);
 
-const audio = path.resolve('../audio/kindness-is-not-magic.mp3');
+const audio = path.resolve('../audio/Kindness Is Not Magic 1.mp3');
 try {
   await fs.access(audio);
   const final = path.join(outDir, `${name}.mp4`);
