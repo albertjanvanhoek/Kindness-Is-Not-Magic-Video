@@ -287,12 +287,77 @@ function lineHTML(line: LineTiming, t: number): string {
 
 type KineticMode = 'help' | 'share' | 'comfort' | 'truth';
 
+type KineticLayout = {
+  rows: number[] | null;
+  maxSpread: number;
+  maxScale: number;
+  fontVW: number;
+  gapEm: number;
+};
+
+const kineticLayouts: Record<KineticMode, KineticLayout> = {
+  help: {
+    rows: [3],
+    maxSpread: 58,
+    maxScale: 1.32,
+    fontVW: 6.8,
+    gapEm: 0.22,
+  },
+  share: {
+    rows: null,
+    maxSpread: 62,
+    maxScale: 1.18,
+    fontVW: 7.2,
+    gapEm: 0.24,
+  },
+  comfort: {
+    rows: null,
+    maxSpread: 20,
+    maxScale: 1.14,
+    fontVW: 7.0,
+    gapEm: 0.22,
+  },
+  truth: {
+    rows: [4],
+    maxSpread: 42,
+    maxScale: 1.28,
+    fontVW: 5.5,
+    gapEm: 0.16,
+  },
+};
+
+function splitWordsIntoRows(words: WordTiming[], breaks: number[] | null): WordTiming[][] {
+  if (!breaks || breaks.length === 0) return [words];
+  const out: WordTiming[][] = [];
+  let start = 0;
+  for (const at of breaks) {
+    out.push(words.slice(start, at));
+    start = at;
+  }
+  out.push(words.slice(start));
+  return out.filter((row) => row.length > 0);
+}
+
+function getSafeBox() {
+  const padX = window.innerWidth * 0.09;
+  const padY = window.innerHeight * 0.11;
+  return {
+    left: padX,
+    right: window.innerWidth - padX,
+    top: padY,
+    bottom: window.innerHeight - padY,
+    width: window.innerWidth - 2 * padX,
+    height: window.innerHeight - 2 * padY,
+  };
+}
+
 function kineticWordStyle(
   line: LineTiming,
   word: WordTiming,
   index: number,
   t: number,
-  mode: KineticMode
+  mode: KineticMode,
+  layout: KineticLayout
 ): string {
   const p = wordProgress(word, t);
   const before = t < word.start;
@@ -307,55 +372,61 @@ function kineticWordStyle(
   let letter = 0;
   let z = 0;
 
+  const center = (line.words.length - 1) / 2;
+  const rel = index - center;
+
   if (mode === 'help') {
     const helpsIndex = line.words.findIndex((w) => w.w.toLowerCase() === 'helps');
     const anchor = index - helpsIndex;
-    x = anchor * 150;
-    y = Math.abs(anchor) * 28;
+    x = anchor * Math.min(layout.maxSpread, 58);
+    y = Math.abs(anchor) * 11;
+
     if (index === helpsIndex) {
-      scale = 1.15 + 0.9 * p;
-      y = -18 * p;
-      letter = 0.02 * p;
+      scale = Math.min(layout.maxScale, 1.08 + 0.24 * p);
+      y -= 13 * p;
+      letter = 0.012 * p;
     } else {
       const approach = smoothstep(word.start - 0.35, word.end, t);
-      x *= 1 - 0.24 * approach;
+      x *= 1 - 0.18 * approach;
     }
   }
 
   if (mode === 'share') {
-    const center = (line.words.length - 1) / 2;
-    const dir = index < center ? -1 : index > center ? 1 : 0;
+    const dir = rel < 0 ? -1 : rel > 0 ? 1 : 0;
     const spread = active || after ? 1 : 0;
-    x = dir * 210 * spread;
-    y = dir === 0 ? -20 * p : 30 * Math.sin((index + 1) * 1.7);
-    scale = index === 0 ? 1.15 + 0.35 * p : 1 + 0.16 * p;
-    letter = 0.045 * p;
+    x = dir * layout.maxSpread * spread;
+    y = dir === 0 ? -12 * p : 8 * Math.sin((index + 1) * 1.7);
+    scale = index === 0
+      ? Math.min(layout.maxScale, 1.06 + 0.11 * p)
+      : Math.min(layout.maxScale, 1 + 0.05 * p);
+    letter = 0.014 * p;
   }
 
   if (mode === 'comfort') {
     const settle = smoothstep(line.start, line.end, t);
-    const jitter = (1 - settle) * 16;
+    const jitter = (1 - settle) * layout.maxSpread;
     x = Math.sin(t * 18 + index * 2.3) * jitter;
-    y = Math.cos(t * 15 + index * 1.9) * jitter * 0.65;
-    rot = Math.sin(t * 13 + index) * 5 * (1 - settle);
-    scale = 1 + (index === 0 ? 0.18 : 0.08) * p;
-    letter = 0.03 * settle;
+    y = Math.cos(t * 15 + index * 1.9) * jitter * 0.62;
+    rot = Math.sin(t * 13 + index) * 3.2 * (1 - settle);
+    scale = Math.min(layout.maxScale, 1 + (index === 0 ? 0.10 : 0.05) * p);
+    letter = 0.014 * settle;
   }
 
   if (mode === 'truth') {
     const key = word.w.toLowerCase();
     const local = smoothstep(line.start, line.end, t);
-    x = (index - (line.words.length - 1) / 2) * 92;
-    y = Math.sin(index * 0.9) * 30 * (1 - local);
-    rot = THREE.MathUtils.lerp(index % 2 ? -8 : 8, 0, local);
-    z = THREE.MathUtils.lerp(-160 + index * 35, 0, local);
+    x = rel * layout.maxSpread;
+    y = Math.sin(index * 0.9) * 10 * (1 - local);
+    rot = THREE.MathUtils.lerp(index % 2 ? -5 : 5, 0, local);
+    z = THREE.MathUtils.lerp(-70 + index * 10, 0, local);
+
     if (key === 'truth') {
-      scale = 1.2 + 1.05 * p;
-      y -= 52 * p;
+      scale = Math.min(layout.maxScale, 1.08 + 0.20 * p);
+      y -= 18 * p;
     }
     if (key === 'hard') {
-      scale = 1 + 0.42 * p;
-      rot = THREE.MathUtils.lerp(18, 0, p);
+      scale = Math.min(layout.maxScale, 1.04 + 0.14 * p);
+      rot = THREE.MathUtils.lerp(10, 0, p);
     }
   }
 
@@ -371,31 +442,82 @@ function kineticWordStyle(
   ].join(';');
 }
 
+function fitKineticContentToSafeArea(content: HTMLElement): void {
+  const words = Array.from(content.querySelectorAll<HTMLElement>('.kinetic-word'));
+  if (words.length === 0) return;
+
+  let left = Infinity;
+  let right = -Infinity;
+  let top = Infinity;
+  let bottom = -Infinity;
+
+  for (const word of words) {
+    const r = word.getBoundingClientRect();
+    left = Math.min(left, r.left);
+    right = Math.max(right, r.right);
+    top = Math.min(top, r.top);
+    bottom = Math.max(bottom, r.bottom);
+  }
+
+  const width = Math.max(1, right - left);
+  const height = Math.max(1, bottom - top);
+  const safe = getSafeBox();
+
+  const fitScale = Math.min(1, safe.width / width, safe.height / height);
+  const cx = (left + right) / 2;
+  const cy = (top + bottom) / 2;
+  const safeCx = safe.left + safe.width / 2;
+  const safeCy = safe.top + safe.height / 2;
+
+  const dx = (safeCx - cx) / Math.max(0.001, fitScale);
+  const dy = (safeCy - cy) / Math.max(0.001, fitScale);
+
+  content.style.transform = `translate(${dx}px, ${dy}px) scale(${fitScale})`;
+}
+
 function renderKineticTypography(line: LineTiming, t: number, mode: KineticMode): void {
   textLayer.innerHTML = '';
   plateLabel.textContent = '';
   annotation.textContent = '';
   annotation.style.opacity = '0';
 
+  const layout = kineticLayouts[mode];
   const progress = smoothstep(line.start - 0.2, line.end + 0.2, t);
+  const rows = splitWordsIntoRows(line.words, layout.rows);
+
   kineticLayer.className = `kinetic mode-${mode}`;
-  kineticLayer.style.opacity = String(smoothstep(line.start - 0.18, line.start + 0.05, t) * (1 - smoothstep(line.end + 0.15, line.end + 0.45, t)));
+  kineticLayer.style.opacity = String(
+    smoothstep(line.start - 0.18, line.start + 0.05, t) *
+    (1 - smoothstep(line.end + 0.15, line.end + 0.45, t))
+  );
+  kineticLayer.style.setProperty('--kinetic-font-vw', `${layout.fontVW}vw`);
+  kineticLayer.style.setProperty('--kinetic-gap-em', `${layout.gapEm}em`);
 
-  kineticLayer.innerHTML = line.words.map((word, i) => {
-    const style = kineticWordStyle(line, word, i, t, mode);
-    return `<span class="kinetic-word" style="${style}">${word.w}</span>`;
-  }).join(' ');
+  const rowHTML = rows.map((row) => {
+    const wordsHTML = row.map((word) => {
+      const globalIndex = line.words.indexOf(word);
+      const style = kineticWordStyle(line, word, globalIndex, t, mode, layout);
+      return `<span class="kinetic-word" style="${style}">${word.w}</span>`;
+    }).join('');
+    return `<div class="kinetic-row">${wordsHTML}</div>`;
+  }).join('');
 
-  // whole-line projection changes subtly through the phrase
+  kineticLayer.innerHTML = `<div class="kinetic-content">${rowHTML}</div>`;
+
   const tilt =
-    mode === 'truth' ? THREE.MathUtils.lerp(-8, 0, progress) :
-    mode === 'comfort' ? Math.sin(t * 1.8) * 1.2 * (1 - progress) :
+    mode === 'truth' ? THREE.MathUtils.lerp(-6, 0, progress) :
+    mode === 'comfort' ? Math.sin(t * 1.8) * 0.9 * (1 - progress) :
     0;
+
   const depth =
-    mode === 'help' ? THREE.MathUtils.lerp(0.94, 1.04, progress) :
-    mode === 'share' ? THREE.MathUtils.lerp(0.9, 1.06, progress) :
+    mode === 'help' ? THREE.MathUtils.lerp(0.97, 1.02, progress) :
+    mode === 'share' ? THREE.MathUtils.lerp(0.96, 1.03, progress) :
     1;
+
   kineticLayer.style.transform = `perspective(900px) rotateX(${tilt}deg) scale(${depth})`;
+
+  const content = kineticLayer.querySelector<HTMLElement>('.kinetic-content');
+  if (content) fitKineticContentToSafeArea(content);
 }
 
 function activeLyric(t: number): LineTiming | null {
