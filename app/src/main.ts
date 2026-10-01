@@ -629,6 +629,7 @@ function renderNotEasy(t: number): void {
 
 function renderAt(t: number): void {
   resetPlateObjects();
+  updateText(t);
 
   if (t < helpLine.start) renderOpening(t);
   else if (t < shareLine.start) renderHelp(t);
@@ -643,7 +644,6 @@ function renderAt(t: number): void {
   else if (t < easyLine.start) renderNotMagic(t);
   else if (t < easyLine.end + 0.05) renderNotEasy(t);
 
-  updateText(t);
   renderer.render(scene, camera);
 }
 
