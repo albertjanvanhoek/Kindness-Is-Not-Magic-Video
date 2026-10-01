@@ -1,45 +1,2020 @@
 {
   "source": "lyrics/lyrics.txt",
-  "audio": "audio/kindness-is-not-magic.wav",
+  "audio": "audio/Kindness Is Not Magic 1.mp3",
   "alignment": {
-    "status": "provisional",
-    "method": "Known-text duration allocation with phrase boundaries snapped toward local low-energy minima in the source mix; word durations apportioned within each line. Replace with forced alignment when a speech/CTC model is available.",
-    "suitableFor": "scene prototyping and lyric-anchor timing",
-    "notSuitableFor": "final per-phoneme or karaoke-grade synchronization"
+    "status": "machine-aligned-needs-QA",
+    "method": "faster-whisper small.en word timestamps + monotonic dynamic-programming match to known lyrics",
+    "language": "en",
+    "matchedWords": 133,
+    "totalWords": 133,
+    "matchFraction": 1.0,
+    "duration": 139.24,
+    "note": "Review stretched sung words and repeated phrases before final export."
   },
   "lines": [
-    {"text":"Nobody invented kindness.","start":0.9,"end":3.91,"words":[{"w":"Nobody","start":0.9,"end":1.741},{"w":"invented","start":1.791,"end":2.825},{"w":"kindness","start":2.875,"end":3.91}]},
-    {"text":"People gave it a name.","start":3.91,"end":9.25,"words":[{"w":"People","start":3.91,"end":5.505},{"w":"gave","start":5.555,"end":6.746},{"w":"it","start":6.796,"end":7.52},{"w":"a","start":7.57,"end":8.009},{"w":"name","start":8.059,"end":9.25}]},
-    {"text":"But kindness was already there.","start":9.25,"end":13.44,"words":[{"w":"But","start":9.25,"end":9.796},{"w":"kindness","start":9.846,"end":10.952},{"w":"was","start":11.002,"end":11.547},{"w":"already","start":11.597,"end":12.602},{"w":"there","start":12.652,"end":13.44}]},
-    {"text":"Whenever someone helps another person,","start":13.44,"end":20.26,"words":[{"w":"Whenever","start":13.44,"end":14.964},{"w":"someone","start":15.014,"end":16.399},{"w":"helps","start":16.449,"end":17.536},{"w":"another","start":17.586,"end":18.971},{"w":"person","start":19.021,"end":20.26}]},
-    {"text":"shares their food,","start":20.26,"end":21.43,"words":[{"w":"shares","start":20.26,"end":20.668},{"w":"their","start":20.718,"end":21.075},{"w":"food","start":21.125,"end":21.43}]},
-    {"text":"comforts a friend,","start":21.43,"end":26.57,"words":[{"w":"comforts","start":21.43,"end":23.905},{"w":"a","start":23.955,"end":24.508},{"w":"friend","start":24.558,"end":26.57}]},
-    {"text":"or tells the truth even when it is hard,","start":26.57,"end":34.13,"words":[{"w":"or","start":26.57,"end":27.115},{"w":"tells","start":27.165,"end":28.218},{"w":"the","start":28.268,"end":28.997},{"w":"truth","start":29.047,"end":30.1},{"w":"even","start":30.15,"end":31.047},{"w":"when","start":31.097,"end":31.994},{"w":"it","start":32.044,"end":32.589},{"w":"is","start":32.639,"end":33.183},{"w":"hard","start":33.233,"end":34.13}]},
-    {"text":"something special happens.","start":34.13,"end":37.26,"words":[{"w":"something","start":34.13,"end":35.265},{"w":"special","start":35.315,"end":36.263},{"w":"happens","start":36.313,"end":37.26}]},
-    {"text":"People come closer.","start":37.26,"end":39.21,"words":[{"w":"People","start":37.26,"end":37.934},{"w":"come","start":37.984,"end":38.486},{"w":"closer","start":38.536,"end":39.21}]},
-    {"text":"Trust grows.","start":39.21,"end":42.77,"words":[{"w":"Trust","start":39.21,"end":40.965},{"w":"grows","start":41.015,"end":42.77}]},
-    {"text":"And together they become stronger.","start":42.77,"end":47.87,"words":[{"w":"And","start":42.77,"end":43.388},{"w":"together","start":43.438,"end":44.69},{"w":"they","start":44.74,"end":45.5},{"w":"become","start":45.55,"end":46.568},{"w":"stronger","start":46.618,"end":47.87}]},
-    {"text":"That is kindness.","start":47.87,"end":51.04,"words":[{"w":"That","start":47.87,"end":48.813},{"w":"is","start":48.863,"end":49.436},{"w":"kindness","start":49.486,"end":51.04}]},
-    {"text":"It is not magic.","start":51.04,"end":54.77,"words":[{"w":"It","start":51.04,"end":51.719},{"w":"is","start":51.769,"end":52.448},{"w":"not","start":52.498,"end":53.407},{"w":"magic","start":53.457,"end":54.77}]},
-    {"text":"And it does not always feel easy.","start":54.77,"end":61.95,"words":[{"w":"And","start":54.77,"end":55.621},{"w":"it","start":55.671,"end":56.307},{"w":"does","start":56.357,"end":57.403},{"w":"not","start":57.453,"end":58.304},{"w":"always","start":58.354,"end":59.756},{"w":"feel","start":59.806,"end":60.853},{"w":"easy","start":60.903,"end":61.95}]},
-    {"text":"Sometimes kindness means sharing.","start":61.95,"end":65.88,"words":[{"w":"Sometimes","start":61.95,"end":63.059},{"w":"kindness","start":63.109,"end":64.128},{"w":"means","start":64.178,"end":64.904},{"w":"sharing","start":64.954,"end":65.88}]},
-    {"text":"Sometimes it means listening.","start":65.88,"end":69.71,"words":[{"w":"Sometimes","start":65.88,"end":67.109},{"w":"it","start":67.159,"end":67.576},{"w":"means","start":67.626,"end":68.431},{"w":"listening","start":68.481,"end":69.71}]},
-    {"text":"Sometimes it means saying:","start":69.71,"end":74.03,"words":[{"w":"Sometimes","start":69.71,"end":71.232},{"w":"it","start":71.282,"end":71.797},{"w":"means","start":71.847,"end":72.844},{"w":"saying","start":72.894,"end":74.03}]},
-    {"text":"\"I was wrong.\"","start":74.03,"end":77.9,"words":[{"w":"I","start":74.03,"end":74.62},{"w":"was","start":74.67,"end":75.971},{"w":"wrong","start":76.021,"end":77.9}]},
-    {"text":"Or:","start":77.9,"end":79.4,"words":[{"w":"Or","start":77.9,"end":79.4}]},
-    {"text":"\"I forgive you.\"","start":79.4,"end":82.19,"words":[{"w":"I","start":79.4,"end":79.77},{"w":"forgive","start":79.82,"end":81.323},{"w":"you","start":81.373,"end":82.19}]},
-    {"text":"Kindness does not always win right away.","start":82.19,"end":89.22,"words":[{"w":"Kindness","start":82.19,"end":83.614},{"w":"does","start":83.664,"end":84.528},{"w":"not","start":84.578,"end":85.281},{"w":"always","start":85.331,"end":86.488},{"w":"win","start":86.538,"end":87.241},{"w":"right","start":87.291,"end":88.306},{"w":"away","start":88.356,"end":89.22}]},
-    {"text":"But without kindness,","start":89.22,"end":91.6,"words":[{"w":"But","start":89.22,"end":89.688},{"w":"without","start":89.738,"end":90.601},{"w":"kindness","start":90.651,"end":91.6}]},
-    {"text":"people drift apart.","start":91.6,"end":94.87,"words":[{"w":"people","start":91.6,"end":92.751},{"w":"drift","start":92.801,"end":93.811},{"w":"apart","start":93.861,"end":94.87}]},
-    {"text":"Friendships break.","start":94.87,"end":97.91,"words":[{"w":"Friendships","start":94.87,"end":96.778},{"w":"break","start":96.828,"end":97.91}]},
-    {"text":"Families fall apart.","start":97.91,"end":101.06,"words":[{"w":"Families","start":97.91,"end":99.225},{"w":"fall","start":99.275,"end":100.073},{"w":"apart","start":100.123,"end":101.06}]},
-    {"text":"And the world becomes lonelier.","start":101.06,"end":105.53,"words":[{"w":"And","start":101.06,"end":101.644},{"w":"the","start":101.694,"end":102.278},{"w":"world","start":102.328,"end":103.172},{"w":"becomes","start":103.222,"end":104.297},{"w":"lonelier","start":104.347,"end":105.53}]},
-    {"text":"So people keep discovering kindness,","start":105.53,"end":110.24,"words":[{"w":"So","start":105.53,"end":105.941},{"w":"people","start":105.991,"end":106.897},{"w":"keep","start":106.947,"end":107.624},{"w":"discovering","start":107.674,"end":109.075},{"w":"kindness","start":109.125,"end":110.24}]},
-    {"text":"again and again,","start":110.24,"end":113.84,"words":[{"w":"again","start":110.24,"end":111.54},{"w":"and","start":111.59,"end":112.49},{"w":"again","start":112.54,"end":113.84}]},
-    {"text":"because it helps us stay together.","start":113.84,"end":120.1,"words":[{"w":"because","start":113.84,"end":115.217},{"w":"it","start":115.267,"end":115.825},{"w":"helps","start":115.875,"end":116.956},{"w":"us","start":117.006,"end":117.564},{"w":"stay","start":117.614,"end":118.534},{"w":"together","start":118.584,"end":120.1}]},
-    {"text":"We did not invent kindness.","start":120.1,"end":124.84,"words":[{"w":"We","start":120.1,"end":120.628},{"w":"did","start":120.678,"end":121.385},{"w":"not","start":121.435,"end":122.142},{"w":"invent","start":122.192,"end":123.357},{"w":"kindness","start":123.407,"end":124.84}]},
-    {"text":"We only gave a name","start":124.84,"end":130.17,"words":[{"w":"We","start":124.84,"end":125.623},{"w":"only","start":125.673,"end":126.964},{"w":"gave","start":127.014,"end":128.304},{"w":"a","start":128.354,"end":128.83},{"w":"name","start":128.88,"end":130.17}]},
-    {"text":"to something beautiful","start":130.17,"end":132.91,"words":[{"w":"to","start":130.17,"end":130.552},{"w":"something","start":130.602,"end":131.731},{"w":"beautiful","start":131.781,"end":132.91}]},
-    {"text":"that was always possible.","start":132.91,"end":137.2,"words":[{"w":"that","start":132.91,"end":133.773},{"w":"was","start":133.823,"end":134.524},{"w":"always","start":134.574,"end":135.729},{"w":"possible","start":135.779,"end":137.2}]}
+    {
+      "text": "Nobody invented kindness.",
+      "start": 12.46,
+      "end": 16.22,
+      "words": [
+        {
+          "w": "Nobody",
+          "start": 12.46,
+          "end": 13.86,
+          "matched": true,
+          "heard": "Nobody"
+        },
+        {
+          "w": "invented",
+          "start": 13.86,
+          "end": 15.26,
+          "matched": true,
+          "heard": "invented"
+        },
+        {
+          "w": "kindness",
+          "start": 15.26,
+          "end": 16.22,
+          "matched": true,
+          "heard": "kindness,"
+        }
+      ]
+    },
+    {
+      "text": "People gave it a name.",
+      "start": 16.72,
+      "end": 19.44,
+      "words": [
+        {
+          "w": "People",
+          "start": 16.72,
+          "end": 17.82,
+          "matched": true,
+          "heard": "people"
+        },
+        {
+          "w": "gave",
+          "start": 17.82,
+          "end": 18.14,
+          "matched": true,
+          "heard": "gave"
+        },
+        {
+          "w": "it",
+          "start": 18.14,
+          "end": 18.36,
+          "matched": true,
+          "heard": "it"
+        },
+        {
+          "w": "a",
+          "start": 18.36,
+          "end": 18.56,
+          "matched": true,
+          "heard": "a"
+        },
+        {
+          "w": "name",
+          "start": 18.56,
+          "end": 19.44,
+          "matched": true,
+          "heard": "name"
+        }
+      ]
+    },
+    {
+      "text": "But kindness was already there.",
+      "start": 21.0,
+      "end": 25.9,
+      "words": [
+        {
+          "w": "But",
+          "start": 21.0,
+          "end": 21.7,
+          "matched": true,
+          "heard": "But"
+        },
+        {
+          "w": "kindness",
+          "start": 21.7,
+          "end": 22.42,
+          "matched": true,
+          "heard": "kindness"
+        },
+        {
+          "w": "was",
+          "start": 22.42,
+          "end": 23.44,
+          "matched": true,
+          "heard": "was"
+        },
+        {
+          "w": "already",
+          "start": 23.44,
+          "end": 24.36,
+          "matched": true,
+          "heard": "already"
+        },
+        {
+          "w": "there",
+          "start": 24.36,
+          "end": 25.9,
+          "matched": true,
+          "heard": "there"
+        }
+      ]
+    },
+    {
+      "text": "Whenever someone helps another person,",
+      "start": 26.9,
+      "end": 30.3,
+      "words": [
+        {
+          "w": "Whenever",
+          "start": 26.9,
+          "end": 27.84,
+          "matched": true,
+          "heard": "Whenever"
+        },
+        {
+          "w": "someone",
+          "start": 27.84,
+          "end": 28.58,
+          "matched": true,
+          "heard": "someone"
+        },
+        {
+          "w": "helps",
+          "start": 28.58,
+          "end": 29.1,
+          "matched": true,
+          "heard": "helps"
+        },
+        {
+          "w": "another",
+          "start": 29.1,
+          "end": 29.62,
+          "matched": true,
+          "heard": "another"
+        },
+        {
+          "w": "person",
+          "start": 29.62,
+          "end": 30.3,
+          "matched": true,
+          "heard": "person,"
+        }
+      ]
+    },
+    {
+      "text": "shares their food,",
+      "start": 30.58,
+      "end": 31.82,
+      "words": [
+        {
+          "w": "shares",
+          "start": 30.58,
+          "end": 30.84,
+          "matched": true,
+          "heard": "shares"
+        },
+        {
+          "w": "their",
+          "start": 30.84,
+          "end": 31.22,
+          "matched": true,
+          "heard": "their"
+        },
+        {
+          "w": "food",
+          "start": 31.22,
+          "end": 31.82,
+          "matched": true,
+          "heard": "food"
+        }
+      ]
+    },
+    {
+      "text": "comforts a friend,",
+      "start": 31.82,
+      "end": 33.18,
+      "words": [
+        {
+          "w": "comforts",
+          "start": 31.82,
+          "end": 32.54,
+          "matched": true,
+          "heard": "Comforts"
+        },
+        {
+          "w": "a",
+          "start": 32.54,
+          "end": 32.78,
+          "matched": true,
+          "heard": "a"
+        },
+        {
+          "w": "friend",
+          "start": 32.78,
+          "end": 33.18,
+          "matched": true,
+          "heard": "friend,"
+        }
+      ]
+    },
+    {
+      "text": "or tells the truth even when it is hard,",
+      "start": 33.36,
+      "end": 38.46,
+      "words": [
+        {
+          "w": "or",
+          "start": 33.36,
+          "end": 34.08,
+          "matched": true,
+          "heard": "or"
+        },
+        {
+          "w": "tells",
+          "start": 34.08,
+          "end": 34.32,
+          "matched": true,
+          "heard": "tells"
+        },
+        {
+          "w": "the",
+          "start": 34.32,
+          "end": 34.56,
+          "matched": true,
+          "heard": "the"
+        },
+        {
+          "w": "truth",
+          "start": 34.56,
+          "end": 35.04,
+          "matched": true,
+          "heard": "truth"
+        },
+        {
+          "w": "even",
+          "start": 35.04,
+          "end": 35.74,
+          "matched": true,
+          "heard": "Even"
+        },
+        {
+          "w": "when",
+          "start": 35.74,
+          "end": 36.5,
+          "matched": true,
+          "heard": "when"
+        },
+        {
+          "w": "it",
+          "start": 36.5,
+          "end": 36.9,
+          "matched": true,
+          "heard": "it"
+        },
+        {
+          "w": "is",
+          "start": 36.9,
+          "end": 37.18,
+          "matched": true,
+          "heard": "is"
+        },
+        {
+          "w": "hard",
+          "start": 37.18,
+          "end": 38.46,
+          "matched": true,
+          "heard": "hard"
+        }
+      ]
+    },
+    {
+      "text": "something special happens.",
+      "start": 38.46,
+      "end": 41.66,
+      "words": [
+        {
+          "w": "something",
+          "start": 38.46,
+          "end": 39.96,
+          "matched": true,
+          "heard": "Something"
+        },
+        {
+          "w": "special",
+          "start": 39.96,
+          "end": 40.46,
+          "matched": true,
+          "heard": "special"
+        },
+        {
+          "w": "happens",
+          "start": 40.46,
+          "end": 41.66,
+          "matched": true,
+          "heard": "happens,"
+        }
+      ]
+    },
+    {
+      "text": "People come closer.",
+      "start": 42.82,
+      "end": 44.62,
+      "words": [
+        {
+          "w": "People",
+          "start": 42.82,
+          "end": 43.16,
+          "matched": true,
+          "heard": "people"
+        },
+        {
+          "w": "come",
+          "start": 43.16,
+          "end": 43.8,
+          "matched": true,
+          "heard": "come"
+        },
+        {
+          "w": "closer",
+          "start": 43.8,
+          "end": 44.62,
+          "matched": true,
+          "heard": "closer"
+        }
+      ]
+    },
+    {
+      "text": "Trust grows.",
+      "start": 44.62,
+      "end": 45.94,
+      "words": [
+        {
+          "w": "Trust",
+          "start": 44.62,
+          "end": 45.3,
+          "matched": true,
+          "heard": "Trust"
+        },
+        {
+          "w": "grows",
+          "start": 45.3,
+          "end": 45.94,
+          "matched": true,
+          "heard": "grows,"
+        }
+      ]
+    },
+    {
+      "text": "And together they become stronger.",
+      "start": 46.72,
+      "end": 50.82,
+      "words": [
+        {
+          "w": "And",
+          "start": 46.72,
+          "end": 46.92,
+          "matched": true,
+          "heard": "and"
+        },
+        {
+          "w": "together",
+          "start": 46.92,
+          "end": 47.52,
+          "matched": true,
+          "heard": "together"
+        },
+        {
+          "w": "they",
+          "start": 47.52,
+          "end": 49.08,
+          "matched": true,
+          "heard": "they"
+        },
+        {
+          "w": "become",
+          "start": 49.08,
+          "end": 49.72,
+          "matched": true,
+          "heard": "become"
+        },
+        {
+          "w": "stronger",
+          "start": 49.72,
+          "end": 50.82,
+          "matched": true,
+          "heard": "stronger"
+        }
+      ]
+    },
+    {
+      "text": "That is kindness.",
+      "start": 51.9,
+      "end": 53.94,
+      "words": [
+        {
+          "w": "That",
+          "start": 51.9,
+          "end": 52.84,
+          "matched": true,
+          "heard": "That"
+        },
+        {
+          "w": "is",
+          "start": 52.84,
+          "end": 53.14,
+          "matched": true,
+          "heard": "is"
+        },
+        {
+          "w": "kindness",
+          "start": 53.14,
+          "end": 53.94,
+          "matched": true,
+          "heard": "kindness"
+        }
+      ]
+    },
+    {
+      "text": "It is not magic.",
+      "start": 53.94,
+      "end": 57.16,
+      "words": [
+        {
+          "w": "It",
+          "start": 53.94,
+          "end": 55.74,
+          "matched": true,
+          "heard": "It"
+        },
+        {
+          "w": "is",
+          "start": 55.74,
+          "end": 55.94,
+          "matched": true,
+          "heard": "is"
+        },
+        {
+          "w": "not",
+          "start": 55.94,
+          "end": 56.32,
+          "matched": true,
+          "heard": "not"
+        },
+        {
+          "w": "magic",
+          "start": 56.32,
+          "end": 57.16,
+          "matched": true,
+          "heard": "magic"
+        }
+      ]
+    },
+    {
+      "text": "And it does not always feel easy.",
+      "start": 57.94,
+      "end": 64.32,
+      "words": [
+        {
+          "w": "And",
+          "start": 57.94,
+          "end": 59.12,
+          "matched": true,
+          "heard": "And"
+        },
+        {
+          "w": "it",
+          "start": 59.12,
+          "end": 59.4,
+          "matched": true,
+          "heard": "it"
+        },
+        {
+          "w": "does",
+          "start": 59.4,
+          "end": 59.86,
+          "matched": true,
+          "heard": "does"
+        },
+        {
+          "w": "not",
+          "start": 59.86,
+          "end": 60.42,
+          "matched": true,
+          "heard": "not"
+        },
+        {
+          "w": "always",
+          "start": 60.42,
+          "end": 61.34,
+          "matched": true,
+          "heard": "always"
+        },
+        {
+          "w": "feel",
+          "start": 61.34,
+          "end": 62.42,
+          "matched": true,
+          "heard": "feel"
+        },
+        {
+          "w": "easy",
+          "start": 62.42,
+          "end": 64.32,
+          "matched": true,
+          "heard": "easy"
+        }
+      ]
+    },
+    {
+      "text": "Sometimes kindness means sharing.",
+      "start": 64.32,
+      "end": 68.04,
+      "words": [
+        {
+          "w": "Sometimes",
+          "start": 64.32,
+          "end": 65.72,
+          "matched": true,
+          "heard": "Sometimes"
+        },
+        {
+          "w": "kindness",
+          "start": 65.72,
+          "end": 66.22,
+          "matched": true,
+          "heard": "kindness"
+        },
+        {
+          "w": "means",
+          "start": 66.22,
+          "end": 67.06,
+          "matched": true,
+          "heard": "means"
+        },
+        {
+          "w": "sharing",
+          "start": 67.06,
+          "end": 68.04,
+          "matched": true,
+          "heard": "sharing"
+        }
+      ]
+    },
+    {
+      "text": "Sometimes it means listening.",
+      "start": 68.04,
+      "end": 71.2,
+      "words": [
+        {
+          "w": "Sometimes",
+          "start": 68.04,
+          "end": 69.32,
+          "matched": true,
+          "heard": "Sometimes"
+        },
+        {
+          "w": "it",
+          "start": 69.32,
+          "end": 69.7,
+          "matched": true,
+          "heard": "it"
+        },
+        {
+          "w": "means",
+          "start": 69.7,
+          "end": 70.32,
+          "matched": true,
+          "heard": "means"
+        },
+        {
+          "w": "listening",
+          "start": 70.32,
+          "end": 71.2,
+          "matched": true,
+          "heard": "listening"
+        }
+      ]
+    },
+    {
+      "text": "Sometimes it means saying:",
+      "start": 71.2,
+      "end": 75.74,
+      "words": [
+        {
+          "w": "Sometimes",
+          "start": 71.2,
+          "end": 72.88,
+          "matched": true,
+          "heard": "Sometimes"
+        },
+        {
+          "w": "it",
+          "start": 72.88,
+          "end": 73.94,
+          "matched": true,
+          "heard": "it"
+        },
+        {
+          "w": "means",
+          "start": 73.94,
+          "end": 74.94,
+          "matched": true,
+          "heard": "means"
+        },
+        {
+          "w": "saying",
+          "start": 74.94,
+          "end": 75.74,
+          "matched": true,
+          "heard": "saying"
+        }
+      ]
+    },
+    {
+      "text": "\"I was wrong.\"",
+      "start": 76.94,
+      "end": 79.04,
+      "words": [
+        {
+          "w": "I",
+          "start": 76.94,
+          "end": 78.36,
+          "matched": true,
+          "heard": "I"
+        },
+        {
+          "w": "was",
+          "start": 78.36,
+          "end": 78.54,
+          "matched": true,
+          "heard": "was"
+        },
+        {
+          "w": "wrong",
+          "start": 78.54,
+          "end": 79.04,
+          "matched": true,
+          "heard": "wrong,"
+        }
+      ]
+    },
+    {
+      "text": "Or:",
+      "start": 79.26,
+      "end": 79.88,
+      "words": [
+        {
+          "w": "Or",
+          "start": 79.26,
+          "end": 79.88,
+          "matched": true,
+          "heard": "or"
+        }
+      ]
+    },
+    {
+      "text": "\"I forgive you.\"",
+      "start": 79.88,
+      "end": 82.08,
+      "words": [
+        {
+          "w": "I",
+          "start": 79.88,
+          "end": 80.88,
+          "matched": true,
+          "heard": "I"
+        },
+        {
+          "w": "forgive",
+          "start": 80.88,
+          "end": 81.3,
+          "matched": true,
+          "heard": "forgive"
+        },
+        {
+          "w": "you",
+          "start": 81.3,
+          "end": 82.08,
+          "matched": true,
+          "heard": "you"
+        }
+      ]
+    },
+    {
+      "text": "Kindness does not always win right away.",
+      "start": 82.08,
+      "end": 87.42,
+      "words": [
+        {
+          "w": "Kindness",
+          "start": 82.08,
+          "end": 83.18,
+          "matched": true,
+          "heard": "Kindness"
+        },
+        {
+          "w": "does",
+          "start": 83.18,
+          "end": 83.4,
+          "matched": true,
+          "heard": "does"
+        },
+        {
+          "w": "not",
+          "start": 83.4,
+          "end": 83.82,
+          "matched": true,
+          "heard": "not"
+        },
+        {
+          "w": "always",
+          "start": 83.82,
+          "end": 84.64,
+          "matched": true,
+          "heard": "always"
+        },
+        {
+          "w": "win",
+          "start": 84.64,
+          "end": 85.24,
+          "matched": true,
+          "heard": "win"
+        },
+        {
+          "w": "right",
+          "start": 85.24,
+          "end": 86.06,
+          "matched": true,
+          "heard": "right"
+        },
+        {
+          "w": "away",
+          "start": 86.06,
+          "end": 87.42,
+          "matched": true,
+          "heard": "away"
+        }
+      ]
+    },
+    {
+      "text": "But without kindness,",
+      "start": 87.94,
+      "end": 89.92,
+      "words": [
+        {
+          "w": "But",
+          "start": 87.94,
+          "end": 88.64,
+          "matched": true,
+          "heard": "But"
+        },
+        {
+          "w": "without",
+          "start": 88.64,
+          "end": 89.12,
+          "matched": true,
+          "heard": "without"
+        },
+        {
+          "w": "kindness",
+          "start": 89.12,
+          "end": 89.92,
+          "matched": true,
+          "heard": "kindness,"
+        }
+      ]
+    },
+    {
+      "text": "people drift apart.",
+      "start": 90.26,
+      "end": 92.2,
+      "words": [
+        {
+          "w": "people",
+          "start": 90.26,
+          "end": 90.62,
+          "matched": true,
+          "heard": "people"
+        },
+        {
+          "w": "drift",
+          "start": 90.62,
+          "end": 91.22,
+          "matched": true,
+          "heard": "drift"
+        },
+        {
+          "w": "apart",
+          "start": 91.22,
+          "end": 92.2,
+          "matched": true,
+          "heard": "apart"
+        }
+      ]
+    },
+    {
+      "text": "Friendships break.",
+      "start": 93.08,
+      "end": 95.32,
+      "words": [
+        {
+          "w": "Friendships",
+          "start": 93.08,
+          "end": 94.72,
+          "matched": true,
+          "heard": "Friendships"
+        },
+        {
+          "w": "break",
+          "start": 94.72,
+          "end": 95.32,
+          "matched": true,
+          "heard": "break,"
+        }
+      ]
+    },
+    {
+      "text": "Families fall apart.",
+      "start": 96.52,
+      "end": 98.9,
+      "words": [
+        {
+          "w": "Families",
+          "start": 96.52,
+          "end": 97.08,
+          "matched": true,
+          "heard": "families"
+        },
+        {
+          "w": "fall",
+          "start": 97.08,
+          "end": 97.66,
+          "matched": true,
+          "heard": "fall"
+        },
+        {
+          "w": "apart",
+          "start": 97.66,
+          "end": 98.9,
+          "matched": true,
+          "heard": "apart"
+        }
+      ]
+    },
+    {
+      "text": "And the world becomes lonelier.",
+      "start": 99.54,
+      "end": 104.8,
+      "words": [
+        {
+          "w": "And",
+          "start": 99.54,
+          "end": 100.24,
+          "matched": true,
+          "heard": "And"
+        },
+        {
+          "w": "the",
+          "start": 100.24,
+          "end": 100.4,
+          "matched": true,
+          "heard": "the"
+        },
+        {
+          "w": "world",
+          "start": 100.4,
+          "end": 100.74,
+          "matched": true,
+          "heard": "world"
+        },
+        {
+          "w": "becomes",
+          "start": 100.74,
+          "end": 102.04,
+          "matched": true,
+          "heard": "becomes"
+        },
+        {
+          "w": "lonelier",
+          "start": 102.04,
+          "end": 104.8,
+          "matched": true,
+          "heard": "lonelier"
+        }
+      ]
+    },
+    {
+      "text": "So people keep discovering kindness,",
+      "start": 106.02,
+      "end": 109.7,
+      "words": [
+        {
+          "w": "So",
+          "start": 106.02,
+          "end": 106.72,
+          "matched": true,
+          "heard": "So"
+        },
+        {
+          "w": "people",
+          "start": 106.72,
+          "end": 107.2,
+          "matched": true,
+          "heard": "people"
+        },
+        {
+          "w": "keep",
+          "start": 107.2,
+          "end": 107.82,
+          "matched": true,
+          "heard": "keep"
+        },
+        {
+          "w": "discovering",
+          "start": 107.82,
+          "end": 108.86,
+          "matched": true,
+          "heard": "discovering"
+        },
+        {
+          "w": "kindness",
+          "start": 108.86,
+          "end": 109.7,
+          "matched": true,
+          "heard": "kindness"
+        }
+      ]
+    },
+    {
+      "text": "again and again,",
+      "start": 109.7,
+      "end": 112.42,
+      "words": [
+        {
+          "w": "again",
+          "start": 109.7,
+          "end": 110.92,
+          "matched": true,
+          "heard": "Again"
+        },
+        {
+          "w": "and",
+          "start": 110.92,
+          "end": 111.84,
+          "matched": true,
+          "heard": "and"
+        },
+        {
+          "w": "again",
+          "start": 111.84,
+          "end": 112.42,
+          "matched": true,
+          "heard": "again"
+        }
+      ]
+    },
+    {
+      "text": "because it helps us stay together.",
+      "start": 112.42,
+      "end": 117.42,
+      "words": [
+        {
+          "w": "because",
+          "start": 112.42,
+          "end": 113.6,
+          "matched": true,
+          "heard": "Because"
+        },
+        {
+          "w": "it",
+          "start": 113.6,
+          "end": 113.82,
+          "matched": true,
+          "heard": "it"
+        },
+        {
+          "w": "helps",
+          "start": 113.82,
+          "end": 114.18,
+          "matched": true,
+          "heard": "helps"
+        },
+        {
+          "w": "us",
+          "start": 114.18,
+          "end": 115.14,
+          "matched": true,
+          "heard": "us"
+        },
+        {
+          "w": "stay",
+          "start": 115.14,
+          "end": 115.9,
+          "matched": true,
+          "heard": "stay"
+        },
+        {
+          "w": "together",
+          "start": 115.9,
+          "end": 117.42,
+          "matched": true,
+          "heard": "together"
+        }
+      ]
+    },
+    {
+      "text": "We did not invent kindness.",
+      "start": 117.42,
+      "end": 120.74,
+      "words": [
+        {
+          "w": "We",
+          "start": 117.42,
+          "end": 118.94,
+          "matched": true,
+          "heard": "We"
+        },
+        {
+          "w": "did",
+          "start": 118.94,
+          "end": 119.16,
+          "matched": true,
+          "heard": "did"
+        },
+        {
+          "w": "not",
+          "start": 119.16,
+          "end": 119.54,
+          "matched": true,
+          "heard": "not"
+        },
+        {
+          "w": "invent",
+          "start": 119.54,
+          "end": 120.04,
+          "matched": true,
+          "heard": "invent"
+        },
+        {
+          "w": "kindness",
+          "start": 120.04,
+          "end": 120.74,
+          "matched": true,
+          "heard": "kindness"
+        }
+      ]
+    },
+    {
+      "text": "We only gave a name",
+      "start": 120.74,
+      "end": 124.3,
+      "words": [
+        {
+          "w": "We",
+          "start": 120.74,
+          "end": 122.1,
+          "matched": true,
+          "heard": "We"
+        },
+        {
+          "w": "only",
+          "start": 122.1,
+          "end": 122.42,
+          "matched": true,
+          "heard": "only"
+        },
+        {
+          "w": "gave",
+          "start": 122.42,
+          "end": 122.78,
+          "matched": true,
+          "heard": "gave"
+        },
+        {
+          "w": "a",
+          "start": 122.78,
+          "end": 123.12,
+          "matched": true,
+          "heard": "a"
+        },
+        {
+          "w": "name",
+          "start": 123.12,
+          "end": 124.3,
+          "matched": true,
+          "heard": "name"
+        }
+      ]
+    },
+    {
+      "text": "to something beautiful",
+      "start": 124.3,
+      "end": 128.46,
+      "words": [
+        {
+          "w": "to",
+          "start": 124.3,
+          "end": 126.38,
+          "matched": true,
+          "heard": "To"
+        },
+        {
+          "w": "something",
+          "start": 126.38,
+          "end": 127.14,
+          "matched": true,
+          "heard": "something"
+        },
+        {
+          "w": "beautiful",
+          "start": 127.14,
+          "end": 128.46,
+          "matched": true,
+          "heard": "beautiful"
+        }
+      ]
+    },
+    {
+      "text": "that was always possible.",
+      "start": 128.46,
+      "end": 133.04,
+      "words": [
+        {
+          "w": "that",
+          "start": 128.46,
+          "end": 130.0,
+          "matched": true,
+          "heard": "That"
+        },
+        {
+          "w": "was",
+          "start": 130.0,
+          "end": 130.5,
+          "matched": true,
+          "heard": "was"
+        },
+        {
+          "w": "always",
+          "start": 130.5,
+          "end": 131.84,
+          "matched": true,
+          "heard": "always"
+        },
+        {
+          "w": "possible",
+          "start": 131.84,
+          "end": 133.04,
+          "matched": true,
+          "heard": "possible"
+        }
+      ]
+    }
+  ],
+  "transcriptSegments": [
+    {
+      "start": 12.46,
+      "end": 19.44,
+      "text": "Nobody invented kindness, people gave it a name",
+      "words": [
+        {
+          "w": "Nobody",
+          "start": 12.46,
+          "end": 13.86
+        },
+        {
+          "w": "invented",
+          "start": 13.86,
+          "end": 15.26
+        },
+        {
+          "w": "kindness,",
+          "start": 15.26,
+          "end": 16.22
+        },
+        {
+          "w": "people",
+          "start": 16.72,
+          "end": 17.82
+        },
+        {
+          "w": "gave",
+          "start": 17.82,
+          "end": 18.14
+        },
+        {
+          "w": "it",
+          "start": 18.14,
+          "end": 18.36
+        },
+        {
+          "w": "a",
+          "start": 18.36,
+          "end": 18.56
+        },
+        {
+          "w": "name",
+          "start": 18.56,
+          "end": 19.44
+        }
+      ]
+    },
+    {
+      "start": 21.0,
+      "end": 25.9,
+      "text": "But kindness was already there",
+      "words": [
+        {
+          "w": "But",
+          "start": 21.0,
+          "end": 21.7
+        },
+        {
+          "w": "kindness",
+          "start": 21.7,
+          "end": 22.42
+        },
+        {
+          "w": "was",
+          "start": 22.42,
+          "end": 23.44
+        },
+        {
+          "w": "already",
+          "start": 23.44,
+          "end": 24.36
+        },
+        {
+          "w": "there",
+          "start": 24.36,
+          "end": 25.9
+        }
+      ]
+    },
+    {
+      "start": 26.9,
+      "end": 31.82,
+      "text": "Whenever someone helps another person, shares their food",
+      "words": [
+        {
+          "w": "Whenever",
+          "start": 26.9,
+          "end": 27.84
+        },
+        {
+          "w": "someone",
+          "start": 27.84,
+          "end": 28.58
+        },
+        {
+          "w": "helps",
+          "start": 28.58,
+          "end": 29.1
+        },
+        {
+          "w": "another",
+          "start": 29.1,
+          "end": 29.62
+        },
+        {
+          "w": "person,",
+          "start": 29.62,
+          "end": 30.3
+        },
+        {
+          "w": "shares",
+          "start": 30.58,
+          "end": 30.84
+        },
+        {
+          "w": "their",
+          "start": 30.84,
+          "end": 31.22
+        },
+        {
+          "w": "food",
+          "start": 31.22,
+          "end": 31.82
+        }
+      ]
+    },
+    {
+      "start": 31.82,
+      "end": 35.04,
+      "text": "Comforts a friend, or tells the truth",
+      "words": [
+        {
+          "w": "Comforts",
+          "start": 31.82,
+          "end": 32.54
+        },
+        {
+          "w": "a",
+          "start": 32.54,
+          "end": 32.78
+        },
+        {
+          "w": "friend,",
+          "start": 32.78,
+          "end": 33.18
+        },
+        {
+          "w": "or",
+          "start": 33.36,
+          "end": 34.08
+        },
+        {
+          "w": "tells",
+          "start": 34.08,
+          "end": 34.32
+        },
+        {
+          "w": "the",
+          "start": 34.32,
+          "end": 34.56
+        },
+        {
+          "w": "truth",
+          "start": 34.56,
+          "end": 35.04
+        }
+      ]
+    },
+    {
+      "start": 35.04,
+      "end": 38.46,
+      "text": "Even when it is hard",
+      "words": [
+        {
+          "w": "Even",
+          "start": 35.04,
+          "end": 35.74
+        },
+        {
+          "w": "when",
+          "start": 35.74,
+          "end": 36.5
+        },
+        {
+          "w": "it",
+          "start": 36.5,
+          "end": 36.9
+        },
+        {
+          "w": "is",
+          "start": 36.9,
+          "end": 37.18
+        },
+        {
+          "w": "hard",
+          "start": 37.18,
+          "end": 38.46
+        }
+      ]
+    },
+    {
+      "start": 38.46,
+      "end": 44.62,
+      "text": "Something special happens, people come closer",
+      "words": [
+        {
+          "w": "Something",
+          "start": 38.46,
+          "end": 39.96
+        },
+        {
+          "w": "special",
+          "start": 39.96,
+          "end": 40.46
+        },
+        {
+          "w": "happens,",
+          "start": 40.46,
+          "end": 41.66
+        },
+        {
+          "w": "people",
+          "start": 42.82,
+          "end": 43.16
+        },
+        {
+          "w": "come",
+          "start": 43.16,
+          "end": 43.8
+        },
+        {
+          "w": "closer",
+          "start": 43.8,
+          "end": 44.62
+        }
+      ]
+    },
+    {
+      "start": 44.62,
+      "end": 50.82,
+      "text": "Trust grows, and together they become stronger",
+      "words": [
+        {
+          "w": "Trust",
+          "start": 44.62,
+          "end": 45.3
+        },
+        {
+          "w": "grows,",
+          "start": 45.3,
+          "end": 45.94
+        },
+        {
+          "w": "and",
+          "start": 46.72,
+          "end": 46.92
+        },
+        {
+          "w": "together",
+          "start": 46.92,
+          "end": 47.52
+        },
+        {
+          "w": "they",
+          "start": 47.52,
+          "end": 49.08
+        },
+        {
+          "w": "become",
+          "start": 49.08,
+          "end": 49.72
+        },
+        {
+          "w": "stronger",
+          "start": 49.72,
+          "end": 50.82
+        }
+      ]
+    },
+    {
+      "start": 51.9,
+      "end": 53.94,
+      "text": "That is kindness",
+      "words": [
+        {
+          "w": "That",
+          "start": 51.9,
+          "end": 52.84
+        },
+        {
+          "w": "is",
+          "start": 52.84,
+          "end": 53.14
+        },
+        {
+          "w": "kindness",
+          "start": 53.14,
+          "end": 53.94
+        }
+      ]
+    },
+    {
+      "start": 53.94,
+      "end": 57.16,
+      "text": "It is not magic",
+      "words": [
+        {
+          "w": "It",
+          "start": 53.94,
+          "end": 55.74
+        },
+        {
+          "w": "is",
+          "start": 55.74,
+          "end": 55.94
+        },
+        {
+          "w": "not",
+          "start": 55.94,
+          "end": 56.32
+        },
+        {
+          "w": "magic",
+          "start": 56.32,
+          "end": 57.16
+        }
+      ]
+    },
+    {
+      "start": 57.94,
+      "end": 64.32,
+      "text": "And it does not always feel easy",
+      "words": [
+        {
+          "w": "And",
+          "start": 57.94,
+          "end": 59.12
+        },
+        {
+          "w": "it",
+          "start": 59.12,
+          "end": 59.4
+        },
+        {
+          "w": "does",
+          "start": 59.4,
+          "end": 59.86
+        },
+        {
+          "w": "not",
+          "start": 59.86,
+          "end": 60.42
+        },
+        {
+          "w": "always",
+          "start": 60.42,
+          "end": 61.34
+        },
+        {
+          "w": "feel",
+          "start": 61.34,
+          "end": 62.42
+        },
+        {
+          "w": "easy",
+          "start": 62.42,
+          "end": 64.32
+        }
+      ]
+    },
+    {
+      "start": 64.32,
+      "end": 68.04,
+      "text": "Sometimes kindness means sharing",
+      "words": [
+        {
+          "w": "Sometimes",
+          "start": 64.32,
+          "end": 65.72
+        },
+        {
+          "w": "kindness",
+          "start": 65.72,
+          "end": 66.22
+        },
+        {
+          "w": "means",
+          "start": 66.22,
+          "end": 67.06
+        },
+        {
+          "w": "sharing",
+          "start": 67.06,
+          "end": 68.04
+        }
+      ]
+    },
+    {
+      "start": 68.04,
+      "end": 71.2,
+      "text": "Sometimes it means listening",
+      "words": [
+        {
+          "w": "Sometimes",
+          "start": 68.04,
+          "end": 69.32
+        },
+        {
+          "w": "it",
+          "start": 69.32,
+          "end": 69.7
+        },
+        {
+          "w": "means",
+          "start": 69.7,
+          "end": 70.32
+        },
+        {
+          "w": "listening",
+          "start": 70.32,
+          "end": 71.2
+        }
+      ]
+    },
+    {
+      "start": 71.2,
+      "end": 75.74,
+      "text": "Sometimes it means saying",
+      "words": [
+        {
+          "w": "Sometimes",
+          "start": 71.2,
+          "end": 72.88
+        },
+        {
+          "w": "it",
+          "start": 72.88,
+          "end": 73.94
+        },
+        {
+          "w": "means",
+          "start": 73.94,
+          "end": 74.94
+        },
+        {
+          "w": "saying",
+          "start": 74.94,
+          "end": 75.74
+        }
+      ]
+    },
+    {
+      "start": 76.94,
+      "end": 82.08,
+      "text": "I was wrong, or I forgive you",
+      "words": [
+        {
+          "w": "I",
+          "start": 76.94,
+          "end": 78.36
+        },
+        {
+          "w": "was",
+          "start": 78.36,
+          "end": 78.54
+        },
+        {
+          "w": "wrong,",
+          "start": 78.54,
+          "end": 79.04
+        },
+        {
+          "w": "or",
+          "start": 79.26,
+          "end": 79.88
+        },
+        {
+          "w": "I",
+          "start": 79.88,
+          "end": 80.88
+        },
+        {
+          "w": "forgive",
+          "start": 80.88,
+          "end": 81.3
+        },
+        {
+          "w": "you",
+          "start": 81.3,
+          "end": 82.08
+        }
+      ]
+    },
+    {
+      "start": 82.08,
+      "end": 87.42,
+      "text": "Kindness does not always win right away",
+      "words": [
+        {
+          "w": "Kindness",
+          "start": 82.08,
+          "end": 83.18
+        },
+        {
+          "w": "does",
+          "start": 83.18,
+          "end": 83.4
+        },
+        {
+          "w": "not",
+          "start": 83.4,
+          "end": 83.82
+        },
+        {
+          "w": "always",
+          "start": 83.82,
+          "end": 84.64
+        },
+        {
+          "w": "win",
+          "start": 84.64,
+          "end": 85.24
+        },
+        {
+          "w": "right",
+          "start": 85.24,
+          "end": 86.06
+        },
+        {
+          "w": "away",
+          "start": 86.06,
+          "end": 87.42
+        }
+      ]
+    },
+    {
+      "start": 88.08,
+      "end": 92.2,
+      "text": "But without kindness, people drift apart",
+      "words": [
+        {
+          "w": "But",
+          "start": 87.94,
+          "end": 88.64
+        },
+        {
+          "w": "without",
+          "start": 88.64,
+          "end": 89.12
+        },
+        {
+          "w": "kindness,",
+          "start": 89.12,
+          "end": 89.92
+        },
+        {
+          "w": "people",
+          "start": 90.26,
+          "end": 90.62
+        },
+        {
+          "w": "drift",
+          "start": 90.62,
+          "end": 91.22
+        },
+        {
+          "w": "apart",
+          "start": 91.22,
+          "end": 92.2
+        }
+      ]
+    },
+    {
+      "start": 93.08,
+      "end": 98.9,
+      "text": "Friendships break, families fall apart",
+      "words": [
+        {
+          "w": "Friendships",
+          "start": 93.08,
+          "end": 94.72
+        },
+        {
+          "w": "break,",
+          "start": 94.72,
+          "end": 95.32
+        },
+        {
+          "w": "families",
+          "start": 96.52,
+          "end": 97.08
+        },
+        {
+          "w": "fall",
+          "start": 97.08,
+          "end": 97.66
+        },
+        {
+          "w": "apart",
+          "start": 97.66,
+          "end": 98.9
+        }
+      ]
+    },
+    {
+      "start": 100.08,
+      "end": 104.8,
+      "text": "And the world becomes lonelier",
+      "words": [
+        {
+          "w": "And",
+          "start": 99.54,
+          "end": 100.24
+        },
+        {
+          "w": "the",
+          "start": 100.24,
+          "end": 100.4
+        },
+        {
+          "w": "world",
+          "start": 100.4,
+          "end": 100.74
+        },
+        {
+          "w": "becomes",
+          "start": 100.74,
+          "end": 102.04
+        },
+        {
+          "w": "lonelier",
+          "start": 102.04,
+          "end": 104.8
+        }
+      ]
+    },
+    {
+      "start": 106.08,
+      "end": 109.7,
+      "text": "So people keep discovering kindness",
+      "words": [
+        {
+          "w": "So",
+          "start": 106.02,
+          "end": 106.72
+        },
+        {
+          "w": "people",
+          "start": 106.72,
+          "end": 107.2
+        },
+        {
+          "w": "keep",
+          "start": 107.2,
+          "end": 107.82
+        },
+        {
+          "w": "discovering",
+          "start": 107.82,
+          "end": 108.86
+        },
+        {
+          "w": "kindness",
+          "start": 108.86,
+          "end": 109.7
+        }
+      ]
+    },
+    {
+      "start": 109.7,
+      "end": 112.42,
+      "text": "Again and again",
+      "words": [
+        {
+          "w": "Again",
+          "start": 109.7,
+          "end": 110.92
+        },
+        {
+          "w": "and",
+          "start": 110.92,
+          "end": 111.84
+        },
+        {
+          "w": "again",
+          "start": 111.84,
+          "end": 112.42
+        }
+      ]
+    },
+    {
+      "start": 112.42,
+      "end": 117.42,
+      "text": "Because it helps us stay together",
+      "words": [
+        {
+          "w": "Because",
+          "start": 112.42,
+          "end": 113.6
+        },
+        {
+          "w": "it",
+          "start": 113.6,
+          "end": 113.82
+        },
+        {
+          "w": "helps",
+          "start": 113.82,
+          "end": 114.18
+        },
+        {
+          "w": "us",
+          "start": 114.18,
+          "end": 115.14
+        },
+        {
+          "w": "stay",
+          "start": 115.14,
+          "end": 115.9
+        },
+        {
+          "w": "together",
+          "start": 115.9,
+          "end": 117.42
+        }
+      ]
+    },
+    {
+      "start": 117.42,
+      "end": 120.74,
+      "text": "We did not invent kindness",
+      "words": [
+        {
+          "w": "We",
+          "start": 117.42,
+          "end": 118.94
+        },
+        {
+          "w": "did",
+          "start": 118.94,
+          "end": 119.16
+        },
+        {
+          "w": "not",
+          "start": 119.16,
+          "end": 119.54
+        },
+        {
+          "w": "invent",
+          "start": 119.54,
+          "end": 120.04
+        },
+        {
+          "w": "kindness",
+          "start": 120.04,
+          "end": 120.74
+        }
+      ]
+    },
+    {
+      "start": 120.74,
+      "end": 124.3,
+      "text": "We only gave a name",
+      "words": [
+        {
+          "w": "We",
+          "start": 120.74,
+          "end": 122.1
+        },
+        {
+          "w": "only",
+          "start": 122.1,
+          "end": 122.42
+        },
+        {
+          "w": "gave",
+          "start": 122.42,
+          "end": 122.78
+        },
+        {
+          "w": "a",
+          "start": 122.78,
+          "end": 123.12
+        },
+        {
+          "w": "name",
+          "start": 123.12,
+          "end": 124.3
+        }
+      ]
+    },
+    {
+      "start": 124.3,
+      "end": 128.46,
+      "text": "To something beautiful",
+      "words": [
+        {
+          "w": "To",
+          "start": 124.3,
+          "end": 126.38
+        },
+        {
+          "w": "something",
+          "start": 126.38,
+          "end": 127.14
+        },
+        {
+          "w": "beautiful",
+          "start": 127.14,
+          "end": 128.46
+        }
+      ]
+    },
+    {
+      "start": 128.46,
+      "end": 133.04,
+      "text": "That was always possible",
+      "words": [
+        {
+          "w": "That",
+          "start": 128.46,
+          "end": 130.0
+        },
+        {
+          "w": "was",
+          "start": 130.0,
+          "end": 130.5
+        },
+        {
+          "w": "always",
+          "start": 130.5,
+          "end": 131.84
+        },
+        {
+          "w": "possible",
+          "start": 131.84,
+          "end": 133.04
+        }
+      ]
+    }
   ]
 }
