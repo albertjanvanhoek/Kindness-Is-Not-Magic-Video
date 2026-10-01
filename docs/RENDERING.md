@@ -6,7 +6,7 @@ You do not need to install anything locally.
 
 Upload the soundtrack to this exact repository path:
 
-`audio/kindness-is-not-magic.mp3`
+`audio/Kindness Is Not Magic 1.mp3`
 
 The renderer will still make a silent preview if the MP3 is absent.
 
