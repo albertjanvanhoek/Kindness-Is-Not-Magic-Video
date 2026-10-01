@@ -75,7 +75,7 @@ const possibleLine = findLine('always possible');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x0b0b0c, 1);
+renderer.setClearColor(0x6f8664, 1);
 document.querySelector('#app')!.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -88,11 +88,11 @@ const camera = new THREE.OrthographicCamera(
   10
 );
 
-const BONE = 0xeee9df;
-const SIGNAL = 0xff7a3d;
-const GRAPHITE = 0x5e5b57;
-const ASH = 0x9c978f;
-const DARK = 0x151517;
+const BONE = 0xe9dfc8;
+const SIGNAL = 0xc89b4a;
+const GRAPHITE = 0x5d7256;
+const ASH = 0xd5c2a1;
+const DARK = 0x4f5f49;
 
 function basicMaterial(color: number, opacity = 1): THREE.MeshBasicMaterial {
   return new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
@@ -261,18 +261,31 @@ window.addEventListener('keydown', async (event) => {
 });
 
 function lineHTML(line: LineTiming, t: number): string {
+  const openingBreak =
+    line === opening1 ? 2 :
+    line === opening2 ? 3 :
+    line === opening3 ? 3 :
+    -1;
+
   return line.words
-    .map((word) => {
+    .map((word, i) => {
       const p = wordProgress(word, t);
       const active = p > 0 && p < 1;
       const done = p >= 1;
-      return `<span class="${active ? 'word active' : done ? 'word done' : 'word'}">${word.w}</span>`;
+      const span = `<span class="${active ? 'word active' : done ? 'word done' : 'word'}">${word.w}</span>`;
+      return openingBreak === i + 1 ? span + '<br>' : span;
     })
     .join(' ');
 }
 
 function activeLyric(t: number): LineTiming | null {
-  return lines.find((line) => t >= line.start - 0.12 && t < line.end + 0.08) ?? null;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const nextStart = lines[i + 1]?.start ?? Infinity;
+    const holdUntil = Math.min(line.end + 0.9, nextStart - 0.12);
+    if (t >= line.start - 0.12 && t < holdUntil) return line;
+  }
+  return null;
 }
 
 function updateText(t: number): void {
@@ -341,40 +354,80 @@ function resetPlateObjects(): void {
 }
 
 function renderOpening(t: number): void {
-  const appear = smoothstep(opening1.start, opening1.words[0].end, t);
-  const kindness = opening1.words.find((w) => w.w.toLowerCase() === 'kindness')!;
-  const connect = smoothstep(opening1.words[1].start, kindness.end, t);
+  // Pre-lyric musical intro: establish the visual world before the first word.
+  const introFade = smoothstep(0.4, 2.8, t);
+  const nodeReveal = smoothstep(3.2, 7.0, t);
+  const preConnect = smoothstep(7.0, opening1.start - 0.45, t);
+  const beat = nearestBeatPulse(t, 0.18);
 
-  a.position.set(-260, 0, 0);
-  b.position.set(260, 0, 0);
-  setOpacity(a, appear);
-  setOpacity(b, appear);
+  a.position.set(-270, 0, 0);
+  b.position.set(270, 0, 0);
+
+  const sungAppear = smoothstep(opening1.start, opening1.words[0].end, t);
+  const nodeOpacity = Math.max(nodeReveal * 0.9, sungAppear);
+  setOpacity(a, nodeOpacity);
+  setOpacity(b, nodeOpacity);
+
+  const breathe = 1 + beat * 0.055 + Math.sin(t * 1.35) * 0.012 * introFade;
+  a.scale.setScalar(breathe);
+  b.scale.setScalar(breathe);
+
+  // The relationship exists before the word "kindness" arrives.
+  const kindness = opening1.words.find((w) => w.w.toLowerCase() === 'kindness')!;
+  const sungConnect = smoothstep(opening1.words[1].start, kindness.end, t);
+  const connect = Math.max(preConnect * 0.72, sungConnect);
+
   setLinePoints(mainThread, [
     [a.position.x, a.position.y],
     [THREE.MathUtils.lerp(a.position.x, b.position.x, connect), b.position.y]
-  ], smoothstep(opening1.words[1].start - 0.1, kindness.start, t));
+  ], smoothstep(6.8, 8.0, t) * 0.9);
 
+  // A faint world emerges during the humming intro.
+  const introPositions: Array<[number, number]> = [
+    [-610, 220], [-520, -245], [-120, 300],
+    [155, -285], [555, 230], [660, -155]
+  ];
+  backgroundNodes.forEach((node, i) => {
+    node.position.set(introPositions[i][0], introPositions[i][1], 0);
+    const stagger = smoothstep(5.0 + i * 0.45, 8.8 + i * 0.35, t);
+    setOpacity(node, stagger * 0.28);
+    node.scale.setScalar(1 + Math.sin(t * 0.9 + i) * 0.035);
+  });
+
+  // Title appears briefly in the instrumental/hummed introduction.
+  const titleIn = smoothstep(1.2, 2.5, t);
+  const titleOut = smoothstep(7.5, 9.6, t);
+  if (t < opening1.start - 0.6) {
+    centerTitle.textContent = 'KINDNESS IS NOT MAGIC';
+    centerTitle.style.opacity = String(titleIn * (1 - titleOut) * 0.92);
+    annotation.textContent = 'produced by emergence';
+    annotation.style.opacity = String(smoothstep(2.4, 3.2, t) * (1 - smoothstep(8.0, 9.6, t)) * 0.72);
+  }
+
+  // On "already there", reveal that the pair sits inside a larger pre-existing network.
   const reveal = smoothstep(opening3.words[1].start, opening3.end, t);
   const cameraPull = smoothstep(opening3.start, opening3.end, t);
-  camera.zoom = THREE.MathUtils.lerp(1.15, 0.82, cameraPull);
+  camera.zoom = THREE.MathUtils.lerp(1.08, 0.82, cameraPull);
   camera.updateProjectionMatrix();
 
   backgroundNodes.forEach((node, i) => {
-    setOpacity(node, Math.max(0, reveal - i * 0.08) * 1.5);
+    const base = smoothstep(5.0 + i * 0.45, 8.8 + i * 0.35, t) * 0.28;
+    setOpacity(node, Math.max(base, Math.max(0, reveal - i * 0.08) * 0.85));
   });
 
   backgroundPairs.forEach(([from, to], i) => {
-    const p = clamp01((reveal - 0.18 - i * 0.07) * 2);
-    setLinePoints(backgroundLinks[i], [
-      [from.position.x, from.position.y],
-      [
-        THREE.MathUtils.lerp(from.position.x, to.position.x, p),
-        THREE.MathUtils.lerp(from.position.y, to.position.y, p)
-      ]
-    ], p * 0.65);
+    const p = clamp01((reveal - 0.16 - i * 0.07) * 2);
+    if (p > 0) {
+      setLinePoints(backgroundLinks[i], [
+        [from.position.x, from.position.y],
+        [
+          THREE.MathUtils.lerp(from.position.x, to.position.x, p),
+          THREE.MathUtils.lerp(from.position.y, to.position.y, p)
+        ]
+      ], p * 0.42);
+    }
   });
 }
-
 function renderHelp(t: number): void {
   const p = smoothstep(helpLine.start, helpLine.end, t);
   const helps = helpLine.words.find((w) => w.w.toLowerCase() === 'helps')!;
