@@ -97,21 +97,22 @@
 
     #plate-label {
       position: absolute;
-      top: 9vh;
+      top: 8.5vh;
       left: 7vw;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size: clamp(10px, 0.95vw, 15px);
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      color: #9c978f;
+      z-index: 5;
+      font-family: "Trebuchet MS", "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      font-size: clamp(15px, 1.25vw, 23px);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: none;
+      color: rgba(241,231,210,0.70);
       opacity: 0;
       transition: opacity 120ms linear;
       pointer-events: none;
     }
 
     #plate-label::before {
-      content: "MECHANISM  ";
-      color: #5d7256;
+      content: "";
     }
 
     #center-title {
