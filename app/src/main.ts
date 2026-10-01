@@ -59,6 +59,19 @@ const sayingLine = findLine('Sometimes it means saying');
 const wrongLine = findLine('I was wrong');
 const orLine = findLine('Or:');
 const forgiveLine = findLine('I forgive you');
+const failureLine = findLine('Kindness does not always win right away');
+const withoutLine = findLine('But without kindness');
+const driftLine = findLine('people drift apart');
+const breakLine = findLine('Friendships break');
+const familiesLine = findLine('Families fall apart');
+const lonelyLine = findLine('world becomes lonelier');
+const rediscoverLine = findLine('keep discovering kindness');
+const againLine = findLine('again and again');
+const stayLine = findLine('helps us stay together');
+const returnLine = findLine('We did not invent kindness');
+const gaveNameLine = findLine('gave a name');
+const beautifulLine = findLine('something beautiful');
+const possibleLine = findLine('always possible');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -197,6 +210,13 @@ const repairLeft = makeLine(SIGNAL, 8);
 const repairRight = makeLine(SIGNAL, 8);
 const repairScar = makeLine(ASH, 8);
 
+// Final third
+const fractureLinks = [makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL)];
+const familyLinks = [makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL)];
+const lonelyHalo = makeCircle(110, GRAPHITE);
+const rediscoveryLinks = [makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL)];
+const returnGhostLinks = [makeLine(GRAPHITE), makeLine(GRAPHITE), makeLine(GRAPHITE)];
+
 const textLayer = document.createElement('div');
 textLayer.id = 'lyrics';
 document.querySelector('#app')!.appendChild(textLayer);
@@ -278,6 +298,16 @@ function updateText(t: number): void {
   else if (t >= listeningLine.start && t < sayingLine.start) plateLabel.textContent = 'LISTENING · keep the channel open';
   else if (t >= sayingLine.start && t < forgiveLine.start) plateLabel.textContent = 'CORRECTION · update the model';
   else if (t >= forgiveLine.start && t < forgiveLine.end) plateLabel.textContent = 'FORGIVENESS · repair without erasing damage';
+  else if (t >= failureLine.start && t < withoutLine.start) plateLabel.textContent = 'LIMITS · kindness is not immediate victory';
+  else if (t >= withoutLine.start && t < driftLine.start) plateLabel.textContent = 'LOSS · remove kindness, weaken the network';
+  else if (t >= driftLine.start && t < breakLine.start) plateLabel.textContent = 'DRIFT · edges lengthen past repair';
+  else if (t >= breakLine.start && t < familiesLine.start) plateLabel.textContent = 'BREAK · friendships fracture';
+  else if (t >= familiesLine.start && t < lonelyLine.start) plateLabel.textContent = 'FAMILY · clusters split apart';
+  else if (t >= lonelyLine.start && t < rediscoverLine.start) plateLabel.textContent = 'LONELY · isolated nodes remain';
+  else if (t >= rediscoverLine.start && t < stayLine.start) plateLabel.textContent = 'REDISCOVERY · connection appears again and again';
+  else if (t >= stayLine.start && t < returnLine.start) plateLabel.textContent = 'WHY · together is stronger';
+  else if (t >= returnLine.start && t < beautifulLine.start) plateLabel.textContent = 'RETURN · the name came later';
+  else if (t >= beautifulLine.start && t < possibleLine.end) plateLabel.textContent = 'POSSIBLE · always available';
   else plateLabel.textContent = '';
 
   plateLabel.style.opacity = plateLabel.textContent ? '1' : '0';
@@ -287,7 +317,7 @@ function updateText(t: number): void {
 }
 
 function resetPlateObjects(): void {
-  [a, b, helper, resource, shareLeft, shareRight, truthSignal, loadSignal].forEach((x) => {
+  [a, b, helper, resource, shareLeft, shareRight, truthSignal, loadSignal, lonelyHalo].forEach((x) => {
     setOpacity(x, 0);
     x.scale.setScalar(1);
   });
@@ -295,11 +325,16 @@ function resetPlateObjects(): void {
     setOpacity(x, 0);
     x.scale.setScalar(1);
   });
-  [mainThread, ...backgroundLinks, ...networkExtraLinks, obstacle, route, shareRelation, comfortWave, regulationAxis, truthPath, truthCore, resistance, strainEdge, engineeringAxis, listenWave1, listenWave2, repairLeft, repairRight, repairScar]
+  [mainThread, ...backgroundLinks, ...networkExtraLinks, ...fractureLinks, ...familyLinks, ...rediscoveryLinks, ...returnGhostLinks, obstacle, route, shareRelation, comfortWave, regulationAxis, truthPath, truthCore, resistance, strainEdge, engineeringAxis, listenWave1, listenWave2, repairLeft, repairRight, repairScar]
     .forEach(hideLine);
   camera.zoom = 1;
   camera.position.set(0, 0, 5);
   camera.rotation.z = 0;
+  lonelyHalo.scale.setScalar(1);
+  centerTitle.textContent = '';
+  centerTitle.style.opacity = '0';
+  annotation.textContent = '';
+  annotation.style.opacity = '0';
   camera.updateProjectionMatrix();
 }
 
@@ -757,6 +792,215 @@ function renderForgive(t: number): void {
   annotation.textContent='repair ≠ erasure';
   annotation.style.opacity=String(0.5 + 0.4*p);
 }
+function renderFailure(t: number): void {
+  const away = failureLine.words.find((w) => w.w.toLowerCase() === 'away')!;
+  const p = smoothstep(failureLine.start, away.end, t);
+
+  a.position.set(-430, 0, 0);
+  b.position.set(430, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  const strain = 120 + 70 * Math.sin(t * 4.8) * (1 - p * 0.4);
+  const pts: Array<[number, number]> = [];
+  for (let i = 0; i < 28; i++) {
+    const q = i / 27;
+    const x = THREE.MathUtils.lerp(-430, 430, q);
+    const y = Math.sin(Math.PI * q) * strain * Math.sin(t * 6 + q * 3) * 0.25;
+    pts.push([x, y]);
+  }
+
+  setLinePoints(strainEdge, pts, 0.92);
+  setLinePoints(engineeringAxis, [[-620, 0], [620, 0]], 0.18);
+  annotation.textContent = 'persistence ≠ immediate victory';
+  annotation.style.opacity = '0.82';
+}
+
+function renderWithoutKindness(t: number): void {
+  const p = smoothstep(withoutLine.start, withoutLine.end, t);
+  const nodes = networkLayout(0.84);
+  const fade = THREE.MathUtils.lerp(0.85, 0.18, p);
+  drawNetwork(nodes, fade, 0.35 * (1 - p));
+  annotation.textContent = 'remove repair → lose resilience';
+  annotation.style.opacity = '0.8';
+}
+
+function renderDriftApart(t: number): void {
+  const apart = driftLine.words.find((w) => w.w.toLowerCase() === 'apart')!;
+  const p = smoothstep(driftLine.start, apart.end, t);
+
+  const leftX = THREE.MathUtils.lerp(-260, -560, p);
+  const rightX = THREE.MathUtils.lerp(260, 560, p);
+  a.position.set(leftX, 0, 0);
+  b.position.set(rightX, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+
+  const gap = THREE.MathUtils.lerp(0, 120, smoothstep(0.58, 1, p));
+  setLinePoints(fractureLinks[0], [[leftX, 0], [-gap, 0]], 0.95);
+  setLinePoints(fractureLinks[1], [[gap, 0], [rightX, 0]], 0.95);
+  annotation.textContent = 'distance increases faster than repair';
+  annotation.style.opacity = '0.84';
+}
+
+function renderBreak(t: number): void {
+  const brk = breakLine.words.find((w) => w.w.toLowerCase() === 'break')!;
+  const p = smoothstep(breakLine.start, brk.end, t);
+
+  a.position.set(-320, 140, 0);
+  b.position.set(320, 140 + 120 * p, 0);
+  backgroundNodes[0].position.set(0, -220, 0);
+
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+  setOpacity(backgroundNodes[0], 1);
+
+  setLinePoints(fractureLinks[0], [[a.position.x, a.position.y], [b.position.x, b.position.y]], 0.9 * (1 - p));
+  setLinePoints(fractureLinks[1], [[a.position.x, a.position.y], [backgroundNodes[0].position.x, backgroundNodes[0].position.y]], 0.9);
+  setLinePoints(fractureLinks[2], [[backgroundNodes[0].position.x, backgroundNodes[0].position.y], [b.position.x, b.position.y]], 0.9 * (1 - 0.4 * p));
+}
+
+function renderFamiliesFall(t: number): void {
+  const apart = familiesLine.words.find((w) => w.w.toLowerCase() === 'apart')!;
+  const p = smoothstep(familiesLine.start, apart.end, t);
+
+  a.position.set(-420 - 90 * p, -20 - 40 * p, 0);
+  backgroundNodes[0].position.set(-300 - 60 * p, 120 - 30 * p, 0);
+  backgroundNodes[1].position.set(-300 - 50 * p, -160 - 20 * p, 0);
+  b.position.set(420 + 90 * p, 20 + 40 * p, 0);
+  backgroundNodes[2].position.set(300 + 60 * p, 150 + 35 * p, 0);
+  backgroundNodes[3].position.set(300 + 55 * p, -150 + 15 * p, 0);
+
+  [a, b, backgroundNodes[0], backgroundNodes[1], backgroundNodes[2], backgroundNodes[3]].forEach((n) => setOpacity(n, 1));
+
+  setLinePoints(familyLinks[0], [[a.position.x, a.position.y], [backgroundNodes[0].position.x, backgroundNodes[0].position.y]], 0.88);
+  setLinePoints(familyLinks[1], [[a.position.x, a.position.y], [backgroundNodes[1].position.x, backgroundNodes[1].position.y]], 0.88);
+  setLinePoints(familyLinks[2], [[b.position.x, b.position.y], [backgroundNodes[2].position.x, backgroundNodes[2].position.y]], 0.88);
+  setLinePoints(familyLinks[3], [[b.position.x, b.position.y], [backgroundNodes[3].position.x, backgroundNodes[3].position.y]], 0.88);
+}
+
+function renderLonelier(t: number): void {
+  const lonely = lonelyLine.words.find((w) => w.w.toLowerCase() === 'lonelier')!;
+  const p = smoothstep(lonelyLine.start, lonely.end, t);
+
+  const positions: Array<[number, number]> = [
+    [-620, -180], [-420, 250], [-160, -260], [140, 260], [420, -210], [650, 110]
+  ];
+  const visible = [a, b, backgroundNodes[0], backgroundNodes[1], backgroundNodes[2], backgroundNodes[3]];
+  visible.forEach((node, i) => {
+    node.position.set(positions[i][0], positions[i][1], 0);
+    setOpacity(node, THREE.MathUtils.lerp(0.92, 0.55, p));
+    node.scale.setScalar(1 - 0.08 * p);
+  });
+
+  lonelyHalo.position.set(0, 0, 0);
+  setOpacity(lonelyHalo, 0.08 + 0.12 * p);
+  lonelyHalo.scale.setScalar(1 + 3.5 * p);
+  annotation.textContent = 'alive, but disconnected';
+  annotation.style.opacity = '0.8';
+}
+
+function renderRediscovery(t: number): void {
+  const p = smoothstep(rediscoverLine.start, againLine.end, t);
+  const pulse = nearestBeatPulse(t, 0.16);
+
+  const nodes = networkLayout(0.95);
+  const rediscoveryPairs: Array<[THREE.Mesh, THREE.Mesh]> = [
+    [nodes[0], nodes[4]],
+    [nodes[3], nodes[5]],
+    [nodes[2], nodes[4]],
+    [nodes[5], nodes[1]]
+  ];
+
+  rediscoveryPairs.forEach(([u, v], i) => {
+    const local = clamp01(p * 1.25 - i * 0.18);
+    const op = Math.max(0, local * 0.55 + pulse * 0.55 - i * 0.05);
+    setLinePoints(rediscoveryLinks[i], [[u.position.x, u.position.y], [v.position.x, v.position.y]], op);
+  });
+
+  annotation.textContent = 'discovered again and again';
+  annotation.style.opacity = '0.86';
+}
+
+function renderStayTogether(t: number): void {
+  const together = stayLine.words.find((w) => w.w.toLowerCase() === 'together')!;
+  const p = smoothstep(stayLine.start, together.end, t);
+
+  const nodes = networkLayout(0.82);
+  drawNetwork(nodes, 0.88, 0.82);
+
+  const path: Array<[number, number]> = [
+    [nodes[0].position.x, nodes[0].position.y],
+    [nodes[4].position.x, nodes[4].position.y],
+    [nodes[6].position.x, nodes[6].position.y],
+    [nodes[1].position.x, nodes[1].position.y],
+    [nodes[5].position.x, nodes[5].position.y],
+    [nodes[3].position.x, nodes[3].position.y],
+    [nodes[0].position.x, nodes[0].position.y]
+  ];
+
+  const q = clamp01(p) * (path.length - 1);
+  const seg = Math.min(path.length - 2, Math.floor(q));
+  const local = q - seg;
+  loadSignal.position.set(
+    THREE.MathUtils.lerp(path[seg][0], path[seg + 1][0], local),
+    THREE.MathUtils.lerp(path[seg][1], path[seg + 1][1], local),
+    0
+  );
+  setOpacity(loadSignal, 0.92);
+  loadSignal.scale.setScalar(1 + 0.2 * nearestBeatPulse(t));
+  annotation.textContent = 'the point is resilience';
+  annotation.style.opacity = '0.88';
+}
+
+function renderReturn(t: number): void {
+  const p = smoothstep(returnLine.start, gaveNameLine.end, t);
+
+  a.position.set(-260, 0, 0);
+  b.position.set(260, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+  setLinePoints(mainThread, [[-260, 0], [260, 0]], 0.98);
+
+  backgroundNodes[0].position.set(-520, 180, 0);
+  backgroundNodes[1].position.set(-470, -180, 0);
+  backgroundNodes[2].position.set(470, 180, 0);
+  backgroundNodes[3].position.set(520, -180, 0);
+  [backgroundNodes[0], backgroundNodes[1], backgroundNodes[2], backgroundNodes[3]].forEach((n) => setOpacity(n, 0.22 * p));
+
+  setLinePoints(returnGhostLinks[0], [[backgroundNodes[0].position.x, backgroundNodes[0].position.y], [-260, 0]], 0.18 * p);
+  setLinePoints(returnGhostLinks[1], [[-260, 0], [260, 0]], 0.14 * p);
+  setLinePoints(returnGhostLinks[2], [[260, 0], [backgroundNodes[2].position.x, backgroundNodes[2].position.y]], 0.18 * p);
+
+  annotation.textContent = 'the name came later';
+  annotation.style.opacity = '0.8';
+}
+
+function renderBeautiful(t: number): void {
+  const beautiful = beautifulLine.words.find((w) => w.w.toLowerCase() === 'beautiful')!;
+  const possible = possibleLine.words.find((w) => w.w.toLowerCase() === 'possible')!;
+  const p1 = smoothstep(beautiful.start - 0.2, beautiful.end, t);
+  const p2 = smoothstep(possible.start - 0.2, possible.end, t);
+
+  a.position.set(-260, 0, 0);
+  b.position.set(260, 0, 0);
+  setOpacity(a, 1);
+  setOpacity(b, 1);
+  setLinePoints(mainThread, [[-260, 0], [260, 0]], 1);
+
+  const quiet: Array<[number, number]> = [
+    [-520, 160], [-520, -160], [520, 160], [520, -160]
+  ];
+  [backgroundNodes[0], backgroundNodes[1], backgroundNodes[2], backgroundNodes[3]].forEach((n, i) => {
+    n.position.set(quiet[i][0], quiet[i][1], 0);
+    setOpacity(n, 0.18 * p1);
+  });
+
+  centerTitle.textContent = 'POSSIBLE';
+  centerTitle.style.opacity = String(0.12 + 0.22 * p2);
+  annotation.textContent = 'always there';
+  annotation.style.opacity = String(0.35 + 0.35 * p2);
+}
 
 function renderAt(t: number): void {
   resetPlateObjects();
@@ -780,6 +1024,16 @@ function renderAt(t: number): void {
   else if (t < orLine.start) renderWrong(t);
   else if (t < forgiveLine.start) renderOr(t);
   else if (t < forgiveLine.end + 0.05) renderForgive(t);
+  else if (t < withoutLine.start) renderFailure(t);
+  else if (t < driftLine.start) renderWithoutKindness(t);
+  else if (t < breakLine.start) renderDriftApart(t);
+  else if (t < familiesLine.start) renderBreak(t);
+  else if (t < lonelyLine.start) renderFamiliesFall(t);
+  else if (t < rediscoverLine.start) renderLonelier(t);
+  else if (t < stayLine.start) renderRediscovery(t);
+  else if (t < returnLine.start) renderStayTogether(t);
+  else if (t < beautifulLine.start) renderReturn(t);
+  else if (t < possibleLine.end + 0.1) renderBeautiful(t);
 
   renderer.render(scene, camera);
 }
