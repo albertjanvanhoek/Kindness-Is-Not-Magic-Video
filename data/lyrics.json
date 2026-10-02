@@ -5,8 +5,8 @@
     "status": "machine-aligned-needs-QA",
     "method": "faster-whisper small.en word timestamps + monotonic dynamic-programming match to known lyrics",
     "language": "en",
-    "matchedWords": 133,
-    "totalWords": 133,
+    "matchedWords": 140,
+    "totalWords": 140,
     "matchFraction": 1.0,
     "duration": 139.24,
     "note": "Review stretched sung words and repeated phrases before final export."
@@ -413,6 +413,34 @@
     },
     {
       "text": "That is kindness.",
+      "start": 51.9,
+      "end": 53.94,
+      "words": [
+        {
+          "w": "That",
+          "start": 51.9,
+          "end": 52.84,
+          "matched": true,
+          "heard": "That"
+        },
+        {
+          "w": "is",
+          "start": 52.84,
+          "end": 53.14,
+          "matched": true,
+          "heard": "is"
+        },
+        {
+          "w": "kindness",
+          "start": 53.14,
+          "end": 53.94,
+          "matched": true,
+          "heard": "kindness"
+        }
+      ]
+    },
+    {
+      "text": "That is kindness.",
       "start": 53.94,
       "end": 55.33,
       "words": [
@@ -436,6 +464,41 @@
           "end": 55.33,
           "matched": true,
           "heard": "kindness"
+        }
+      ]
+    },
+    {
+      "text": "It is not magic.",
+      "start": 55.33,
+      "end": 57.15,
+      "words": [
+        {
+          "w": "It",
+          "start": 55.33,
+          "end": 55.77,
+          "matched": true,
+          "heard": "It"
+        },
+        {
+          "w": "is",
+          "start": 55.77,
+          "end": 55.97,
+          "matched": true,
+          "heard": "is"
+        },
+        {
+          "w": "not",
+          "start": 55.97,
+          "end": 56.35,
+          "matched": true,
+          "heard": "not"
+        },
+        {
+          "w": "magic",
+          "start": 56.35,
+          "end": 57.15,
+          "matched": true,
+          "heard": "magic"
         }
       ]
     },

@@ -1,43 +1,16 @@
 import * as THREE from 'three';
-import lyricData from '../../data/lyrics.json';
-import audioData from '../../data/audio.json';
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource/jost/500.css';
+import '@fontsource/jost/700.css';
+import { Backdrop, CSS, Grain, PALETTE } from './look';
+import { ThreadLayer } from './thread';
+import {
+  type LineTiming, type WordTiming,
+  beats, clamp01, findLine, lines, nearestBeatPulse, smoothstep, wordProgress,
+} from './lyrics';
 
 const LOGICAL_W = 1920;
 const LOGICAL_H = 1080;
-
-type WordTiming = { w: string; start: number; end: number };
-type LineTiming = { text: string; start: number; end: number; words: WordTiming[] };
-
-const lines = (lyricData as { lines: LineTiming[] }).lines;
-const beats = (audioData as { beats: number[] }).beats;
-
-function findLine(fragment: string): LineTiming {
-  const line = lines.find((x) => x.text.toLowerCase().includes(fragment.toLowerCase()));
-  if (!line) throw new Error(`Missing lyric line: ${fragment}`);
-  return line;
-}
-
-function clamp01(x: number): number {
-  return Math.max(0, Math.min(1, x));
-}
-
-function smoothstep(a: number, b: number, x: number): number {
-  const t = clamp01((x - a) / Math.max(0.0001, b - a));
-  return t * t * (3 - 2 * t);
-}
-
-function wordProgress(word: WordTiming, t: number): number {
-  return smoothstep(word.start, word.end, t);
-}
-
-function nearestBeatPulse(t: number, width = 0.10): number {
-  let best = Infinity;
-  for (const beat of beats) {
-    if (beat > t + width) break;
-    best = Math.min(best, Math.abs(t - beat));
-  }
-  return clamp01(1 - best / width);
-}
 
 const opening1 = findLine('Nobody invented kindness');
 const opening2 = findLine('People gave it a name');
@@ -51,7 +24,9 @@ const closerLine = findLine('People come closer');
 const trustLine = findLine('Trust grows');
 const strongerLine = findLine('together they become stronger');
 const kindnessLine = findLine('That is kindness');
+const kindnessLine2 = findLine('That is kindness', 1);
 const notMagicLine = findLine('It is not magic');
+const notMagicLine2 = findLine('It is not magic', 1);
 const easyLine = findLine('does not always feel easy');
 const meansShareLine = findLine('Sometimes kindness means sharing');
 const listeningLine = findLine('Sometimes it means listening');
@@ -75,7 +50,7 @@ const possibleLine = findLine('always possible');
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x6f8664, 1);
+renderer.setClearColor(PALETTE.greenDeep, 1);
 document.querySelector('#app')!.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -88,11 +63,10 @@ const camera = new THREE.OrthographicCamera(
   10
 );
 
-const BONE = 0xe9dfc8;
-const SIGNAL = 0xc89b4a;
-const GRAPHITE = 0x5d7256;
-const ASH = 0xd5c2a1;
-const DARK = 0x4f5f49;
+const BONE: number = PALETTE.cream;
+const SIGNAL: number = PALETTE.gold;
+const GRAPHITE: number = PALETTE.greenDark;
+const ASH: number = PALETTE.paper;
 
 function basicMaterial(color: number, opacity = 1): THREE.MeshBasicMaterial {
   return new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
@@ -146,6 +120,9 @@ function setOpacity(obj: THREE.Object3D, opacity: number): void {
   const material = (obj as THREE.Mesh).material as THREE.MeshBasicMaterial | undefined;
   if (material) material.opacity = clamp01(opacity);
 }
+
+const backdrop = new Backdrop();
+scene.add(backdrop.mesh);
 
 const a = makeNode(-280, 0);
 const b = makeNode(280, 0);
@@ -217,6 +194,9 @@ const lonelyHalo = makeCircle(110, GRAPHITE);
 const rediscoveryLinks = [makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL)];
 const returnGhostLinks = [makeLine(GRAPHITE), makeLine(GRAPHITE), makeLine(GRAPHITE)];
 
+// The yarn-and-buttons world, between the painted backdrop and the lyrics.
+const threadLayer = new ThreadLayer(document.querySelector('#app')!);
+
 const textLayer = document.createElement('div');
 textLayer.id = 'lyrics';
 document.querySelector('#app')!.appendChild(textLayer);
@@ -236,6 +216,13 @@ document.querySelector('#app')!.appendChild(centerTitle);
 const kineticLayer = document.createElement('div');
 kineticLayer.id = 'kinetic-lyrics';
 document.querySelector('#app')!.appendChild(kineticLayer);
+
+// The paper edge of the record sleeve, shown around the title card at the start and the end.
+const sleeve = document.createElement('div');
+sleeve.id = 'sleeve';
+document.querySelector('#app')!.appendChild(sleeve);
+
+const grain = new Grain(document.querySelector('#app')!);
 
 const audio = new Audio('/Kindness Is Not Magic 1.mp3');
 audio.preload = 'auto';
@@ -353,7 +340,9 @@ const lyricProjectionPlan: Array<{ line: LineTiming; mode: KineticMode }> = [
   { line: trustLine, mode: 'grow' },
   { line: strongerLine, mode: 'stronger' },
   { line: kindnessLine, mode: 'label' },
+  { line: kindnessLine2, mode: 'label' },
   { line: notMagicLine, mode: 'notmagic' },
+  { line: notMagicLine2, mode: 'notmagic' },
   { line: easyLine, mode: 'easy' },
   { line: meansShareLine, mode: 'sharing' },
   { line: listeningLine, mode: 'listening' },
@@ -704,8 +693,12 @@ function kineticWordStyle(
   if (active) opacity = 1;
   if (after) opacity = 0.96;
 
-  const color = active ? '#d7a84c' : after ? '#f1e7d2' : 'rgba(213,194,161,0.64)';
+  const color = active ? CSS.gold : after ? CSS.cream : CSS.paper;
+  // scale() does not take part in layout: give an enlarged word the extra room it needs on each
+  // side, about half its growth (Fraunces runs ~0.55em per letter at this weight)
+  const room = Math.max(0, scale - 1) * 0.5 * word.w.length * 0.55;
   return [
+    `margin: 0 ${room}em`,
     `transform: translate3d(${x}px,${y}px,${z}px) rotate(${rot}deg) scale(${scale})`,
     `opacity:${opacity}`,
     `letter-spacing:${letter}em`,
@@ -762,7 +755,8 @@ function renderKineticTypography(line: LineTiming, t: number, mode: KineticMode)
     (1 - smoothstep(line.end + 0.15, line.end + 0.45, t))
   );
   kineticLayer.style.setProperty('--kinetic-font-vw', `${layout.fontVW}vw`);
-  kineticLayer.style.setProperty('--kinetic-gap-em', `${layout.gapEm}em`);
+  // + 0.1em: the ink outline grows outward and would otherwise eat into the gap
+  kineticLayer.style.setProperty('--kinetic-gap-em', `${layout.gapEm + 0.1}em`);
 
   const rowHTML = rows.map((row) => {
     const wordsHTML = row.map((word) => {
@@ -864,12 +858,32 @@ function resetPlateObjects(): void {
   lonelyHalo.scale.setScalar(1);
   centerTitle.textContent = '';
   centerTitle.style.opacity = '0';
+  centerTitle.style.transform = '';
+  centerTitle.classList.remove('cover');
+  delete centerTitle.dataset.cover;
+  sleeve.style.opacity = '0';
   annotation.textContent = '';
   annotation.style.opacity = '0';
   kineticLayer.innerHTML = '';
   kineticLayer.style.opacity = '0';
   kineticLayer.className = '';
   camera.updateProjectionMatrix();
+}
+
+const COVER_HTML =
+  '<div class="cover-title"><span class="cover-big">Kindness</span> <span class="cover-small">is not</span> <span class="cover-big cover-magic">Magic</span></div>' +
+  '<div class="cover-sub">Produced by Emergence</div>';
+
+/** The record-sleeve title card: the film opens and closes on it. */
+function renderCover(t: number, opacity: number): void {
+  const breathe = 1 + Math.sin(t * 1.35) * 0.010 + nearestBeatPulse(t, 0.18) * 0.018;
+  if (centerTitle.dataset.cover !== '1') {
+    centerTitle.innerHTML = COVER_HTML;
+    centerTitle.dataset.cover = '1';
+  }
+  centerTitle.classList.add('cover');
+  centerTitle.style.opacity = String(opacity);
+  centerTitle.style.transform = `scale(${breathe}) translateY(${Math.sin(t * 0.55) * 4}px)`;
 }
 
 function renderPreludeTypography(t: number): void {
@@ -879,24 +893,9 @@ function renderPreludeTypography(t: number): void {
   annotation.style.opacity = '0';
 
   const titleIn = smoothstep(0.8, 2.4, t);
-  const titleOut = smoothstep(8.6, 10.8, t);
-  const breathe = 1 + Math.sin(t * 1.35) * 0.018 + nearestBeatPulse(t, 0.18) * 0.035;
-
-  centerTitle.innerHTML = 'KINDNESS<br><span style="font-size:0.52em; letter-spacing:-0.02em;">IS NOT MAGIC</span>';
-  centerTitle.style.opacity = String(titleIn * (1 - titleOut) * 0.96);
-  centerTitle.style.transform = `scale(${breathe}) translateY(${Math.sin(t * 0.55) * 4}px)`;
-
-  if (t > 3.0 && t < 9.4) {
-    annotation.textContent = 'produced by emergence';
-    annotation.style.opacity = String(
-      smoothstep(3.0, 4.0, t) * (1 - smoothstep(8.4, 9.4, t)) * 0.72
-    );
-  }
-
-  // A final quiet beat of space before the first sung word.
-  if (t > 10.6) {
-    centerTitle.style.opacity = String(1 - smoothstep(10.6, opening1.start - 0.12, t));
-  }
+  const titleOut = 1 - smoothstep(9.6, opening1.start - 0.15, t);
+  renderCover(t, titleIn * titleOut);
+  sleeve.style.opacity = String(titleOut);
 }
 
 function renderOpening(t: number): void {
@@ -1603,8 +1602,13 @@ function renderBeautiful(t: number): void {
   annotation.style.opacity = String(0.35 + 0.35 * p2);
 }
 
+const coverReturn = possibleLine.end + 0.9;
+
 function renderAt(t: number): void {
   resetPlateObjects();
+  backdrop.update(t, nearestBeatPulse(t, 0.16));
+  grain.update(t);
+  threadLayer.render(t);
 
   // Keep the hummed/instrumental opening atmospheric.
   if (t < opening1.start) {
@@ -1617,6 +1621,12 @@ function renderAt(t: number): void {
   const projection = projectionAt(t);
   if (projection) {
     renderKineticTypography(projection.line, t, projection.mode);
+  } else if (t >= coverReturn) {
+    // Bookend: the film closes on the same sleeve it opened with.
+    const back = smoothstep(coverReturn, coverReturn + 1.6, t);
+    textLayer.innerHTML = '';
+    renderCover(t, back);
+    sleeve.style.opacity = String(back);
   } else {
     textLayer.innerHTML = '';
     kineticLayer.innerHTML = '';
@@ -1629,6 +1639,7 @@ function renderAt(t: number): void {
 function resize(): void {
   const scale = Math.min(window.innerWidth / LOGICAL_W, window.innerHeight / LOGICAL_H);
   renderer.setSize(Math.floor(LOGICAL_W * scale), Math.floor(LOGICAL_H * scale), false);
+  threadLayer.setDisplaySize(Math.floor(LOGICAL_W * scale), Math.floor(LOGICAL_H * scale));
 }
 
 window.addEventListener('resize', resize);
@@ -1659,7 +1670,14 @@ window.__pausePreview = () => {
   previewClockRunning = false;
   audio.pause();
 };
-window.__videoReady = true;
+// Renders wait for this flag, so it is only raised once the fonts are usable.
+Promise.all([
+  document.fonts.load('900 100px "Fraunces Variable"'),
+  document.fonts.load('700 40px "Jost"'),
+  document.fonts.load('500 40px "Jost"'),
+]).then(() => document.fonts.ready).then(() => {
+  window.__videoReady = true;
+});
 
 function frame(): void {
   const t = previewClockRunning
