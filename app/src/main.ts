@@ -11,9 +11,11 @@ type LineTiming = { text: string; start: number; end: number; words: WordTiming[
 const lines = (lyricData as { lines: LineTiming[] }).lines;
 const beats = (audioData as { beats: number[] }).beats;
 
-function findLine(fragment: string): LineTiming {
-  const line = lines.find((x) => x.text.toLowerCase().includes(fragment.toLowerCase()));
-  if (!line) throw new Error(`Missing lyric line: ${fragment}`);
+// `occurrence` selects a repeated line: 0 is the first time it is sung, 1 the second.
+function findLine(fragment: string, occurrence = 0): LineTiming {
+  const matches = lines.filter((x) => x.text.toLowerCase().includes(fragment.toLowerCase()));
+  const line = matches[occurrence];
+  if (!line) throw new Error(`Missing lyric line: ${fragment} (#${occurrence + 1})`);
   return line;
 }
 
@@ -51,7 +53,9 @@ const closerLine = findLine('People come closer');
 const trustLine = findLine('Trust grows');
 const strongerLine = findLine('together they become stronger');
 const kindnessLine = findLine('That is kindness');
+const kindnessLine2 = findLine('That is kindness', 1);
 const notMagicLine = findLine('It is not magic');
+const notMagicLine2 = findLine('It is not magic', 1);
 const easyLine = findLine('does not always feel easy');
 const meansShareLine = findLine('Sometimes kindness means sharing');
 const listeningLine = findLine('Sometimes it means listening');
@@ -353,7 +357,9 @@ const lyricProjectionPlan: Array<{ line: LineTiming; mode: KineticMode }> = [
   { line: trustLine, mode: 'grow' },
   { line: strongerLine, mode: 'stronger' },
   { line: kindnessLine, mode: 'label' },
+  { line: kindnessLine2, mode: 'label' },
   { line: notMagicLine, mode: 'notmagic' },
+  { line: notMagicLine2, mode: 'notmagic' },
   { line: easyLine, mode: 'easy' },
   { line: meansShareLine, mode: 'sharing' },
   { line: listeningLine, mode: 'listening' },
