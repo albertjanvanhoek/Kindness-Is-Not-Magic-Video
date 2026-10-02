@@ -3,47 +3,14 @@ import '@fontsource-variable/fraunces/full.css';
 import '@fontsource/jost/500.css';
 import '@fontsource/jost/700.css';
 import { Backdrop, CSS, Grain, PALETTE } from './look';
-import lyricData from '../../data/lyrics.json';
-import audioData from '../../data/audio.json';
+import { ThreadLayer } from './thread';
+import {
+  type LineTiming, type WordTiming,
+  beats, clamp01, findLine, lines, nearestBeatPulse, smoothstep, wordProgress,
+} from './lyrics';
 
 const LOGICAL_W = 1920;
 const LOGICAL_H = 1080;
-
-type WordTiming = { w: string; start: number; end: number };
-type LineTiming = { text: string; start: number; end: number; words: WordTiming[] };
-
-const lines = (lyricData as { lines: LineTiming[] }).lines;
-const beats = (audioData as { beats: number[] }).beats;
-
-// `occurrence` selects a repeated line: 0 is the first time it is sung, 1 the second.
-function findLine(fragment: string, occurrence = 0): LineTiming {
-  const matches = lines.filter((x) => x.text.toLowerCase().includes(fragment.toLowerCase()));
-  const line = matches[occurrence];
-  if (!line) throw new Error(`Missing lyric line: ${fragment} (#${occurrence + 1})`);
-  return line;
-}
-
-function clamp01(x: number): number {
-  return Math.max(0, Math.min(1, x));
-}
-
-function smoothstep(a: number, b: number, x: number): number {
-  const t = clamp01((x - a) / Math.max(0.0001, b - a));
-  return t * t * (3 - 2 * t);
-}
-
-function wordProgress(word: WordTiming, t: number): number {
-  return smoothstep(word.start, word.end, t);
-}
-
-function nearestBeatPulse(t: number, width = 0.10): number {
-  let best = Infinity;
-  for (const beat of beats) {
-    if (beat > t + width) break;
-    best = Math.min(best, Math.abs(t - beat));
-  }
-  return clamp01(1 - best / width);
-}
 
 const opening1 = findLine('Nobody invented kindness');
 const opening2 = findLine('People gave it a name');
@@ -226,6 +193,9 @@ const familyLinks = [makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL), makeL
 const lonelyHalo = makeCircle(110, GRAPHITE);
 const rediscoveryLinks = [makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL), makeLine(SIGNAL)];
 const returnGhostLinks = [makeLine(GRAPHITE), makeLine(GRAPHITE), makeLine(GRAPHITE)];
+
+// The yarn-and-buttons world, between the painted backdrop and the lyrics.
+const threadLayer = new ThreadLayer(document.querySelector('#app')!);
 
 const textLayer = document.createElement('div');
 textLayer.id = 'lyrics';
@@ -724,7 +694,11 @@ function kineticWordStyle(
   if (after) opacity = 0.96;
 
   const color = active ? CSS.gold : after ? CSS.cream : CSS.paper;
+  // scale() does not take part in layout: give an enlarged word the extra room it needs on each
+  // side, about half its growth (Fraunces runs ~0.55em per letter at this weight)
+  const room = Math.max(0, scale - 1) * 0.5 * word.w.length * 0.55;
   return [
+    `margin: 0 ${room}em`,
     `transform: translate3d(${x}px,${y}px,${z}px) rotate(${rot}deg) scale(${scale})`,
     `opacity:${opacity}`,
     `letter-spacing:${letter}em`,
@@ -781,7 +755,8 @@ function renderKineticTypography(line: LineTiming, t: number, mode: KineticMode)
     (1 - smoothstep(line.end + 0.15, line.end + 0.45, t))
   );
   kineticLayer.style.setProperty('--kinetic-font-vw', `${layout.fontVW}vw`);
-  kineticLayer.style.setProperty('--kinetic-gap-em', `${layout.gapEm}em`);
+  // + 0.1em: the ink outline grows outward and would otherwise eat into the gap
+  kineticLayer.style.setProperty('--kinetic-gap-em', `${layout.gapEm + 0.1}em`);
 
   const rowHTML = rows.map((row) => {
     const wordsHTML = row.map((word) => {
@@ -1633,6 +1608,7 @@ function renderAt(t: number): void {
   resetPlateObjects();
   backdrop.update(t, nearestBeatPulse(t, 0.16));
   grain.update(t);
+  threadLayer.render(t);
 
   // Keep the hummed/instrumental opening atmospheric.
   if (t < opening1.start) {
@@ -1663,6 +1639,7 @@ function renderAt(t: number): void {
 function resize(): void {
   const scale = Math.min(window.innerWidth / LOGICAL_W, window.innerHeight / LOGICAL_H);
   renderer.setSize(Math.floor(LOGICAL_W * scale), Math.floor(LOGICAL_H * scale), false);
+  threadLayer.setDisplaySize(Math.floor(LOGICAL_W * scale), Math.floor(LOGICAL_H * scale));
 }
 
 window.addEventListener('resize', resize);
